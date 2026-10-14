@@ -1,0 +1,12 @@
+
+pandas
+numpy
+matplotlib
+seaborn
+scipy
+scikit-learn
+jupyterlab
+openpyxl
+joblib
+pytest
+tabulate

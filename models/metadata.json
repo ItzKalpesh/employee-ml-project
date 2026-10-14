@@ -1,0 +1,44 @@
+{
+    "version": "features-1.0.0",
+    "input_features": [
+        "attendance_rate",
+        "late_count",
+        "average_overtime",
+        "tenure",
+        "annual_fixed_pay",
+        "months_since_last_revision",
+        "department_id",
+        "role_id",
+        "work_location",
+        "work_mode",
+        "employment_type"
+    ],
+    "numeric_features": [
+        "attendance_rate",
+        "late_count",
+        "average_overtime",
+        "tenure",
+        "salary_vs_department_median",
+        "months_since_last_revision"
+    ],
+    "categorical_features": [
+        "department_id",
+        "role_id",
+        "work_location",
+        "work_mode",
+        "employment_type"
+    ],
+    "final_features": [
+        "attendance_rate",
+        "late_count",
+        "average_overtime",
+        "tenure",
+        "salary_vs_department_median",
+        "months_since_last_revision",
+        "department_id",
+        "role_id",
+        "work_location",
+        "work_mode",
+        "employment_type"
+    ]
+}

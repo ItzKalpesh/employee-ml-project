@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Employee data - do not commit confidential records
+data/*
+!data/.gitkeep
+*.csv
+*.xlsx
+*.xls
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Generated ML artifacts
+*.joblib
+*.pkl
+
+# Jupyter and tests
+.ipynb_checkpoints/
+.pytest_cache/
+
+# IDE and operating system files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Generated Python package metadata
+*.egg-info/
