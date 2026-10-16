@@ -48,3 +48,36 @@ docker run --rm -v "${PWD}:/workspace" -w /workspace employee-ml-audit sh -c "pi
 ## Final Review Package
 
 Prepare the review attachment only after the required tasks and reports have been completed. Follow the programme's instructions for dataset inclusion and sensitive files.
+
+
+# CortexHR — Task Submission Tracker
+
+## GitHub Repository
+
+Repository: https://github.com/ItzKalpesh/employee-ml-project
+
+All task code, reports, tests, and model artifacts are maintained
+in this repository. Each task will have its own pull request.
+
+## Task 1 — Data Audit
+
+- Status: Completed; committed to `main`. Retrospective review PR opened; do not merge.
+- Report: [Data Audit](reports/data-audit.md)
+- Notebook: [01 Data Audit](notebooks/01_data_audit.ipynb)
+- Pull Request: [Task 1 PR #2](https://github.com/ItzKalpesh/employee-ml-project/pull/2)
+
+## Task 2 — Reusable Feature Pipeline
+
+- Status: Implementation and four tests passing; final requirement review pending.
+- Report: [Feature Pipeline Report](reports/task2_feature_pipeline_report.md)
+- Package: `cortexhr_features`
+- Version: `features-1.0.0`
+- Build command: `python -m cortexhr_features.build`
+- Tests: `tests/test_pipeline.py` — 4 passed.
+- Pull Request: [Task 2 PR #1](https://github.com/ItzKalpesh/employee-ml-project/pull/1)
+
+## Task 3 — Attrition Baseline Models
+
+- Status: Not started.
+- Planned report: `reports/baseline-report.md`
+- Pull Request: Not created yet.

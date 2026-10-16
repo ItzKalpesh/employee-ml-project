@@ -1,11 +1,17 @@
 {
     "version": "features-1.0.0",
     "input_features": [
+        "tenure_years",
+        "raise_overdue",
+        "unpaid_per_month",
+        "attendance_gap",
+        "overtime_load",
         "attendance_rate",
         "late_count",
         "average_overtime",
+        "average_monthly_salary",
+        "average_overtime_pay",
         "tenure",
-        "annual_fixed_pay",
         "months_since_last_revision",
         "department_id",
         "role_id",
@@ -14,12 +20,20 @@
         "employment_type"
     ],
     "numeric_features": [
+        "tenure_years",
+        "unpaid_per_month",
+        "attendance_gap",
+        "overtime_load",
         "attendance_rate",
         "late_count",
         "average_overtime",
+        "average_monthly_salary",
+        "average_overtime_pay",
         "tenure",
-        "salary_vs_department_median",
         "months_since_last_revision"
+    ],
+    "boolean_features": [
+        "raise_overdue"
     ],
     "categorical_features": [
         "department_id",
@@ -28,17 +42,23 @@
         "work_mode",
         "employment_type"
     ],
-    "final_features": [
-        "attendance_rate",
-        "late_count",
-        "average_overtime",
-        "tenure",
-        "salary_vs_department_median",
-        "months_since_last_revision",
-        "department_id",
-        "role_id",
-        "work_location",
-        "work_mode",
-        "employment_type"
-    ]
+    "forbidden_features": [
+        "employee_id",
+        "exit_date",
+        "exit_interview_done",
+        "exit_reason",
+        "fnf_settlement_amount",
+        "left_within_12m",
+        "observation_date",
+        "resignation_date",
+        "row_id",
+        "source",
+        "voluntary_left_within_12m"
+    ],
+    "target": "left_within_12m",
+    "test_size": 0.2,
+    "random_state": 42,
+    "training_rows": 1911,
+    "test_rows": 478,
+    "fitted_on_training_data_only": true
 }

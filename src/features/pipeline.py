@@ -1,25 +1,28 @@
-
 import json
 from pathlib import Path
 
 import joblib
 import pandas as pd
-from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
-
 FEATURE_VERSION = "features-1.0.0"
 
-# Features required as input to the pipeline
+# Features produced by build_features().
 INPUT_FEATURES = [
+    "tenure_years",
+    "raise_overdue",
+    "unpaid_per_month",
+    "attendance_gap",
+    "overtime_load",
     "attendance_rate",
     "late_count",
     "average_overtime",
+    "average_monthly_salary",
+    "average_overtime_pay",
     "tenure",
-    "annual_fixed_pay",
     "months_since_last_revision",
     "department_id",
     "role_id",
@@ -28,17 +31,21 @@ INPUT_FEATURES = [
     "employment_type",
 ]
 
-# Keep this name for compatibility with the notebook and runner.
-FINAL_FEATURES = INPUT_FEATURES
-
 NUMERIC_FEATURES = [
+    "tenure_years",
+    "unpaid_per_month",
+    "attendance_gap",
+    "overtime_load",
     "attendance_rate",
     "late_count",
     "average_overtime",
+    "average_monthly_salary",
+    "average_overtime_pay",
     "tenure",
-    "salary_vs_department_median",
     "months_since_last_revision",
 ]
+
+BOOLEAN_FEATURES = ["raise_overdue"]
 
 CATEGORICAL_FEATURES = [
     "department_id",
@@ -48,61 +55,51 @@ CATEGORICAL_FEATURES = [
     "employment_type",
 ]
 
+FINAL_FEATURES = INPUT_FEATURES
 
-class DepartmentMedianRatioAdder(BaseEstimator, TransformerMixin):
-    """Calculate salary ratio using department medians learned during fit."""
+# Columns that must never be used as model predictors.
+FORBIDDEN_FEATURES = {
+    "row_id",
+    "employee_id",
+    "observation_date",
+    "left_within_12m",
+    "voluntary_left_within_12m",
+    "exit_date",
+    "resignation_date",
+    "exit_reason",
+    "exit_interview_done",
+    "fnf_settlement_amount",
+    "source",
+}
 
+
+def validate_features(X):
+    """Validate input columns and reject known leakage columns."""
+    if not isinstance(X, pd.DataFrame):
+        raise TypeError("Features must be provided as a pandas DataFrame.")
+
+    forbidden = FORBIDDEN_FEATURES.intersection(X.columns)
+    if forbidden:
+        raise ValueError(
+            f"Forbidden identifier or leakage columns found: "
+            f"{sorted(forbidden)}"
+        )
+
+    missing = [column for column in INPUT_FEATURES
+               if column not in X.columns]
+    if missing:
+        raise ValueError(f"Missing required features: {missing}")
+
+from sklearn.base import BaseEstimator, TransformerMixin
+
+class FeatureValidationTransformer(BaseEstimator, TransformerMixin):
     def fit(self, X, y=None):
-        if not isinstance(X, pd.DataFrame):
-            raise TypeError("Input must be a pandas DataFrame.")
-
-        required = ["department_id", "annual_fixed_pay"]
-        missing = [col for col in required if col not in X.columns]
-        if missing:
-            raise ValueError(f"Missing required columns: {missing}")
-
-        salary = pd.to_numeric(
-            X["annual_fixed_pay"].astype(str).str.replace(
-                ",", "", regex=False
-            ),
-            errors="coerce",
-        )
-
-        salary_data = pd.DataFrame({
-            "department_id": X["department_id"],
-            "salary": salary,
-        })
-
-        self.department_medians_ = (
-            salary_data.groupby("department_id")["salary"].median()
-        )
-        self.global_median_ = salary.median()
-
+        validate_features(X)
         return self
 
     def transform(self, X):
-        if not isinstance(X, pd.DataFrame):
-            raise TypeError("Input must be a pandas DataFrame.")
-
-        result = X.copy()
-
-        salary = pd.to_numeric(
-            result["annual_fixed_pay"].astype(str).str.replace(
-                ",", "", regex=False
-            ),
-            errors="coerce",
-        )
-
-        denominator = result["department_id"].map(
-            self.department_medians_
-        )
-        denominator = denominator.fillna(self.global_median_)
-        denominator = denominator.mask(denominator.eq(0))
-
-        result["salary_vs_department_median"] = salary / denominator
-
-        return result
-
+        validate_features(X)
+        return X[INPUT_FEATURES].copy()
 
 def create_preprocessing_pipeline():
     numeric_pipeline = Pipeline([
@@ -110,18 +107,27 @@ def create_preprocessing_pipeline():
         ("scaler", StandardScaler()),
     ])
 
+    boolean_pipeline = Pipeline([
+        ("imputer", SimpleImputer(strategy="most_frequent")),
+        ("encoder", OneHotEncoder(handle_unknown="ignore")),
+    ])
+
     categorical_pipeline = Pipeline([
         ("imputer", SimpleImputer(strategy="most_frequent")),
         ("encoder", OneHotEncoder(handle_unknown="ignore")),
     ])
 
-    preprocessor = ColumnTransformer([
-        ("numeric", numeric_pipeline, NUMERIC_FEATURES),
-        ("categorical", categorical_pipeline, CATEGORICAL_FEATURES),
-    ])
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ("numeric", numeric_pipeline, NUMERIC_FEATURES),
+            ("boolean", boolean_pipeline, BOOLEAN_FEATURES),
+            ("categorical", categorical_pipeline, CATEGORICAL_FEATURES),
+        ],
+        remainder="drop",
+    )
 
     return Pipeline([
-        ("department_ratio", DepartmentMedianRatioAdder()),
+        ("feature_validation", FeatureValidationTransformer()),
         ("preprocessor", preprocessor),
     ])
 
@@ -139,11 +145,14 @@ def save_pipeline(pipeline, output_dir="models"):
         "version": FEATURE_VERSION,
         "input_features": INPUT_FEATURES,
         "numeric_features": NUMERIC_FEATURES,
+        "boolean_features": BOOLEAN_FEATURES,
         "categorical_features": CATEGORICAL_FEATURES,
-        "final_features": NUMERIC_FEATURES + CATEGORICAL_FEATURES,
+        "forbidden_features": sorted(FORBIDDEN_FEATURES),
     }
 
-    with open(output_path / "metadata.json", "w") as file:
+    with (output_path / "metadata.json").open(
+        "w", encoding="utf-8"
+    ) as file:
         json.dump(metadata, file, indent=4)
 
     print("Pipeline and metadata saved successfully.")

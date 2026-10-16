@@ -1,102 +1,97 @@
-# Task 2: Reusable Feature Engineering and Pipeline
+# Task 2 — Reusable Feature Pipeline
 
 ## 1. Objective
 
-The objective is to build a reusable feature engineering module and a Scikit-learn preprocessing pipeline for employee attrition data.
+Build a reusable feature-engineering and preprocessing pipeline for the CortexHR employee attrition dataset. The pipeline combines employee snapshots with historical attendance and payroll records while preventing identifier and target leakage.
 
-## 2. Data Sources
+## 2. Inputs
 
-The project uses three datasets:
+The pipeline uses the following datasets:
 
-- Employee attrition dataset
-- Monthly attendance features
-- Monthly payroll features
+- `data/attrition_dataset.csv`
+- `data/attendance_monthly_features.csv`
+- `data/payroll_monthly_features.csv`
 
-The employee dataset contains 2,389 rows and 42 original columns. The updated feature engineering function produces a dataset with 2,389 rows and 48 columns.
+Attendance and payroll records are aggregated separately and joined to the corresponding employee snapshot. Monthly records after the snapshot's observation month are excluded.
 
-## 3. Feature Engineering
+## 3. Engineered Features
 
-The reusable feature builder is implemented in `src/features/build_features.py`.
+| Feature | Definition |
+|---|---|
+| `tenure_years` | `tenure_months / 12` |
+| `raise_overdue` | True when months since last raise is greater than 12 |
+| `unpaid_per_month` | Six-month unpaid leave days divided by 6 |
+| `attendance_gap` | `1 - attendance_rate_3m` |
+| `overtime_load` | Average overtime hours per month over the supplied three-month measure |
 
-The engineered features include:
+## 4. Preprocessing
 
-- **Attendance rate:** Average recorded attendance rate.
-- **Late count:** Total recorded late arrivals.
-- **Average overtime:** Average monthly overtime hours.
-- **Tenure:** Employee tenure in months.
-- **Months since last revision:** Derived from the available source field.
+The preprocessing pipeline uses separate branches for numeric, boolean, and categorical input features.
 
-Attendance and payroll records are filtered according to each employee snapshot's observation month. Duplicate payroll records are removed before payroll aggregation. Employee snapshots without matching monthly history are retained.
+- Numeric features: median imputation followed by standard scaling.
+- Boolean feature: most-frequent imputation followed by one-hot encoding.
+- Categorical features: most-frequent imputation followed by one-hot encoding.
+- Unknown categories: handled using `OneHotEncoder(handle_unknown="ignore")`.
+- Leakage validation: rejects known identifier, target, source, date, and post-outcome columns.
+- Unused columns: dropped from the transformed model input.
 
-The salary-to-department-median ratio is calculated by a fitted transformer in `src/features/pipeline.py`. Department medians are learned during fitting and reused during transformation.
+### Separate Attendance and Payroll Transformers
 
-## 4. Preprocessing Pipeline
+- `AttendanceFeatureTransformer` cleans and aggregates attendance records independently.
+- `PayrollFeatureTransformer` cleans and aggregates payroll records independently.
+- Their resulting features are joined to the matching employee snapshots before preprocessing.
 
-The reusable preprocessing pipeline is implemented in `src/features/pipeline.py`.
+The resulting employee-level features are passed through the reusable
+scikit-learn preprocessing pipeline.
 
-**Numerical features:**
-- Missing values are imputed using the median.
-- Features are scaled using `StandardScaler`.
+## 5. Training and Held-Out Data
 
-**Categorical features:**
-- Missing values are imputed using the most frequent value.
-- Categories are encoded using `OneHotEncoder`.
-- Unknown categories are handled using `handle_unknown="ignore"`.
+The build process uses a stratified 80/20 split with random seed 42. Preprocessing is fitted on the training portion only. The held-out portion is reserved for the later model evaluation task.
 
-The final preprocessing stage uses six numerical features and five categorical features.
+Previously verified split:
+- Total labelled rows: 2,389
+- Training rows: 1,911
+- Held-out rows: 478
 
-## 5. Saving and Versioning
+## 6. Package and Artifacts
 
-The fitted preprocessing pipeline is saved using Joblib as:
-
-`models/feature_pipeline.joblib`
-
-Feature metadata is saved as:
-
-`models/metadata.json`
-
-The metadata records the feature version and the numerical and categorical feature lists. The current feature version is `features-1.0.0`.
-
-## 6. Testing and Validation
-
-Automated tests are implemented in `tests/test_pipeline.py`.
-
-Three tests passed:
-
-- Output shape validation
-- Missing-value handling after transformation
-- Reproducibility of the preprocessing pipeline
-
-The saved pipeline was also loaded and used to transform the engineered dataset.
-
-## 7. Handling Missing Data
-
-Some employee snapshots have no matching monthly attendance or payroll history. Missing values are preserved during feature engineering and handled by the preprocessing pipeline instead of automatically replacing them with zero.
-
-Missing late-arrival values remain missing when all records in a group are missing, allowing the preprocessing pipeline to handle them appropriately.
-
-## 8. Data Leakage Prevention and Limitations
-
-The preprocessing pipeline is fitted on the training split. The department-median transformer learns its medians during fitting and reuses them during transformation.
-
-The current work validates the feature engineering and preprocessing workflow. It does not establish predictive accuracy, model performance, or fairness. Further validation is needed before using these features for employee-related decisions.
-
-## 9. Docker Execution and Final Validation
-
-The command-line pipeline was executed successfully inside Docker using `src/features/run_pipeline.py`.
-
-Results:
-
-- Input employee snapshots: 2,389
-- Transformed feature matrix: 2,389 rows × 85 columns
+- Package: `cortexhr_features`
 - Feature version: `features-1.0.0`
-- Saved Joblib pipeline and metadata loaded successfully
-- Automated tests: 3 passed
+- Build command: `python -m cortexhr_features.build`
+- Saved pipeline: `models/feature_pipeline.joblib`
+- Metadata: `models/metadata.json`
 
-The successful notebook and Docker executions, together with the passing tests, validate the technical preprocessing workflow. They do not establish predictive model accuracy or fairness.
+The saved pipeline is loaded for transformation rather than being refitted on new input.
 
-## 10. Conclusion
+## 7. Verification
 
-A reusable feature engineering module and preprocessing pipeline have been developed for the employee attrition dataset. The workflow supports snapshot-aware monthly feature aggregation, missing-value imputation, numerical scaling, categorical encoding, versioned artifact storage, and reproducible preprocessing.
+The following command was run in the Docker environment:
+`python -m cortexhr_features.build`
 
-Automated tests and Docker execution verify that the pipeline operates successfully on the project data. Predictive performance and fairness remain outside the scope of this task.
+
+The feature pipeline was rebuilt successfully inside Docker, and all
+four automated tests passed.
+
+- **Build:** Successful.
+- **Feature version:** `features-1.0.0`.
+- **Total labelled rows:** 2,389.
+- **Training rows:** 1,911.
+- **Held-out rows:** 478.
+- **Transformed training shape:** `(1911, 92)`.
+- **Training-only fitting:** Verified.
+- **Automated tests:** 4 passed.
+
+The tests cover output shape, missing-value handling, reproducibility,
+and engineered feature values.
+
+Tests were run with:
+
+`python -m pytest -q tests/test_pipeline.py`
+
+**Verified result:** all four tests passed. The tests check transformed output shape, absence of missing values, reproducibility, and required engineered-feature calculations.
+
+## 8. Limitations and Remaining Checks
+
+The four passing tests establish the checks listed above; they do not prove compliance with every requirement in the task guide. The explicit requirement for separate attendance and payroll transformers must be checked against the implementation before final completion is claimed.
+
+The final report should be updated with the actual output from the latest successful build and test run.
