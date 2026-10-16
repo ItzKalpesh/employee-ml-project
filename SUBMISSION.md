@@ -61,10 +61,10 @@ in this repository. Each task will have its own pull request.
 
 ## Task 1 — Data Audit
 
-- Status: Completed; final answer-key reconciliation must be verified.
+- Status: Completed; committed to `main`. Retrospective review PR opened; do not merge.
 - Report: [Data Audit](reports/data-audit.md)
 - Notebook: [01 Data Audit](notebooks/01_data_audit.ipynb)
-- Pull Request: Add the Task 1 PR URL here.
+- Pull Request: [Task 1 PR #2](https://github.com/ItzKalpesh/employee-ml-project/pull/2)
 
 ## Task 2 — Reusable Feature Pipeline
 
@@ -74,7 +74,7 @@ in this repository. Each task will have its own pull request.
 - Version: `features-1.0.0`
 - Build command: `python -m cortexhr_features.build`
 - Tests: `tests/test_pipeline.py` — 4 passed.
-- Pull Request: Add the Task 2 PR URL here.
+- Pull Request: [Task 2 PR #1](https://github.com/ItzKalpesh/employee-ml-project/pull/1)
 
 ## Task 3 — Attrition Baseline Models
 
