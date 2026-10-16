@@ -35,6 +35,18 @@ The preprocessing pipeline uses separate branches for numeric, boolean, and cate
 - Leakage validation: rejects known identifier, target, source, date, and post-outcome columns.
 - Unused columns: dropped from the transformed model input.
 
+### Separate Attendance and Payroll Processing
+
+Attendance records and payroll records are processed and aggregated
+independently before their resulting features are joined to the
+employee snapshots. Attendance features include attendance rate,
+late-arrival counts, average overtime, and unpaid absence days.
+Payroll features include average monthly salary, unpaid payroll days,
+and average overtime pay.
+
+The resulting employee-level features are passed through the reusable
+scikit-learn preprocessing pipeline.
+
 ## 5. Training and Held-Out Data
 
 The build process uses a stratified 80/20 split with random seed 42. Preprocessing is fitted on the training portion only. The held-out portion is reserved for the later model evaluation task.
@@ -57,8 +69,23 @@ The saved pipeline is loaded for transformation rather than being refitted on ne
 ## 7. Verification
 
 The following command was run in the Docker environment:
-
 `python -m cortexhr_features.build`
+
+
+The feature pipeline was rebuilt successfully inside Docker, and all
+four automated tests passed.
+
+- **Build:** Successful.
+- **Feature version:** `features-1.0.0`.
+- **Total labelled rows:** 2,389.
+- **Training rows:** 1,911.
+- **Held-out rows:** 478.
+- **Transformed training shape:** `(1911, 92)`.
+- **Training-only fitting:** Verified.
+- **Automated tests:** 4 passed.
+
+The tests cover output shape, missing-value handling, reproducibility,
+and engineered feature values.
 
 Tests were run with:
 
