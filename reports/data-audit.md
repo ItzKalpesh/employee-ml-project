@@ -168,8 +168,34 @@ Monthly attendance and payroll features must not use records after the relevant 
 
 ## 11. Answer-Key Comparison
 
-Pending: compare these findings with the supplied answer-key notes and planted-issue material. Record which issues were initially missed and what decisions changed. This comparison has not been verified from the uploaded notebook alone.
+After completing the independent audit, the findings were compared with the `answer_key_planted_dirt` and `answer_key_notes` sheets.
+
+The answer key lists 98 planted data problems across six categories.
+
+| Issue category | Planted count | Independent audit comparison |
+|---|---:|---|
+| Missing values | 70 | The audit identified missing values by column. The answer key identifies planted missing values in `commute_distance_km` and `highest_education`. |
+| Inconsistent categories | 13 | The audit identified 16 raw `work_location` values, including differences in capitalization and naming such as `Bengaluru`/`Bangalore`, `Delhi NCR`/`Delhi-NCR`, and `Chennai`/`chennai`. The answer key identifies 13 planted category inconsistencies. |
+| Duplicate rows | 6 | The audit identified six duplicate pairs after excluding `row_id`. The answer-key employee IDs were verified; each appears twice, producing 12 matching records. Unique `row_id` values explain why the full-row duplicate check returns zero. |
+| Negative tenure | 4 | The audit found four negative `tenure_months` values, matching the answer key. |
+| Salary typo/outlier | 3 | The audit identified EMP-0034, EMP-0601 and EMP-0433. The answer key confirms that their `annual_fixed_pay` values are ten times too high and their `comp_ratio` values no longer match. |
+| Impossible values | 2 | The audit found two `attendance_rate_3m` values above 1.0, matching the answer key. |
+
+### 11.1 What I Missed
+
+1. **Record-level missing values:** The independent audit identified 55 missing values in `commute_distance_km` and 15 in `highest_education`, totalling 70 missing values across these two columns. This matches the answer-key category total, although individual planted records have not yet been compared one by one.
+2. **Duplicate rows:** The initial full-row duplicate check returned zero because the duplicate records have different `row_id` values. Checking for duplicates after excluding `row_id` identified all six planted duplicate pairs, matching the answer key.
+3. **Salary errors:** The initial outlier analysis detected unusual salary values but did not initially identify the three planted salary errors by employee ID.
+4. **Category inconsistencies:** The initial audit detected inconsistent `work_location` values but did not initially list the individual variants. Inspection revealed capitalization differences and alternative city names. The answer key identifies 13 planted category inconsistencies; the individual entries have not yet been matched one by one.
+
+### 11.2 Data-Quality Decisions
+
+Following the project guide, the cleaning stage should remove confirmed exact duplicate rows, standardise category spellings, convert impossible values to missing, impute numeric values using the median, and add missing-value indicator features for columns with more than 2% missing values.
+
+The three identified salary errors should be corrected during cleaning after verifying their values against the source fields. Other potential outliers should not be removed solely because a statistical method flags them.
+
+The original dataset remains unchanged during this audit.
 
 ## 12. Conclusion
 
-The audit documents dataset structure, missingness, repeated records, class imbalance, outlier counts, category consistency checks, bounded/non-negative measurement checks and leakage decisions. These findings provide the basis for consistent preprocessing and feature engineering. The answer-key comparison must be completed before claiming the audit is fully reconciled.
+The audit examined dataset structure, missing values, duplicates, class imbalance, potential outliers, category consistency, invalid measurements and possible data leakage. Comparison with the supplied answer key confirmed the major planted issue categories, including six duplicate pairs, four negative tenure values, three salary errors and two impossible attendance-rate values. The audit provides a basis for consistent data cleaning and feature engineering. Record-level verification of the planted missing-value and category issues remains a limitation.
