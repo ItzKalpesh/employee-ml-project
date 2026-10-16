@@ -35,14 +35,11 @@ The preprocessing pipeline uses separate branches for numeric, boolean, and cate
 - Leakage validation: rejects known identifier, target, source, date, and post-outcome columns.
 - Unused columns: dropped from the transformed model input.
 
-### Separate Attendance and Payroll Processing
+### Separate Attendance and Payroll Transformers
 
-Attendance records and payroll records are processed and aggregated
-independently before their resulting features are joined to the
-employee snapshots. Attendance features include attendance rate,
-late-arrival counts, average overtime, and unpaid absence days.
-Payroll features include average monthly salary, unpaid payroll days,
-and average overtime pay.
+- `AttendanceFeatureTransformer` cleans and aggregates attendance records independently.
+- `PayrollFeatureTransformer` cleans and aggregates payroll records independently.
+- Their resulting features are joined to the matching employee snapshots before preprocessing.
 
 The resulting employee-level features are passed through the reusable
 scikit-learn preprocessing pipeline.

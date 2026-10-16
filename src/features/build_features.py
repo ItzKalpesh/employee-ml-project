@@ -1,44 +1,71 @@
-
 import pandas as pd
 
 
-def build_features(employee_df, attendance_df, payroll_df):
-    employees = employee_df.copy()
-    attendance = attendance_df.copy()
-    payroll = payroll_df.copy()
-
-    employees["observation_date"] = pd.to_datetime(
-        employees["observation_date"], errors="coerce"
-    )
-    attendance["month"] = pd.to_datetime(
-        attendance["month"], errors="coerce"
-    )
-    payroll["month"] = pd.to_datetime(
-        payroll["month"], errors="coerce"
+def _to_numeric(series):
+    """Convert numeric strings, including formatted currency, to numbers."""
+    return pd.to_numeric(
+        series.astype("string")
+        .str.replace(",", "", regex=False)
+        .str.replace("$", "", regex=False)
+        .str.strip(),
+        errors="coerce",
     )
 
-    def to_numeric(series):
-        return pd.to_numeric(
-            series.astype("string")
-            .str.replace(",", "", regex=False)
-            .str.replace("$", "", regex=False)
-            .str.strip(),
-            errors="coerce",
-        )
 
-    # Attendance source columns.
-    for column in [
+class AttendanceFeatureTransformer:
+    """Clean and aggregate attendance records for each employee snapshot."""
+
+    NUMERIC_COLUMNS = [
         "attendance_rate",
         "unpaid_absence_days",
         "late_arrivals",
         "avg_hours_worked",
         "overtime_hours",
-    ]:
-        if column in attendance.columns:
-            attendance[column] = to_numeric(attendance[column])
+    ]
 
-    # Payroll source columns.
-    for column in [
+    def transform(self, snapshots, attendance_df):
+        attendance = attendance_df.copy()
+        attendance["month"] = pd.to_datetime(
+            attendance["month"], errors="coerce"
+        )
+
+        for column in self.NUMERIC_COLUMNS:
+            if column in attendance.columns:
+                attendance[column] = _to_numeric(attendance[column])
+
+        history = snapshots.merge(
+            attendance,
+            on="employee_id",
+            how="left",
+        )
+
+        snapshot_month = history["observation_date"].dt.to_period("M")
+        record_month = history["month"].dt.to_period("M")
+
+        history = history[
+            history["month"].isna()
+            | (record_month <= snapshot_month)
+        ]
+
+        return (
+            history.groupby("_snapshot_id")
+            .agg(
+                attendance_rate=("attendance_rate", "mean"),
+                late_count=(
+                    "late_arrivals",
+                    lambda series: series.sum(min_count=1),
+                ),
+                average_overtime=("overtime_hours", "mean"),
+                unpaid_absence_days=("unpaid_absence_days", "sum"),
+            )
+            .reset_index()
+        )
+
+
+class PayrollFeatureTransformer:
+    """Clean and aggregate payroll records for each employee snapshot."""
+
+    NUMERIC_COLUMNS = [
         "monthly_fixed_gross",
         "overtime_hours_paid",
         "overtime_pay",
@@ -46,69 +73,68 @@ def build_features(employee_df, attendance_df, payroll_df):
         "total_deductions",
         "net_pay",
         "lop_days",
-    ]:
-        if column in payroll.columns:
-            payroll[column] = to_numeric(payroll[column])
+    ]
 
+    def transform(self, snapshots, payroll_df):
+        payroll = payroll_df.copy()
+        payroll["month"] = pd.to_datetime(
+            payroll["month"], errors="coerce"
+        )
+
+        for column in self.NUMERIC_COLUMNS:
+            if column in payroll.columns:
+                payroll[column] = _to_numeric(payroll[column])
+
+        history = snapshots.merge(
+            payroll,
+            on="employee_id",
+            how="left",
+        )
+
+        snapshot_month = history["observation_date"].dt.to_period("M")
+        record_month = history["month"].dt.to_period("M")
+
+        history = history[
+            history["month"].isna()
+            | (record_month <= snapshot_month)
+        ]
+
+        return (
+            history.groupby("_snapshot_id")
+            .agg(
+                average_monthly_salary=("monthly_fixed_gross", "mean"),
+                unpaid_payroll_days=("lop_days", "sum"),
+                average_overtime_pay=("overtime_pay", "mean"),
+            )
+            .reset_index()
+        )
+
+
+def build_features(employee_df, attendance_df, payroll_df):
+    """Build employee-level features using separate source transformers."""
+    employees = employee_df.copy()
+
+    employees["observation_date"] = pd.to_datetime(
+        employees["observation_date"], errors="coerce"
+    )
 
     employees = employees.reset_index(drop=True)
     employees["_snapshot_id"] = employees.index
 
     snapshots = employees[
         ["_snapshot_id", "employee_id", "observation_date"]
-    ]
+    ].copy()
 
-    # Attendance records available on or before each snapshot month.
-    attendance_history = snapshots.merge(
-        attendance,
-        on="employee_id",
-        how="left",
+    # Transform attendance and payroll independently.
+    attendance_features = AttendanceFeatureTransformer().transform(
+        snapshots, attendance_df
     )
 
-    attendance_history = attendance_history[
-        attendance_history["month"].isna()
-        | (
-            attendance_history["month"].dt.to_period("M")
-            <= attendance_history["observation_date"].dt.to_period("M")
-        )
-    ]
-
-    attendance_features = (
-        attendance_history.groupby("_snapshot_id")
-        .agg(
-            attendance_rate=("attendance_rate", "mean"),
-            late_count=("late_arrivals", lambda s: s.sum(min_count=1)),
-            average_overtime=("overtime_hours", "mean"),
-            unpaid_absence_days=("unpaid_absence_days", "sum"),
-        )
-        .reset_index()
+    payroll_features = PayrollFeatureTransformer().transform(
+        snapshots, payroll_df
     )
 
-    # Payroll records available on or before each snapshot month.
-    payroll_history = snapshots.merge(
-        payroll,
-        on="employee_id",
-        how="left",
-    )
-
-    payroll_history = payroll_history[
-        payroll_history["month"].isna()
-        | (
-            payroll_history["month"].dt.to_period("M")
-            <= payroll_history["observation_date"].dt.to_period("M")
-        )
-    ]
-
-    payroll_features = (
-        payroll_history.groupby("_snapshot_id")
-        .agg(
-            average_monthly_salary=("monthly_fixed_gross", "mean"),
-            unpaid_payroll_days=("lop_days", "sum"),
-            average_overtime_pay=("overtime_pay", "mean"),
-        )
-        .reset_index()
-    )
-
+    # Join the aggregated features back to the matching employee snapshot.
     result = employees.merge(
         attendance_features,
         on="_snapshot_id",
@@ -141,7 +167,9 @@ def build_features(employee_df, attendance_df, payroll_df):
     )
 
     result["tenure_years"] = tenure_months / 12
-    result["raise_overdue"] = (months_since_raise > 12).astype("boolean")
+    result["raise_overdue"] = (
+        months_since_raise > 12
+    ).astype("boolean")
     result["unpaid_per_month"] = unpaid_leave_days / 6
     result["attendance_gap"] = 1 - attendance_rate_3m
     result["overtime_load"] = overtime_hours_3m
