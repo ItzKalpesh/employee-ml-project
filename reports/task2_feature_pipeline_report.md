@@ -92,6 +92,6 @@ Tests were run with:
 
 ## 8. Limitations and Remaining Checks
 
-The four passing tests establish the checks listed above; they do not prove compliance with every requirement in the task guide. The explicit requirement for separate attendance and payroll transformers must be checked against the implementation before final completion is claimed.
+The implementation uses separate `AttendanceFeatureTransformer` and `PayrollFeatureTransformer` classes. Both transform their source records independently, exclude records after each employee snapshot date, and join the resulting features back to the corresponding employee snapshot.
 
-The final report should be updated with the actual output from the latest successful build and test run.
+The Docker build completed successfully, and all four automated tests passed. Remaining work is final repository review and GitHub handoff.
