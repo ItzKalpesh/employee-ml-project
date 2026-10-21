@@ -69,8 +69,7 @@ The following command was run in the Docker environment:
 `python -m cortexhr_features.build`
 
 
-The feature pipeline was rebuilt successfully inside Docker, and all
-four automated tests passed.
+The feature pipeline was rebuilt successfully inside Docker, and all six automated tests passed, including the three-row input test and target-column rejection test.
 
 - **Build:** Successful.
 - **Feature version:** `features-1.0.0`.
@@ -79,7 +78,7 @@ four automated tests passed.
 - **Held-out rows:** 478.
 - **Transformed training shape:** `(1911, 92)`.
 - **Training-only fitting:** Verified.
-- **Automated tests:** 4 passed.
+- **Automated tests:** 6 passed.
 
 The tests cover output shape, missing-value handling, reproducibility,
 and engineered feature values.
@@ -88,10 +87,10 @@ Tests were run with:
 
 `python -m pytest -q tests/test_pipeline.py`
 
-**Verified result:** all four tests passed. The tests check transformed output shape, absence of missing values, reproducibility, and required engineered-feature calculations.
+**Verified result:** all six tests passed. They check transformed output shape, absence of missing values, reproducibility, engineered-feature calculations, transformation of three raw rows, and rejection of the target column as an input.
 
 ## 8. Limitations and Remaining Checks
 
 The implementation uses separate `AttendanceFeatureTransformer` and `PayrollFeatureTransformer` classes. Both transform their source records independently, exclude records after each employee snapshot date, and join the resulting features back to the corresponding employee snapshot.
 
-The Docker build completed successfully, and all four automated tests passed. Remaining work is final repository review and GitHub handoff.
+The Docker build completed successfully, and all six automated tests passed. The revised checklist's three-row test and target-column rejection test are included. Remaining work is final repository review and GitHub handoff.

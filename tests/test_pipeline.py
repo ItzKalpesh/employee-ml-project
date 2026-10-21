@@ -143,3 +143,26 @@ def test_required_engineered_features():
     [0.10, 0.05],
 )
     assert result["overtime_load"].tolist() == [8.0, 4.0]
+
+def test_pipeline_with_three_raw_rows():
+    X = sample_data().iloc[:3].copy()
+    pipeline = create_preprocessing_pipeline()
+
+    transformed = pipeline.fit_transform(X)
+
+    assert transformed.shape[0] == 3
+    assert transformed.shape[1] > 0
+    assert np.isfinite(transformed.data).all()
+
+
+def test_target_is_never_used_as_input():
+    X = sample_data().copy()
+    X["left_within_12m"] = [0, 1, 0, 1, 0, 1]
+
+    pipeline = create_preprocessing_pipeline()
+
+    try:
+        pipeline.fit_transform(X)
+        assert False, "Target column should be rejected"
+    except ValueError as error:
+        assert "Forbidden" in str(error)

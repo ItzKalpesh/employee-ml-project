@@ -156,3 +156,7 @@ def save_pipeline(pipeline, output_dir="models"):
         json.dump(metadata, file, indent=4)
 
     print("Pipeline and metadata saved successfully.")
+    
+def build_pipeline():
+    """Build the reusable preprocessing pipeline."""
+    return create_preprocessing_pipeline()    
