@@ -70,7 +70,7 @@ The following command was run in the Docker environment:
 
 
 The feature pipeline was rebuilt successfully inside Docker, and all
-four automated tests passed.
+six automated tests passed.
 
 - **Build:** Successful.
 - **Feature version:** `features-1.0.0`.
@@ -88,10 +88,10 @@ Tests were run with:
 
 `python -m pytest -q tests/test_pipeline.py`
 
-**Verified result:** all four tests passed. The tests check transformed output shape, absence of missing values, reproducibility, and required engineered-feature calculations.
+**Verified result:** all six tests passed. The tests check transformed output shape, absence of missing values, reproducibility, and required engineered-feature calculations.
 
 ## 8. Limitations and Remaining Checks
 
 The implementation uses separate `AttendanceFeatureTransformer` and `PayrollFeatureTransformer` classes. Both transform their source records independently, exclude records after each employee snapshot date, and join the resulting features back to the corresponding employee snapshot.
 
-The Docker build completed successfully, and all four automated tests passed. Remaining work is final repository review and GitHub handoff.
+The Docker build completed successfully, and all six automated tests passed. Remaining work is final repository review and GitHub handoff.
