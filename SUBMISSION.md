@@ -68,7 +68,15 @@ in this repository. Each task will have its own pull request.
 
 ## Task 2 — Reusable Feature Pipeline
 
-- Status: Implementation and four tests passing; final requirement review pending.
+- Status: Docker build successful; four automated tests passed. Final requirement review and GitHub handoff pending.
+- Feature-building package: `src/cortexhr_features/`
+- Package configuration: `pyproject.toml`
+- Saved pipeline: `models/feature_pipeline.joblib`
+- Version metadata: `models/metadata.json`
+- Tests: `tests/test_pipeline.py` — 4 passed.
+- Build command: `python -m cortexhr_features.build`
+- Docker verification: `pip install -e . && python -m cortexhr_features.build`
+- Test verification: `pip install -e . && python -m pytest -q tests/test_pipeline.py`
 - Report: [Feature Pipeline Report](reports/task2_feature_pipeline_report.md)
 - Package: `cortexhr_features`
 - Version: `features-1.0.0`
