@@ -66,11 +66,27 @@ The evaluation uses stratified five-fold out-of-fold predictions to measure ROC-
 Logistic Regression achieved an ROC-AUC of 0.699 and PR-AUC of 0.297, compared with benchmark values of 0.713 and 0.332. The High band contained 239 employees, including 83 historical leavers, capturing 23.78% of all historical leavers. The results and limitations are documented honestly, and the manager note recommends supportive human review rather than automated employment decisions.
 
 
+## Task 5 — Attendance Anomaly Detection
+
+**Status: Completed**
+
+- [Open the attendance anomaly notebook](notebooks/05_attendance_anomaly_detection.ipynb)
+- [View detector flag counts](evidence/task5_detector_flag_counts.png)
+- [View evaluation metrics](evidence/task5_evaluation_metrics.png)
+- [View catch-rate results](reports/task5_catch_rate_results.csv)
+- [View baseline comparison](reports/task5_baseline_comparison.csv)
+- [View missed anomaly types](reports/task5_missed_anomaly_types.csv)
+- [View missed-anomaly analysis](reports/task5_missed_anomaly_analysis.md)
+
+The detector uses Isolation Forest with 3% contamination and combines its predictions with simple attendance rules. Predictions were saved before the unlocked validation labels were used for evaluation.
+
+Isolation Forest achieved 40.27% precision and 59.33% recall, closely matching the supplied baseline of 40.30% precision and 59.30% recall. The combined detector achieved 18.42% precision and 79.33% recall, catching 119 of 150 injected anomalies while flagging 646 records.
+
+The evaluation identified 31 missed anomalies, all classified as `IMPOSSIBLE_HOURS`. The accompanying analysis documents the likely limitations of the detector and recommends human review rather than automated employment decisions.
+
 ## Upcoming Tasks
 
-- **Task 5:** Further project implementation, following the supplied task requirements.
-
-These sections will be updated as the remaining tasks are completed.
+Further tasks will be completed according to the supplied project requirements.
 
 ## Setup and Verification
 
