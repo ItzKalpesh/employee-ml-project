@@ -51,9 +51,23 @@ The baseline analysis compares a majority-class DummyClassifier, balanced Logist
 
 Logistic Regression achieved a mean ROC-AUC of 0.699 compared with the supplied benchmark of 0.713. The results are documented without claiming that the model outperforms the benchmark.
 
+## Task 4 — Honest Evaluation & Risk Bands
+
+**Status: Completed**
+
+- [Open the evaluation notebook](notebooks/04_model_evaluation.ipynb)
+- [View metrics table](evidence/task4_metrics_table.png)
+- [View calibration chart](evidence/task4_calibration_curve.png)
+- [View lift chart](evidence/task4_lift_chart.png)
+- [View manager evaluation note](reports/task4_manager_evaluation.md)
+
+The evaluation uses stratified five-fold out-of-fold predictions to measure ROC-AUC, PR-AUC, precision, recall, and F1. It compares the results against the supplied benchmark, examines calibration, and applies the company's High/Medium/Low risk-band rule.
+
+Logistic Regression achieved an ROC-AUC of 0.699 and PR-AUC of 0.297, compared with benchmark values of 0.713 and 0.332. The High band contained 239 employees, including 83 historical leavers, capturing 23.78% of all historical leavers. The results and limitations are documented honestly, and the manager note recommends supportive human review rather than automated employment decisions.
+
+
 ## Upcoming Tasks
 
-- **Task 4:** Honest evaluation and risk bands.
 - **Task 5:** Further project implementation, following the supplied task requirements.
 
 These sections will be updated as the remaining tasks are completed.
