@@ -1,0 +1,8 @@
+Measure,Value
+Employees in High band,239.0
+Actual leavers in High band,83.0
+Leaver rate within High band,0.3472803347280335
+Fraction of all leavers in High band,0.23782234957020057
+Top-10% precision,0.3487394957983193
+Top-10% recall,0.23782234957020057
+Top-10% lift over base rate,2.38721677782861
