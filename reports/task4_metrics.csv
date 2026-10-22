@@ -1,0 +1,7 @@
+Metric,Value
+ROC-AUC,0.6994620484296871
+PR-AUC / Average Precision,0.2971144413155472
+Precision at top 10%,0.3487394957983193
+Recall at top 10%,0.23782234957020057
+F1 at top 10%,0.282793867120954
+Observed leaver base rate,0.1460862285475094
