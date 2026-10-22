@@ -1,0 +1,4 @@
+detector,flagged,injected,precision,recall
+Supplied Isolation Forest baseline,221,150,0.403,0.593
+Our Isolation Forest,221,150,0.40271493212669685,0.5933333333333334
+Our combined detector,646,150,0.18421052631578946,0.7933333333333333
