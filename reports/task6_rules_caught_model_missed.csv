@@ -1,0 +1,4 @@
+anomaly_type,rows_rules_caught_model_missed
+DOUBLE_PAYMENT,15
+ROLE_MISMATCH,15
+STALE_SALARY,12

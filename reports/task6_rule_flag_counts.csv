@@ -1,0 +1,5 @@
+rule,flagged_rows
+duplicate_payment_rule,30
+negative_net_pay,8
+deductions_over_gross,8
+reconciliation_rule,42

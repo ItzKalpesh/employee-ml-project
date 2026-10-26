@@ -1,0 +1,25 @@
+detector,anomaly_type,actual_rows_of_type,caught_rows_of_type,missed_rows_of_type,type_precision_contribution,type_recall
+Isolation Forest only,DOUBLE_PAYMENT,15,0,15,0.0,0.0
+Isolation Forest only,MISSED_DEDUCTION,15,1,14,0.005434782608695652,0.06666666666666667
+Isolation Forest only,NEGATIVE_NET,8,8,0,0.043478260869565216,1.0
+Isolation Forest only,OVERTIME_SPIKE,15,13,2,0.07065217391304347,0.8666666666666667
+Isolation Forest only,ROLE_MISMATCH,15,0,15,0.0,0.0
+Isolation Forest only,STALE_SALARY,12,0,12,0.0,0.0
+Isolation Forest only,WRONG_DECIMAL,15,15,0,0.08152173913043478,1.0
+Isolation Forest only,ZERO_PAY,5,0,5,0.0,0.0
+Rules only,DOUBLE_PAYMENT,15,15,0,0.1875,1.0
+Rules only,MISSED_DEDUCTION,15,0,15,0.0,0.0
+Rules only,NEGATIVE_NET,8,8,0,0.1,1.0
+Rules only,OVERTIME_SPIKE,15,0,15,0.0,0.0
+Rules only,ROLE_MISMATCH,15,15,0,0.1875,1.0
+Rules only,STALE_SALARY,12,12,0,0.15,1.0
+Rules only,WRONG_DECIMAL,15,15,0,0.1875,1.0
+Rules only,ZERO_PAY,5,0,5,0.0,0.0
+Rules + Isolation Forest,DOUBLE_PAYMENT,15,15,0,0.06224066390041494,1.0
+Rules + Isolation Forest,MISSED_DEDUCTION,15,1,14,0.004149377593360996,0.06666666666666667
+Rules + Isolation Forest,NEGATIVE_NET,8,8,0,0.03319502074688797,1.0
+Rules + Isolation Forest,OVERTIME_SPIKE,15,13,2,0.05394190871369295,0.8666666666666667
+Rules + Isolation Forest,ROLE_MISMATCH,15,15,0,0.06224066390041494,1.0
+Rules + Isolation Forest,STALE_SALARY,12,12,0,0.04979253112033195,1.0
+Rules + Isolation Forest,WRONG_DECIMAL,15,15,0,0.06224066390041494,1.0
+Rules + Isolation Forest,ZERO_PAY,5,0,5,0.0,0.0
