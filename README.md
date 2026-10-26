@@ -84,9 +84,39 @@ Isolation Forest achieved 40.27% precision and 59.33% recall, closely matching t
 
 The evaluation identified 31 missed anomalies, all classified as `IMPOSSIBLE_HOURS`. The accompanying analysis documents the likely limitations of the detector and recommends human review rather than automated employment decisions.
 
+## Task 6 — Payroll Anomaly Detection
+
+**Status: Completed; implementation and evaluation merged into `main`.**
+
+- [Open the payroll anomaly detector notebook](notebooks/06_Payroll_Anomaly_Detector.ipynb)
+- [View overall detector comparison](reports/task6_overall_detector_comparison.csv)
+- [View per-error-type metrics](reports/task6_per_error_type_metrics.csv)
+- [View baseline comparison](reports/task6_baseline_comparison.csv)
+- [View detector flag counts](reports/task6_detector_flag_counts.csv)
+- [View missed-anomaly analysis](reports/task6_missed_anomaly_analysis.csv)
+- [View missed anomaly types](reports/task6_missed_anomaly_types.csv)
+- [Read the Task 6 analysis report](reports/task6_missed_anomaly_analysis.md)
+- [View detector flag-count evidence](evidence/task6_detector_flag_counts.png)
+- [View evaluation metrics evidence](evidence/task6_evaluation_metrics.png)
+- [View baseline reference evidence](evidence/task6_baseline_reference.png)
+
+The detector combines Isolation Forest with interpretable payroll rules and engineered ratio features. The implemented checks include duplicate-payment detection, negative net pay, deductions exceeding gross pay, and payroll reconciliation issues.
+
+**Measured evaluation results:**
+
+| Detector | Precision | Recall | F1-score |
+|---|---:|---:|---:|
+| Isolation Forest | 20.11% | 37% | 0.2606 |
+| Rules only | 81.25% | 65% | 0.7222 |
+| Rules + Isolation Forest | 32.78% | 79% | 0.4633 |
+
+The combined detector caught 79 of 100 labelled anomalies and missed 21. The missed cases comprised 14 `MISSED_DEDUCTION`, 5 `ZERO_PAY`, and 2 `OVERTIME_SPIKE` anomalies. The rules caught 42 labelled anomalies that Isolation Forest missed, including duplicate payments, role mismatches, and stale salaries.
+
+Predictions were frozen before evaluation. The authorized validation labels were used for evaluation only, not for training or tuning. The combined detector improves recall but produces more false positives than the rules-only detector. Results are specific to the supplied dataset and do not establish production readiness.
+
 ## Upcoming Tasks
 
-Further tasks will be completed according to the supplied project requirements.
+Continue with the remaining Phase 2 tasks according to the supplied project requirements.
 
 ## Setup and Verification
 
