@@ -83,7 +83,8 @@ docker run --rm -v "${PWD}:/workspace" -w /workspace employee-ml-audit sh -c "pi
 
 ## Task 5 — Attendance Anomaly Detection
 
-- **Status:** Notebook executed; all nine expected output files verified locally. Git branch and pull request still pending.
+- **Status:** Completed; implementation PR #6 merged into `main`.
+- **Pull request:** [#6 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/6).
 - **Notebook:** `notebooks/05_attendance_anomaly_detection.ipynb`
 - **Validation helper:** `cortexhr_helpers.py` — `catch_rate()`
 - **Predictions:** `reports/task5_attendance_anomaly_predictions.csv`
@@ -101,18 +102,52 @@ docker run --rm -v "${PWD}:/workspace" -w /workspace employee-ml-audit sh -c "pi
 - **Combined detector:** 646 records flagged; 119 of 150 injected anomalies caught; precision 18.42% and recall 79.33%.
 - **Missed anomalies:** 31, all classified as `IMPOSSIBLE_HOURS`. The analysis note discusses likely detector limitations without claiming a proven cause.
 - **Limitations:** The combined detector improves recall but flags more records, reducing precision. Results support attendance-data quality checks and human review, not automated employment decisions.
-- **Pull request:** Not created yet.
+- **Pull request:** [#6 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/6).
 
 **Data handling:** Keep `unlock_CX-05_attendance_anomaly_labels.csv` out of Git commits and pushes.
 
+## Task 6 — Payroll Anomaly Detection
+
+- **Status:** Completed; implementation and evaluation committed and merged into `main`.
+- **Notebook:** `notebooks/06_Payroll_Anomaly_Detector.ipynb`
+- **Frozen predictions:** `reports/task6_payroll_anomaly_predictions_frozen.csv`
+- **Prediction output:** `reports/task6_payroll_anomaly_predictions.csv`
+- **Overall metrics:** `reports/task6_overall_detector_comparison.csv`
+- **Per-error-type metrics:** `reports/task6_per_error_type_metrics.csv`
+- **Baseline comparison:** `reports/task6_baseline_comparison.csv`
+- **Detector flag counts:** `reports/task6_detector_flag_counts.csv`
+- **Missed-anomaly analysis:** `reports/task6_missed_anomaly_analysis.csv`
+- **Missed anomaly types:** `reports/task6_missed_anomaly_types.csv`
+- **Rules caught, model missed:** `reports/task6_rules_caught_model_missed.csv`
+- **Rule flag counts:** `reports/task6_rule_flag_counts.csv`
+- **Written analysis:** `reports/task6_missed_anomaly_analysis.md`
+- **Evidence images:**
+  - `evidence/task6_baseline_reference.png`
+  - `evidence/task6_detector_flag_counts.png`
+  - `evidence/task6_evaluation_metrics.png`
+- **Measured results:** Isolation Forest achieved 20.11% precision and 37% recall. Rules-only detection achieved 81.25% precision and 65% recall. The combined detector achieved 32.78% precision and 79% recall, catching 79 of 100 labelled anomalies.
+- **Missed anomalies:** 21 combined-detector misses: 14 `MISSED_DEDUCTION`, 5 `ZERO_PAY`, and 2 `OVERTIME_SPIKE`.
+- **Method:** Engineered payroll ratios and applied domain-specific validation rules alongside Isolation Forest. Predictions were frozen before the authorized validation labels were used for evaluation.
+- **Limitations:** The combined detector improves recall at the cost of more false positives. Results are specific to the supplied dataset and do not establish production readiness.
+- **Pull request:** [#7 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/7)
+
+**Data handling:** Keep `unlock_CX-06_payroll_anomaly_labels.csv` out of Git commits and pushes. The labels were used only for post-development evaluation, not for model training or tuning.
+
 ## GitHub Handoff
 
-- **Repository:** https://github.com/ItzKalpesh/employee-ml-project
+- **Repository:** [employee-ml-project](https://github.com/ItzKalpesh/employee-ml-project)
 - **Task 1 retrospective review PR:** #2 — do not merge.
-- **Task 2 PR:** #3 — merged.
-- **Task 3 PR:** #4 — merged.
-- **Task 4 PR:** #5 — merged.
-- **Task 5 PR:** Pending implementation; notebook and local outputs verified, PR not yet created.
+- **Task 2 PR:** [#3 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/3).
+- **Task 3 PR:** [#4 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/4).
+- **Task 4 PR:** [#5 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/5).
+- **Task 5 — Attendance Anomaly Detection (Phase 1):** [#6 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/6).
+- **Task 6 — Payroll Anomaly Detection (Phase 2):** [#7 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/7).
+
+### Phase Status
+
+- **Phase 1:** Tasks 1–5 completed.
+- **Phase 2:** Task 6 completed; continue with the remaining required Phase 2 tasks.
+- **Final review package:** Prepare after all required tasks and reports are complete.
 
 ## Final Review Package
 
