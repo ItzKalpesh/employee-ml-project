@@ -1,0 +1,4 @@
+detector,flagged_rows
+Isolation Forest only,184
+Rules only,80
+Rules + Isolation Forest,241

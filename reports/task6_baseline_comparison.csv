@@ -1,0 +1,5 @@
+detector,precision,recall,flagged,actual_anomalies
+Supplied payroll baseline,0.217,0.4,184,100.0
+Isolation Forest only,,,184,
+Rules only,,,80,
+Rules + Isolation Forest,,,241,
