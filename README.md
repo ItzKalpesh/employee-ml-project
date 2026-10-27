@@ -114,6 +114,28 @@ The combined detector caught 79 of 100 labelled anomalies and missed 21. The mis
 
 Predictions were frozen before evaluation. The authorized validation labels were used for evaluation only, not for training or tuning. The combined detector improves recall but produces more false positives than the rules-only detector. Results are specific to the supplied dataset and do not establish production readiness.
 
+## Task 7 — Reason Codes and Money at Risk
+
+**Status: Completed; implementation PR merged into `main`.**
+
+- [Open the reason codes and money-at-risk notebook](notebooks/07_Reason_Codes_and_Money_at_Risk.ipynb)
+- [View explained anomaly results](reports/task7_explained_anomaly_results.csv)
+- [View the 20-row flagged-record review](reports/task7_20_flagged_rows_review.csv)
+
+The notebook explains payroll anomaly flags using reason codes and plain-English descriptions. It estimates potential financial exposure where the available payroll data supports a defensible calculation and preserves the official sample output schema.
+
+**Validation results:**
+
+- Total output records: 7,355
+- Flagged records: 241
+- Flagged records missing record IDs: 0
+- Flagged records missing reason codes: 0
+- Flagged records missing reason text: 0
+- Review sample: 20 flagged records
+- Official output columns match the sample schema.
+
+**Money-at-risk limitations:** The available estimates total ₹2,55,55,337.18. This represents potential exposure, not confirmed financial loss. Fifty-one statistical-outlier records have blank monetary estimates because a defensible amount could not be established.
+
 ## Upcoming Tasks
 
 Continue with the remaining Phase 2 tasks according to the supplied project requirements.

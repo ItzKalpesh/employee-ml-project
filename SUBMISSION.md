@@ -9,6 +9,7 @@ Task code, notebooks, reports, tests, and supporting evidence are maintained in 
 ## Task 1 — Employee Attrition Data Audit
 
 - **Status:** Completed; changes committed and pushed. Retrospective review PR #2 was opened; do not merge it.
+- **Pull request:** https://github.com/ItzKalpesh/employee-ml-project/pull/2
 - **Notebook:** `notebooks/01_data_audit.ipynb`
 - **Report:** `reports/data-audit.md`
 - **Supporting figures:**
@@ -18,11 +19,11 @@ Task code, notebooks, reports, tests, and supporting evidence are maintained in 
   - `reports/missing_values_top10.png`
 - **Key findings:** Audited 2,389 records and 42 columns; 349 records are leavers (14.61%) and 2,040 are stayers (85.39%).
 - **Review note:** The report documents the limits of the validation-ID comparison; do not claim complete independent detection of every planted issue unless separately verified.
-- **Pull request:** https://github.com/ItzKalpesh/employee-ml-project/pull/2
 
 ## Task 2 — Reusable Feature Pipeline
 
 - **Status:** Completed; Docker build successful and 6 automated tests passed.
+- **Pull request:** https://github.com/ItzKalpesh/employee-ml-project/pull/3
 - **Notebook:** `notebooks/02_feature_pipeline.ipynb`
 - **Report:** `reports/task2_feature_pipeline_report.md`
 - **Feature-building package:** `src/cortexhr_features/`
@@ -47,22 +48,21 @@ docker run --rm -v "${PWD}:/workspace" -w /workspace employee-ml-audit sh -c "pi
 docker run --rm -v "${PWD}:/workspace" -w /workspace employee-ml-audit sh -c "pip install -e . && python -m pytest -q tests/test_pipeline.py"
 ```
 
-- **Pull request:** https://github.com/ItzKalpesh/employee-ml-project/pull/3
-
 ## Task 3 — Honest Baseline Models
 
 - **Status:** Completed; implementation PR #4 merged.
+- **Pull request:** https://github.com/ItzKalpesh/employee-ml-project/pull/4
 - **Notebook:** `notebooks/02_baselines.ipynb`
 - **Evidence:**
   - `evidence/task3_baseline_comparison.png`
   - `evidence/task3_benchmark_analysis.png`
 - **Results:** The balanced Logistic Regression baseline achieved ROC-AUC 0.699 and PR-AUC 0.297. The supplied benchmark reported ROC-AUC 0.713 and PR-AUC 0.332.
 - **Review note:** Report the benchmark comparison honestly; the measured baseline is below the supplied benchmark on both metrics.
-- **Pull request:** https://github.com/ItzKalpesh/employee-ml-project/pull/4
 
 ## Task 4 — Honest Evaluation & Risk Bands
 
 - **Status:** Completed; PR #5 merged into main.
+- **Pull request:** [PR #5](https://github.com/ItzKalpesh/employee-ml-project/pull/5) — merged.
 - **Notebook:** `notebooks/04_model_evaluation.ipynb`
 - **Helper:** `cortexhr_helpers.py`
 - **Metrics:** `reports/task4_metrics.csv`
@@ -79,7 +79,6 @@ docker run --rm -v "${PWD}:/workspace" -w /workspace employee-ml-audit sh -c "pi
 - **Risk-band results:** High — 239 employees, 83 historical leavers (34.73% observed rate); Medium — 478 employees, 112 historical leavers (23.43%); Low — 1,672 employees, 154 historical leavers (9.21%).
 - **High-band capture:** 83 of 349 historical leavers (23.78%); top-10% lift approximately 2.39× the overall leaver base rate.
 - **Limitations:** Results are below the supplied benchmark on ROC-AUC and PR-AUC. Scores support human review and should not be treated as verified individual probabilities or used for automated employment decisions.
-- **Pull request:** [PR #5](https://github.com/ItzKalpesh/employee-ml-project/pull/5) — merged.
 
 ## Task 5 — Attendance Anomaly Detection
 
@@ -109,6 +108,7 @@ docker run --rm -v "${PWD}:/workspace" -w /workspace employee-ml-audit sh -c "pi
 ## Task 6 — Payroll Anomaly Detection
 
 - **Status:** Completed; implementation and evaluation committed and merged into `main`.
+- **Pull request:** [#7 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/7)
 - **Notebook:** `notebooks/06_Payroll_Anomaly_Detector.ipynb`
 - **Frozen predictions:** `reports/task6_payroll_anomaly_predictions_frozen.csv`
 - **Prediction output:** `reports/task6_payroll_anomaly_predictions.csv`
@@ -129,9 +129,26 @@ docker run --rm -v "${PWD}:/workspace" -w /workspace employee-ml-audit sh -c "pi
 - **Missed anomalies:** 21 combined-detector misses: 14 `MISSED_DEDUCTION`, 5 `ZERO_PAY`, and 2 `OVERTIME_SPIKE`.
 - **Method:** Engineered payroll ratios and applied domain-specific validation rules alongside Isolation Forest. Predictions were frozen before the authorized validation labels were used for evaluation.
 - **Limitations:** The combined detector improves recall at the cost of more false positives. Results are specific to the supplied dataset and do not establish production readiness.
-- **Pull request:** [#7 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/7)
 
 **Data handling:** Keep `unlock_CX-06_payroll_anomaly_labels.csv` out of Git commits and pushes. The labels were used only for post-development evaluation, not for model training or tuning.
+
+## Task 7 — Reason Codes and Money at Risk
+
+- **Status:** Completed; implementation PR merged.
+- **Pull request:** [Task 7 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/9)
+- **Notebook:** `notebooks/07_Reason_Codes_and_Money_at_Risk.ipynb`
+- **Main output:** `reports/task7_explained_anomaly_results.csv`
+- **Review sample:** `reports/task7_20_flagged_rows_review.csv`
+- **Purpose:** Map payroll anomaly flags to reason codes and plain-English explanations, estimate potential financial exposure where supported by the available data, and preserve the official sample output schema.
+- **Validation results:**
+  - Total output records: 7,355
+  - Flagged records: 241
+  - Flagged records missing record IDs: 0
+  - Flagged records missing reason codes: 0
+  - Flagged records missing reason text: 0
+  - Review sample: 20 records
+  - Official output columns match the sample schema.
+- **Financial-risk limitation:** Available estimates total ₹2,55,55,337.18. These represent potential exposure, not confirmed losses. Fifty-one statistical-outlier records have blank monetary estimates because a defensible amount could not be established.
 
 ## GitHub Handoff
 
@@ -142,11 +159,12 @@ docker run --rm -v "${PWD}:/workspace" -w /workspace employee-ml-audit sh -c "pi
 - **Task 4 PR:** [#5 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/5).
 - **Task 5 — Attendance Anomaly Detection (Phase 1):** [#6 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/6).
 - **Task 6 — Payroll Anomaly Detection (Phase 2):** [#7 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/7).
+- **Task 7 — Reason Codes and Money at Risk:** [Task 7 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/9).
 
 ### Phase Status
 
 - **Phase 1:** Tasks 1–5 completed.
-- **Phase 2:** Task 6 completed; continue with the remaining required Phase 2 tasks.
+- **Phase 2:** Tasks 6–7 completed; continue with the remaining required Phase 2 tasks.
 - **Final review package:** Prepare after all required tasks and reports are complete.
 
 ## Final Review Package
@@ -154,8 +172,8 @@ docker run --rm -v "${PWD}:/workspace" -w /workspace employee-ml-audit sh -c "pi
 Prepare the final review attachment only after all required tasks and reports are complete. Follow the programme's instructions for dataset inclusion and sensitive files. Keep interim Phase 1 report files local until the final report is approved for submission.
 
 Before final submission:
-- Update this checklist with the final Task 4 and Task 5 pull request links and statuses.
+- Verify that the pull request links and statuses for Tasks 1–7 are correct.
 - Verify the `phase-1` tag points to the final completed Phase 1 commit.
-- Update the root `README.md` so its task links and status match the final repository.
+- Ensure the root `README.md` reflects the completed Task 7 work.
 - Generate and check the required 2–3 page PDF report under 10 MB.
 - Do not include `notebook_changes.txt`, local-only interim reports, secrets, or sensitive/unapproved datasets in a commit.
