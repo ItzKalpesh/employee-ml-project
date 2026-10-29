@@ -1,0 +1,26 @@
+{
+  "data_file": "data/attendance_monthly_features.csv",
+  "contamination": 0.03,
+  "reason_rules": {
+    "low_attendance_rate": 0.75,
+    "long_unpaid_streak_days": 5,
+    "unpaid_absence_days": 5,
+    "late_arrivals": 5
+  },
+  "model_name": "attendance_anomaly",
+  "model_version": "1.0.0",
+  "feature_columns": [
+    "scheduled_days",
+    "present_days",
+    "half_days_unpaid",
+    "paid_leave_days",
+    "unpaid_absence_days",
+    "longest_unpaid_streak_days",
+    "late_arrivals",
+    "avg_hours_worked",
+    "overtime_hours",
+    "attendance_rate"
+  ],
+  "training_rows": 7339,
+  "algorithm": "IsolationForest"
+}

@@ -1,0 +1,23 @@
+{
+  "data_file": "data/payroll_monthly_features.csv",
+  "contamination": 0.025,
+  "reason_rules": [
+    "duplicate_payment_rule",
+    "negative_net_pay",
+    "deductions_over_gross",
+    "reconciliation_rule"
+  ],
+  "model_name": "payroll_anomaly",
+  "model_version": "1.0.0",
+  "feature_columns": [
+    "gross_vs_fixed",
+    "deduction_ratio",
+    "net_ratio",
+    "overtime_hours_paid",
+    "net_reconciliation_gap",
+    "deductions_over_gross",
+    "negative_net_pay"
+  ],
+  "training_rows": 7355,
+  "algorithm": "IsolationForest"
+}
