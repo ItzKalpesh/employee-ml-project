@@ -2,13 +2,13 @@
 
 ## Project Overview
 
-CortexHR is an employee analytics project developed as part of the Aura Workforce AI/ML track. The project covers employee-data auditing, reusable feature engineering, attrition baseline evaluation, attendance and payroll anomaly detection, anomaly explanations, and a FastAPI scoring service.
+CortexHR is an employee analytics project developed as part of the Aura Workforce AI/ML track. The project covers employee-data auditing, reusable feature engineering, attrition baseline evaluation, attendance and payroll anomaly detection, anomaly explanations, a FastAPI scoring service, and an HR FAQ chatbot.
 
 **Repository:** [employee-ml-project](https://github.com/ItzKalpesh/employee-ml-project)
 
 ## Project Workflow
 
-Raw Data → Data Audit → Feature Engineering → Baseline Models → Model Evaluation → API and Monitoring
+Raw Data → Data Audit → Feature Engineering → Baseline Models → Model Evaluation → Anomaly APIs → HR FAQ Chatbot
 
 ## Task 1 — Data Audit and Leakage Hunt
 
@@ -181,11 +181,37 @@ Open Swagger UI at `http://127.0.0.1:8000/docs`. Run tests with:
 python -m pytest -v
 ```
 
-**Limitations:** The attrition-risk and chat endpoints remain outside Task 8 scope. Anomaly flags and money-at-risk estimates support review; they do not establish fraud or confirmed financial loss. Training datasets remain excluded from Git, so retraining requires obtaining the datasets separately. The saved Task 8 model artifacts are included in PR #10.
+**Limitations:** The attrition-risk endpoint remains outside Task 8 scope. Anomaly flags and money-at-risk estimates support review; they do not establish fraud or confirmed financial loss. Training datasets remain excluded from Git, so retraining requires obtaining the datasets separately. The saved Task 8 model artifacts are included in PR #10. The HR chat endpoint was added in Task 9 (PR #11).
+
+## Task 9 — HR FAQ Chatbot
+
+**Status: Completed; PR #11 merged into `main`.**
+
+- **Pull request:** [#11 — Add HR FAQ Chatbot](https://github.com/ItzKalpesh/employee-ml-project/pull/11) — merged.
+- **Notebook:** `notebooks/08_hr_faq_chatbot.ipynb`
+- **Service:** `05_Starter/api_skeleton/app/chatbot_service.py`
+- **API integration:** `05_Starter/api_skeleton/app/main.py`
+- **Summary:** `reports/task9_chatbot_summary.json`
+- **Evaluation evidence:** `reports/task9_confusion_matrix.png`
+- **Report:** `reports/task9_hr_faq_chatbot_report.md`
+- **Endpoint:** `POST /v1/chat`
+
+The chatbot uses TF-IDF features with Logistic Regression for intent classification and cosine-similarity retrieval for known HR FAQs. It searches the FAQ knowledge base before applying the intent-confidence threshold, uses a safe fallback for uncertain or out-of-scope messages, and includes a privacy guard for requests about another employee's salary.
+
+**Evaluation and verification:**
+
+- Held-out accuracy: **75.76%** across **33 intents** and **132 test messages** (100 correct and 32 incorrect predictions).
+- The confidence threshold is `0.55`; the FAQ similarity threshold is `0.22`.
+- All 10 automated tests passed locally during Task 9 verification.
+- Manual Swagger checks verified known FAQ answers, safe fallback behavior, salary-request refusal, and regression responses from the existing attendance and payroll endpoints.
+
+**Setup note:** The API service loads `models/hr_chatbot_bundle.joblib`. Run the training/evaluation notebook to generate this bundle in the expected location before starting the chatbot-enabled API. Ensure the notebook and API use compatible versions of scikit-learn when generating and loading the serialized bundle.
+
+**Limitations:** Accuracy is measured on the supplied held-out test set and does not establish production readiness. The salary privacy guard uses heuristic text patterns and is not a complete privacy classifier. The chatbot provides HR FAQ assistance, not authorization to access private employee data; sensitive or uncertain cases should be referred to HR.
 
 ## Upcoming Tasks
 
-Continue with the remaining project tasks according to the supplied project requirements. Tasks 1–8 are currently recorded as completed; keep this section and the submission checklist updated as further tasks are completed.
+Continue with the remaining project tasks according to the supplied project requirements. Tasks 1–9 are currently recorded as completed; keep this section and the submission checklist updated as further tasks are completed.
 
 ## Setup and Verification
 
