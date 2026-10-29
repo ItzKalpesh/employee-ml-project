@@ -1,0 +1,16 @@
+{
+  "task": "Task 9 \u2014 HR FAQ Chatbot and Intent Classification",
+  "training_rows_used": 858,
+  "test_rows_evaluated": 132,
+  "number_of_intents": 33,
+  "test_accuracy": 0.7575757575757576,
+  "misclassified_messages": 32,
+  "confidence_threshold": 0.55,
+  "faq_similarity_threshold": 0.22,
+  "training_data_only_used_for_fit": true,
+  "test_set_used_only_for_evaluation": true,
+  "model_bundle": "models\\hr_chatbot_bundle.joblib",
+  "classification_report": "reports\\task9_classification_report.csv",
+  "confusion_matrix": "reports\\task9_confusion_matrix.png",
+  "misclassified_messages_csv": "reports\\task9_misclassified_messages.csv"
+}

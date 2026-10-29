@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, ConfigDict, Field
+from .chatbot_service import answer_message
 
 ROOT = Path(__file__).resolve().parents[3]
 MODEL_VERSION = "1.0.0"
@@ -307,7 +308,22 @@ def anomaly_payroll(row: PayrollIn):
 
 @app.post("/v1/chat", response_model=ChatOut)
 def chat(msg: ChatIn):
-    raise HTTPException(
-        status_code=501,
-        detail="CX-10: chat implementation is outside Task 8.",
+    result = answer_message(msg.message)
+
+    slots = {
+        key: result[key]
+        for key in (
+            "confidence",
+            "fallback",
+            "faq_question",
+            "faq_category",
+            "faq_similarity",
+        )
+        if key in result
+    }
+
+    return ChatOut(
+        intent=result["intent"],
+        reply=result["reply"],
+        slots=slots,
     )
