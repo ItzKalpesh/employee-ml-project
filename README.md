@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-CortexHR is an employee analytics project developed as part of the Aura Workforce AI/ML track. Phase 1 focuses on auditing employee attrition data, building a reusable feature pipeline, and evaluating honest baseline models.
+CortexHR is an employee analytics project developed as part of the Aura Workforce AI/ML track. The project covers employee-data auditing, reusable feature engineering, attrition baseline evaluation, attendance and payroll anomaly detection, anomaly explanations, and a FastAPI scoring service.
 
 **Repository:** [employee-ml-project](https://github.com/ItzKalpesh/employee-ml-project)
 
@@ -136,9 +136,56 @@ The notebook explains payroll anomaly flags using reason codes and plain-English
 
 **Money-at-risk limitations:** The available estimates total ₹2,55,55,337.18. This represents potential exposure, not confirmed financial loss. Fifty-one statistical-outlier records have blank monetary estimates because a defensible amount could not be established.
 
+## Task 8 — Anomaly Scoring API
+
+**Status: Completed; PR #10 merged into `main`.**
+
+- **Pull request:** [#10 — Add anomaly scoring API](https://github.com/ItzKalpesh/employee-ml-project/pull/10) — merged.
+- **API implementation:** `05_Starter/api_skeleton/app/main.py`
+- **API instructions:** `05_Starter/api_skeleton/README.md`
+- **Dependencies:** `05_Starter/requirements.txt`
+- **Model preparation:** `src/prepare_anomaly_models.py`
+- **Versioned model artifacts and metadata:**
+  - `models/attendance_anomaly/1.0.0/model.joblib`
+  - `models/attendance_anomaly/1.0.0/metadata.json`
+  - `models/payroll_anomaly/1.0.0/model.joblib`
+  - `models/payroll_anomaly/1.0.0/metadata.json`
+- **Tests:** `tests/test_anomaly_api.py`
+
+The FastAPI service exposes attendance and payroll anomaly-scoring endpoints, validates request bodies with Pydantic, loads the versioned models during application startup, and returns anomaly scores, flags, reason codes, explanations, and a potential money-at-risk estimate where applicable.
+
+**Local verification:**
+
+- The model preparation script successfully generated both models.
+- All 10 tests passed locally.
+- Attendance and payroll scoring endpoints returned HTTP 200 during manual testing.
+- Invalid request bodies are covered by tests expecting HTTP 422.
+
+**Run from the repository root:**
+
+Install dependencies:
+
+```powershell
+python -m pip install -r .\05_Starter\requirements.txt
+```
+
+Start the API:
+
+```powershell
+python -m uvicorn app.main:app --app-dir .\05_Starter\api_skeleton
+```
+
+Open Swagger UI at `http://127.0.0.1:8000/docs`. Run tests with:
+
+```powershell
+python -m pytest -v
+```
+
+**Limitations:** The attrition-risk and chat endpoints remain outside Task 8 scope. Anomaly flags and money-at-risk estimates support review; they do not establish fraud or confirmed financial loss. Training datasets remain excluded from Git, so retraining requires obtaining the datasets separately. The saved Task 8 model artifacts are included in PR #10.
+
 ## Upcoming Tasks
 
-Continue with the remaining Phase 2 tasks according to the supplied project requirements.
+Continue with the remaining project tasks according to the supplied project requirements. Tasks 1–8 are currently recorded as completed; keep this section and the submission checklist updated as further tasks are completed.
 
 ## Setup and Verification
 

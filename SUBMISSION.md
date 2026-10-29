@@ -150,6 +150,35 @@ docker run --rm -v "${PWD}:/workspace" -w /workspace employee-ml-audit sh -c "pi
   - Official output columns match the sample schema.
 - **Financial-risk limitation:** Available estimates total ₹2,55,55,337.18. These represent potential exposure, not confirmed losses. Fifty-one statistical-outlier records have blank monetary estimates because a defensible amount could not be established.
 
+## Task 8 — Anomaly Scoring API
+
+- **Status:** Completed; PR #10 merged into `main`.
+- **Pull request:** [#10 — Add anomaly scoring API](https://github.com/ItzKalpesh/employee-ml-project/pull/10).
+- **API implementation:** `05_Starter/api_skeleton/app/main.py`
+- **API README:** `05_Starter/api_skeleton/README.md`
+- **Dependencies:** `05_Starter/requirements.txt`
+- **Model preparation script:** `src/prepare_anomaly_models.py`
+- **Model artifacts and metadata:**
+  - `models/attendance_anomaly/1.0.0/model.joblib`
+  - `models/attendance_anomaly/1.0.0/metadata.json`
+  - `models/payroll_anomaly/1.0.0/model.joblib`
+  - `models/payroll_anomaly/1.0.0/metadata.json`
+- **Tests:** `tests/test_anomaly_api.py`
+- **Implementation:** FastAPI attendance and payroll scoring endpoints, Pydantic request validation, model loading at application startup, versioned metadata, anomaly scores, flags, reason codes, explanations, and potential money-at-risk estimates where supported.
+- **Verification:** The model preparation script ran successfully; all 10 local tests passed; both scoring endpoints returned HTTP 200 during manual testing; invalid-input tests check HTTP 422 responses.
+- **Data and model handling:** Both trained `.joblib` artifacts are included in the merged PR. Training datasets remain excluded from Git and must be obtained separately to retrain the models.
+- **Limitations:** Attrition-risk and chat endpoints are outside Task 8 scope. Anomaly flags and exposure estimates require human review and do not establish fraud or confirmed financial loss.
+
+**Run from the repository root:**
+
+```powershell
+python -m pip install -r .\05_Starter\requirements.txt
+python -m uvicorn app.main:app --app-dir .\05_Starter\api_skeleton
+python -m pytest -v
+```
+
+Open Swagger UI at `http://127.0.0.1:8000/docs` after starting the service.
+
 ## GitHub Handoff
 
 - **Repository:** [employee-ml-project](https://github.com/ItzKalpesh/employee-ml-project)
@@ -159,12 +188,12 @@ docker run --rm -v "${PWD}:/workspace" -w /workspace employee-ml-audit sh -c "pi
 - **Task 4 PR:** [#5 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/5).
 - **Task 5 — Attendance Anomaly Detection (Phase 1):** [#6 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/6).
 - **Task 6 — Payroll Anomaly Detection (Phase 2):** [#7 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/7).
-- **Task 7 — Reason Codes and Money at Risk:** [Task 7 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/9).
+- **Task 7 — Reason Codes and Money at Risk:** [#9 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/9).\n- **Task 8 — Anomaly Scoring API:** [#10 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/10).
 
 ### Phase Status
 
 - **Phase 1:** Tasks 1–5 completed.
-- **Phase 2:** Tasks 6–7 completed; continue with the remaining required Phase 2 tasks.
+- **Phase 2:** Tasks 6–8 completed; continue with the remaining required project tasks.
 - **Final review package:** Prepare after all required tasks and reports are complete.
 
 ## Final Review Package
@@ -172,8 +201,8 @@ docker run --rm -v "${PWD}:/workspace" -w /workspace employee-ml-audit sh -c "pi
 Prepare the final review attachment only after all required tasks and reports are complete. Follow the programme's instructions for dataset inclusion and sensitive files. Keep interim Phase 1 report files local until the final report is approved for submission.
 
 Before final submission:
-- Verify that the pull request links and statuses for Tasks 1–7 are correct.
+- Verify that the pull request links and statuses for Tasks 1–8 are correct.
 - Verify the `phase-1` tag points to the final completed Phase 1 commit.
-- Ensure the root `README.md` reflects the completed Task 7 work.
+- Ensure the root `README.md` reflects the completed Task 8 work.
 - Generate and check the required 2–3 page PDF report under 10 MB.
 - Do not include `notebook_changes.txt`, local-only interim reports, secrets, or sensitive/unapproved datasets in a commit.
