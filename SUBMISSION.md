@@ -188,7 +188,8 @@ Open Swagger UI at `http://127.0.0.1:8000/docs` after starting the service.
 - **Task 4 PR:** [#5 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/5).
 - **Task 5 — Attendance Anomaly Detection (Phase 1):** [#6 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/6).
 - **Task 6 — Payroll Anomaly Detection (Phase 2):** [#7 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/7).
-- **Task 7 — Reason Codes and Money at Risk:** [#9 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/9).\n- **Task 8 — Anomaly Scoring API:** [#10 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/10).
+- **Task 7 — Reason Codes and Money at Risk:** [#9 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/9).
+- **Task 8 — Anomaly Scoring API:** [#10 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/10).
 
 ### Phase Status
 
