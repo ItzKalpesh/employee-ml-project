@@ -67,16 +67,36 @@ def answer_message(message):
     # Safety guard: refuse requests for another person's salary.
     other_person_terms = (
         r"\b(other|another|someone|somebody|colleague|"
-        r"coworker|co-worker|teammate)\b"
+        r"coworker|co-worker|teammate|manager|supervisor|"
+        r"employee|person|staff member|my boss)\b"
     )
-    salary_terms = r"\b(salary|payroll|compensation|pay)\b"
+    salary_terms = (
+        r"\b(salary|payroll|compensation|pay|earnings|"
+        r"wage|wages|income|paid)\b"
+    )
 
     asks_about_other_person = (
         re.search(other_person_terms, cleaned)
         and re.search(salary_terms, cleaned)
     )
 
-    if intent == "salary_of_other" or asks_about_other_person:
+    asks_about_named_person = (
+        re.search(
+            r"\b(what does|how much does|tell me|show me)\b",
+            cleaned,
+        )
+        and re.search(
+            r"\b(earn|earns|make|makes|salary|pay|"
+            r"compensation|income|wage|paid)\b",
+            cleaned,
+        )
+    )
+
+    if (
+    intent == "salary_of_other"
+    or asks_about_other_person
+    or asks_about_named_person
+):
         return {
             "intent": "salary_of_other",
             "confidence": confidence,
