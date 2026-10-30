@@ -213,9 +213,53 @@ The chatbot uses TF-IDF features with Logistic Regression for intent classificat
 
 **Limitations:** Accuracy is measured on the supplied held-out test set and does not establish production readiness. The salary privacy guard uses heuristic text patterns and is not a complete privacy classifier. The chatbot provides HR FAQ assistance, not authorization to access private employee data; sensitive or uncertain cases should be referred to HR.
 
+## Task 10 — HR Chatbot Memory and Permissions
+
+- **Status:** Completed; [PR #13](https://github.com/ItzKalpesh/employee-ml-project/pull/13) merged into `main`.
+- **Notebook:** `notebooks/09_chatbot_memory_permissions.ipynb`
+- **Chatbot service:** `05_Starter/api_skeleton/app/chatbot_service.py`
+- **API integration:** `05_Starter/api_skeleton/app/main.py`
+- **Memory service:** `05_Starter/api_skeleton/app/memory_service.py`
+- **Permission service:** `05_Starter/api_skeleton/app/permission_service.py`
+- **Mock HR service:** `05_Starter/mock_services/`
+- **Dialogue test runner:** `05_Starter/api_skeleton/run_task10_dialogues.py`
+- **Report:** `reports/task10_chatbot_memory_permissions_report.md`
+- **Endpoint:** `POST /v1/chat`
+
+**Implementation:**
+
+Extended the HR FAQ chatbot with session-based conversational memory, slot extraction, multi-turn follow-up handling, trusted demo-user authentication using `X-Demo-User`, and intent-level role authorization. Integrated supported employee-owned HR operations with the supplied mock HR service and added protection against unauthorized salary disclosure.
+
+**Dialogue evaluation:**
+
+- Dialogue scenarios: **12**
+- Total turns: **28**
+- Passed: **28**
+- Failed: **0**
+- Errors: **0**
+- Intent accuracy: **100.00%**
+
+**Security and regression validation:**
+
+- Other-employee salary disclosure refusal.
+- Request-body role-spoofing prevention.
+- Authentication enforcement for protected intents.
+- Genuine HR identity authorization.
+- Task 8 and Task 9 regression tests: **10/10 passed**.
+- Python syntax compilation: passed.
+
+**Evidence:**
+
+- `reports/task10_dialogue_test_results.csv`
+- `reports/task10_dialogue_test_summary.csv`
+- `reports/task10_security_test_results.csv`
+- `reports/task10_mock_service_route_checks.csv`
+
+**Limitations:** Analytics operations without an implemented backend return configured failure responses rather than fabricated results. The dialogue evaluation measures expected-intent matching on the supplied test dialogues and does not establish production readiness.
+
 ## Upcoming Tasks
 
-Continue with the remaining project tasks according to the supplied project requirements. Tasks 1–9 are currently recorded as completed; keep this section and the submission checklist updated as further tasks are completed.
+Continue with the remaining project tasks according to the supplied project requirements. Tasks 1–10 are currently recorded as completed; keep this section and the submission checklist updated as further tasks are completed.
 
 ## Setup and Verification
 
