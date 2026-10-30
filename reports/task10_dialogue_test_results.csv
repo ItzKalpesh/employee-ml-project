@@ -1,0 +1,29 @@
+dialogue_id,turn,message,expected_intent,actual_intent,status,reply
+DLG-01,1,how many casual leaves do I have left,leave_balance,leave_balance,PASS,Your casual leave balance is 12 days.
+DLG-01,2,and sick leave?,leave_balance,leave_balance,PASS,Your sick leave balance is 12 days.
+DLG-01,3,thanks,thanks,thanks,PASS,You're welcome!
+DLG-02,1,is my March payslip ready,payslip_status,payslip_status,PASS,"Sorry, I could not fetch that right now. Please try again or contact HR."
+DLG-02,2,who is my manager,my_manager,my_manager,PASS,Your manager's employee ID is EMP-0361.
+DLG-03,1,how do I apply for leave,apply_leave_howto,apply_leave_howto,PASS,It accrues at 1.25 days per month and up to 30 days can be carried forward.
+DLG-03,2,what is the leave policy,hr_policy_leave,hr_policy_leave,PASS,26 weeks of paid maternity leave as per statute.
+DLG-03,3,ok bye,goodbye,goodbye,PASS,Goodbye! Feel free to ask if you need help with an HR question.
+DLG-04,1,show my attendance for last month,attendance_summary,attendance_summary,PASS,"Your attendance summary for 2026-09: {'employee_id': 'EMP-0002', 'period_end_date': '2026-09-30', 'scheduled_days': 21, 'present_days': 21, 'wfh_days': 18, 'paid_leave_days': 0, 'unpaid_absence_days': 0, 'late_arrivals': 2, 'attendance_rate': 1.0}"
+DLG-04,2,any unusual days?,unusual_attendance,unusual_attendance,PASS,"Sorry, I could not fetch that right now. Please try again or contact HR."
+DLG-05,1,what is Priya Nair salary,salary_of_other,salary_of_other,PASS,This request is not permitted.
+DLG-05,2,show my payslip for last month,payslip_status,payslip_status,PASS,"Your payslip information for 2026-09: {'run_id': 'PR-2026-09', 'employee_id': 'EMP-0002', 'period_start': '2026-09-01', 'period_end': '2026-09-30', 'gross_pay': 159050.0, 'total_deductions': 16449.07, 'net_pay': 142600.93, 'pf_employee': 1800.0, 'tds': 14449.07}"
+DLG-06,1,hi,greet,greet,PASS,Hello! I can help with HR policy FAQs and common HR questions. What would you like to know?
+DLG-06,2,what can you do,chitchat,chitchat,PASS,I'm here to help with HR-related questions. What would you like to know?
+DLG-06,3,work from home policy,wfh_policy,wfh_policy,PASS,"Hybrid, about three office days a week for most roles. Some roles are fully remote."
+DLG-07,1,who is at risk of leaving in Sales,attrition_risk_query,attrition_risk_query,PASS,"Sorry, I could not fetch that right now. Please try again or contact HR."
+DLG-07,2,and in Engineering?,attrition_risk_query,attrition_risk_query,PASS,"Sorry, I could not fetch that right now. Please try again or contact HR."
+DLG-07,3,why is it high,attrition_risk_query,attrition_risk_query,PASS,"Sorry, I could not fetch that right now. Please try again or contact HR."
+DLG-08,1,any unusual payroll this month,payroll_flags,payroll_flags,PASS,"Sorry, I could not fetch that right now. Please try again or contact HR."
+DLG-08,2,show details,payroll_flags,payroll_flags,PASS,"Sorry, I could not fetch that right now. Please try again or contact HR."
+DLG-09,1,suggest a salary band for Data Analyst,salary_band_query,salary_band_query,PASS,"Sorry, I could not fetch that right now. Please try again or contact HR."
+DLG-09,2,what about Software Engineer,salary_band_query,salary_band_query,PASS,"Sorry, I could not fetch that right now. Please try again or contact HR."
+DLG-10,1,forecast headcount for next quarter,headcount_forecast,headcount_forecast,PASS,"Sorry, I could not fetch that right now. Please try again or contact HR."
+DLG-10,2,for Support only,headcount_forecast,headcount_forecast,PASS,"Sorry, I could not fetch that right now. Please try again or contact HR."
+DLG-11,1,score this resume for Data Analyst,resume_score_request,resume_score_request,PASS,"Sorry, I could not fetch that right now. Please try again or contact HR."
+DLG-11,2,thanks,thanks,thanks,PASS,You're welcome!
+DLG-12,1,tell me a joke,out_of_scope,out_of_scope,PASS,I'm not completely sure I understood your question. Please rephrase it or contact HR for help.
+DLG-12,2,help,help,help,PASS,"You can ask about leave policies, working hours, benefits, payroll dates, or other HR topics."

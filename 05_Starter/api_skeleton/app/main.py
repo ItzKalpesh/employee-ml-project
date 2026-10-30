@@ -1,5 +1,8 @@
 
 """CortexHR anomaly API for Task 8."""
+import re
+import httpx
+from .memory_service import get_session_slots
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from pathlib import Path
@@ -8,7 +11,9 @@ import json
 import joblib
 import numpy as np
 import pandas as pd
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Header
+from .permission_service import resolve_demo_user, authorize_intent
+from .memory_service import update_session_memory, get_session_slots
 from pydantic import BaseModel, ConfigDict, Field
 from .chatbot_service import answer_message
 
@@ -306,10 +311,268 @@ def anomaly_payroll(row: PayrollIn):
     )
 
 
-@app.post("/v1/chat", response_model=ChatOut)
-def chat(msg: ChatIn):
-    result = answer_message(msg.message)
+HR_SERVICE_URL = "http://127.0.0.1:9000"
+HR_SERVICE_FAILURE = (
+    "Sorry, I could not fetch that right now. "
+    "Please try again or contact HR."
+)
 
+
+def _hr_get(path, employee_id, params=None):
+    """Call the mock HR service using the authenticated employee identity."""
+    response = httpx.get(
+        f"{HR_SERVICE_URL}{path}",
+        headers={"X-Demo-User": employee_id},
+        params=params,
+        timeout=8.0,
+    )
+    response.raise_for_status()
+    return response.json()
+
+
+def _resolve_month(slots):
+    """Convert remembered month values into the YYYY-MM API format."""
+    value = slots.get("month")
+    if not value:
+        return None
+
+    value = str(value).strip()
+
+    for fmt in ("%Y-%m", "%B %Y", "%b %Y"):
+        try:
+            return datetime.strptime(value, fmt).strftime("%Y-%m")
+        except ValueError:
+            pass
+
+    today = datetime.now()
+    if value.lower() == "last month":
+        month = today.month - 1 or 12
+        year = today.year - (1 if today.month == 1 else 0)
+        return f"{year:04d}-{month:02d}"
+
+    if value.lower() == "this month":
+        return today.strftime("%Y-%m")
+
+    if value.lower() == "next month":
+        month = today.month + 1
+        year = today.year
+        if month == 13:
+            month, year = 1, year + 1
+        return f"{year:04d}-{month:02d}"
+
+    for fmt in ("%B", "%b"):
+        try:
+            month = datetime.strptime(value, fmt).month
+            return f"{today.year:04d}-{month:02d}"
+        except ValueError:
+            pass
+
+    return None
+
+
+def dispatch_hr_service(intent, message, user, memory):
+    """Dispatch only to routes verified in the supplied mock HR service."""
+    if user is None:
+        return None, "Authentication is required."
+
+    employee_id = user["employee_id"]
+    text = message.lower()
+
+    try:
+        if intent == "leave_balance":
+            data = _hr_get(
+                "/api/v1/leave/balance",
+                employee_id,
+                params={"employee": "me"},
+            )
+
+            if "sick" in text:
+                key, label = "sl_balance", "Sick leave"
+            elif "casual" in text:
+                key, label = "cl_balance", "Casual leave"
+            elif "earned" in text or "el " in f" {text}":
+                key, label = "el_balance", "Earned leave"
+            else:
+                return data, (
+                    f"Your leave balances are: "
+                    f"Casual: {data.get('cl_balance', 'N/A')}, "
+                    f"Sick: {data.get('sl_balance', 'N/A')}, "
+                    f"Earned: {data.get('el_balance', 'N/A')} days."
+                )
+
+            if key not in data:
+                return data, HR_SERVICE_FAILURE
+
+            return data, f"Your {label.lower()} balance is {data[key]} days."
+
+        if intent == "leave_request_status":
+            data = _hr_get(
+                "/api/v1/leave/requests",
+                employee_id,
+                params={"employee": "me", "limit": 5},
+            )
+            return data, f"Here are your leave request records: {data}"
+
+        if intent == "payslip_status":
+            month = _resolve_month(memory)
+            if not month:
+                return None, "Which monthâ€™s payslip would you like to check?"
+
+            data = _hr_get(
+                f"/api/v1/payslips/me/{month}",
+                employee_id,
+            )
+            return data, f"Your payslip information for {month}: {data}"
+
+        if intent in ("my_manager", "my_department"):
+            data = _hr_get("/api/v1/employees/me", employee_id)
+
+            if intent == "my_manager":
+                return data, (
+                    f"Your manager's employee ID is "
+                    f"{data.get('manager_id', 'not available')}."
+                )
+
+            return data, (
+                f"Your department ID is "
+                f"{data.get('department_id', 'not available')}."
+            )
+
+        if intent == "team_members":
+            data = _hr_get("/api/v1/employees/me/team", employee_id)
+            return data, f"Your team information: {data}"
+
+        if intent == "holiday_list":
+            data = _hr_get("/api/v1/holidays", employee_id)
+            return data, f"Here is the holiday list: {data}"
+
+        if intent == "attendance_summary":
+            month = _resolve_month(memory)
+            if not month:
+                return None, "Which monthâ€™s attendance would you like to check?"
+
+            data = _hr_get(
+                "/api/v1/attendance/summary",
+                employee_id,
+                params={"employee": "me", "month": month},
+            )
+            return data, f"Your attendance summary for {month}: {data}"
+
+    except (httpx.HTTPError, ValueError, KeyError):
+        return None, HR_SERVICE_FAILURE
+        # These intents require service functionality that is not yet available.
+    unsupported_service_intents = {
+        "unusual_attendance",
+        "salary_band_query",
+        "attrition_risk_query",
+        "headcount_forecast",
+        "payroll_flags",
+        "resume_score_request",
+    }
+
+    if intent in unsupported_service_intents:
+        return None, HR_SERVICE_FAILURE
+
+    # FAQ, greetings, chitchat and out-of-scope messages
+    # should use the existing chatbot response.
+    return None, None
+
+
+@app.post("/v1/chat", response_model=ChatOut)
+def chat(
+    msg: ChatIn,
+    x_demo_user: str | None = Header(
+        default=None,
+        alias="X-Demo-User",
+    ),
+):
+    # 1. Authenticate using the trusted header.
+    user = None
+
+    if x_demo_user:
+        user = resolve_demo_user(x_demo_user)
+
+        if user is None:
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid demo user or HR service unavailable.",
+            )
+
+    # 2. Retrieve previous session memory.
+    memory = {}
+    if user is not None:
+        memory = get_session_slots(
+            msg.session_id,
+            user["employee_id"],
+        )
+
+    previous_intent = memory.get("previous_intent")
+
+    # 3. Classify the current message.
+    result = answer_message(msg.message)
+    intent = result["intent"]
+
+    # 4. Resolve short conversational follow-ups.
+    follow_up_rules = {
+        "attrition_risk_query": (
+            r"\b(and in|what about|why is it high|"
+            r"why is that high|why)\b"
+        ),
+        "payroll_flags": (
+            r"\b(show details|details|more details|"
+            r"explain those|explain)\b"
+        ),
+        "salary_band_query": (
+            r"\b(what about|and for|and)\b"
+        ),
+        "headcount_forecast": (
+            r"\b(for|what about|and for|only)\b"
+        ),
+        "attendance_summary": (
+            r"\b(any unusual days|unusual days|"
+            r"any unusual attendance)\b"
+        ),
+    }
+
+    pattern = follow_up_rules.get(previous_intent)
+
+    if (
+    pattern
+    and re.search(pattern, msg.message.lower())
+    and intent != "unusual_attendance"
+    ):
+        intent = previous_intent
+        result["intent"] = intent
+        result["fallback"] = False
+
+    # 5. Enforce permissions on the resolved intent.
+    allowed, denial_reason = authorize_intent(intent, user)
+
+    if not allowed:
+        return ChatOut(
+            intent=intent,
+            reply=denial_reason,
+            slots={
+                "authenticated": user is not None,
+                "role": user["role"] if user else None,
+            },
+        )
+
+    # 6. Update session memory only after authorization.
+    if user is not None:
+        update_session_memory(
+            msg.session_id,
+            user["employee_id"],
+            msg.message,
+            intent=intent,
+        )
+
+        memory = get_session_slots(
+            msg.session_id,
+            user["employee_id"],
+        )
+
+    # 7. Preserve Task 9 response metadata.
     slots = {
         key: result[key]
         for key in (
@@ -322,8 +585,29 @@ def chat(msg: ChatIn):
         if key in result
     }
 
+    if user is not None:
+        slots["memory"] = memory
+
+    # 8. Dispatch to verified HR services.
+    service_data, service_reply = dispatch_hr_service(
+        intent,
+        msg.message,
+        user,
+        memory,
+    )
+
+    if service_reply is not None:
+        slots["service_data"] = service_data
+
+        return ChatOut(
+            intent=intent,
+            reply=service_reply,
+            slots=slots,
+        )
+
+    # 9. Return existing FAQ or conversational response.
     return ChatOut(
-        intent=result["intent"],
+        intent=intent,
         reply=result["reply"],
         slots=slots,
     )
