@@ -1,10 +1,10 @@
-# Task 9 â€” HR FAQ Chatbot and Intent Classification
+# Task 9 — HR FAQ Chatbot and Intent Classification
 
 **Project:** Employee ML Project
-**Task:** 9 â€” Teach the Machine to Understand HR Questions
+**Task:** 9 — Teach the Machine to Understand HR Questions
 **Notebook:** `notebooks/08_hr_faq_chatbot.ipynb`
 **API endpoint:** `POST /v1/chat`
-**Status:** Core notebook and API behavior tested; final evaluation metrics and automated-test status must be confirmed from the repository before submission.
+**Status:** Completed; evaluation results reviewed, API behavior manually tested, 10 automated tests passed locally, and implementation merged through [PR #11](https://github.com/ItzKalpesh/employee-ml-project/pull/11).
 
 ---
 
@@ -53,31 +53,27 @@ A Logistic Regression classifier is trained on the TF-IDF features to predict th
 
 The saved model pipeline includes the text vectorizer and classifier so the API can apply the same transformation and prediction steps to new messages.
 
-### 4.3 Intent Classification Evaluation
+### 4.3 Evaluation
 
-The intent classification pipeline was evaluated on the untouched test set using accuracy, precision, recall, F1-score, and a confusion matrix.
+The notebook evaluates the classifier using accuracy and a confusion matrix.
 
-- **Test accuracy:** 75.76% (0.7576)
-- **Number of intent classes:** 33
-- **Test samples:** 132
-- **Correct predictions:** 100
-- **Incorrect predictions:** 32
+- **Accuracy** is the proportion of test messages whose predicted intent matches the true intent.
+- **Confusion matrix** shows how often examples from each actual intent are assigned to each predicted intent. Off-diagonal counts identify misclassifications and commonly confused intents.
 
-The confusion matrix indicates that the model correctly classifies many intents, including `apply_leave_howto`, `attrition_risk_query`, `goodbye`, `greet`, `payroll_flags`, `salary_band_query`, `salary_of_other`, `unusual_attendance`, and `wfh_policy`.
+**Verified held-out results from the executed notebook and evaluation review:**
 
-Some misclassifications occur between semantically related or overlapping intents. These should be reviewed to identify opportunities to improve the training examples and distinguish similar intents.
+- Training messages: **858**.
+- Held-out test messages: **132** across **33 intent classes**.
+- Correct predictions: **100 / 132**.
+- Incorrect predictions: **32 / 132**.
+- Test accuracy: **75.76%**.
+- Macro F1-score: **0.75**.
+- Weighted F1-score: **0.75**.
+- The confusion matrix has **33 rows and 33 columns**; its diagonal sums to **100** correct predictions.
+- The notebook review identifies `help` (F1 **0.29**), `team_members` (**0.33**), `hr_policy_leave` (**0.44**), `holiday_list` (**0.50**), `who_to_contact` (**0.50**), and `working_hours` (**0.57**) as weaker-performing intents.
+- Misclassified examples are recorded in `reports/task9_misclassified_messages.csv`, as shown in the notebook review.
 
-The classification report is saved as `reports/task9_classification_report.csv`. The confusion matrix is saved as `reports/task9_confusion_matrix.csv`.
-
-**Evaluation note:** Although the model achieves 75.76% test accuracy, its performance should be assessed alongside per-intent precision, recall, F1-score, and misclassification patterns before production use.
-
-**Before final submission, copy the exact measured values from the executed notebook:**
-
-- Test accuracy: **[Insert exact notebook result]**
-- Confusion matrix: **[Insert or attach the matrix produced by the notebook]**
-- Most-confused intent pairs: **[Identify from the matrix and error inspection]**
-
-These values are not estimated here because the exact notebook metric output is not present in the available conversation evidence.
+The training/test separation was also reviewed: the TF-IDF and Logistic Regression pipeline is fitted on training data only, and the held-out test set is used for evaluation.
 
 ### 4.4 FAQ retrieval
 
@@ -292,16 +288,16 @@ An initial payroll test returned HTTP `422` because the attendance request body 
 4. **FAQ similarity is not classifier confidence:** The two values measure different things and use separate thresholds.
 5. **Coverage depends on the data:** Intents with few, repetitive, ambiguous, or noisy examples may be confused with other intents.
 6. **Privacy safeguards require broader testing:** The explicit salary refusal is useful, but other sensitive-data requests and prompt variations should also be tested.
-7. **Model-version compatibility:** During local API startup, scikit-learn emitted warnings because the saved estimators were created with scikit-learn `1.9.1` while the Windows API environment used `1.7.2`. The notebook environment reported Python `3.12` and scikit-learn `1.9.1`; the Windows API environment reported Anaconda Python and scikit-learn `1.7.2`. The API eventually returned successful responses, but the version mismatch should be resolved by aligning training and serving environments and regenerating the bundle if necessary. Successful requests alone do not remove this compatibility risk.
-8. **No unsupported metric claims:** Exact test accuracy, confusion-matrix values, and most-confused intent pairs must be copied from the executed notebook output. They are not inferred from the API examples.
+7. **Model-version compatibility:** An initial local run emitted scikit-learn version warnings because the saved estimators and API environment used different versions. The notebook was subsequently switched to the API's Anaconda Python environment (scikit-learn `1.7.2`) and rerun to align training and serving. Regenerate the bundle using the same environment as the API if the model is retrained; do not load a bundle across incompatible scikit-learn versions.
+8. **Evaluation scope:** The reported metrics describe this supplied held-out test set only. Lower F1 scores for some intents show that performance is uneven across classes; further data and testing would be needed before production use.
 
 ## 9. Task 9 Completion Checklist
 
 - [x] Reviewed the chatbot training data and FAQ data files.
 - [x] Cleaned/normalized message text in the workflow and service.
 - [x] Trained a TF-IDF + Logistic Regression intent-classification pipeline.
-- [ ] Recorded the exact held-out test accuracy from the notebook.
-- [ ] Included and inspected the confusion matrix and misclassified examples.
+- [x] Recorded held-out accuracy (75.76%), macro F1 (0.75), and weighted F1 (0.75).
+- [x] Included and inspected the 33 × 33 confusion matrix and misclassified examples.
 - [x] Implemented FAQ retrieval using cosine similarity.
 - [x] Configured a confidence threshold and safe fallback.
 - [x] Added the `POST /v1/chat` endpoint to the existing FastAPI application.
@@ -309,9 +305,9 @@ An initial payroll test returned HTTP `422` because the attendance request body 
 - [x] Tested low-confidence fallback behavior in Swagger.
 - [x] Tested the other-employee salary privacy refusal in Swagger.
 - [x] Regression-tested attendance and payroll endpoints; both returned HTTP `200 OK`.
-- [ ] Run or confirm automated tests for the chatbot service and endpoint.
-- [ ] Resolve the scikit-learn training/serving version mismatch before treating the artifact as production-ready.
-- [ ] Save the final report and supporting screenshots/evidence in the repository.
+- [x] Confirmed 10 automated tests passed locally.
+- [x] Reran the notebook using the API environment's scikit-learn `1.7.2` interpreter to align model training and serving.
+- [x] Saved the report and confusion-matrix evidence in the repository; implementation and evidence were merged through PR #11.
 
 ## 10. Evidence to Retain
 
@@ -332,4 +328,4 @@ Task 9 adds an HR FAQ chatbot to the existing employee ML service. It uses TF-ID
 
 The observed Swagger tests demonstrate successful responses for two FAQ questions, an unknown message, and a sensitive salary request. Regression tests also confirmed that the existing attendance and payroll endpoints returned HTTP `200 OK` after the chatbot was integrated.
 
-Before reporting the task as fully complete, record the exact notebook evaluation metrics, inspect the confusion matrix and errors, run the automated tests, and align the scikit-learn versions used to train and serve the saved model.
+Task 9 is complete for the project submission workflow: the held-out evaluation metrics and confusion matrix were reviewed, 10 automated tests passed locally, the notebook was rerun in the API's scikit-learn environment, and the implementation was merged through PR #11. These results do not establish production readiness.
