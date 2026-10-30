@@ -1,0 +1,5 @@
+test,passed,intent,reply
+Other employee salary refusal,True,salary_of_other,This request is not permitted.
+Request-body role spoofing denied,True,salary_band_query,You do not have permission to access this information.
+Authentication required,True,leave_balance,Please authenticate before accessing this information.
+Genuine HR authorization,True,salary_band_query,"Sorry, I could not fetch that right now. Please try again or contact HR."

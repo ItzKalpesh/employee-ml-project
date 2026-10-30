@@ -1,0 +1,8 @@
+route,http_status,passed,detail
+Employee profile,200,True,OK
+Team members,200,True,OK
+Leave balance,200,True,OK
+Leave requests,200,True,OK
+April 2026 payslip,200,True,OK
+September 2026 attendance,200,True,OK
+Holiday list,200,True,OK
