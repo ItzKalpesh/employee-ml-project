@@ -201,6 +201,10 @@ The chatbot uses TF-IDF features with Logistic Regression for intent classificat
 **Evaluation and verification:**
 
 - Held-out accuracy: **75.76%** across **33 intents** and **132 test messages** (100 correct and 32 incorrect predictions).
+- Macro F1-score: **0.75**; weighted F1-score: **0.75**.
+- The confusion matrix contains 33 intent rows and columns; its diagonal totals 100 correct predictions.
+- Lower-performing intents identified during error analysis: `help` (F1 0.29), `team_members` (0.33), `hr_policy_leave` (0.44), `holiday_list` (0.50), `who_to_contact` (0.50), and `working_hours` (0.57).
+- Misclassified examples are recorded in `reports/task9_misclassified_messages.csv` (as identified in the notebook review).
 - The confidence threshold is `0.55`; the FAQ similarity threshold is `0.22`.
 - All 10 automated tests passed locally during Task 9 verification.
 - Manual Swagger checks verified known FAQ answers, safe fallback behavior, salary-request refusal, and regression responses from the existing attendance and payroll endpoints.
