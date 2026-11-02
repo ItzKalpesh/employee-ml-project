@@ -1,0 +1,41 @@
+{
+  "task": "Task 11 \u2014 Rank resumes against job descriptions",
+  "job_descriptions": 10,
+  "resumes": 185,
+  "all_possible_pairs": 1850,
+  "human_labeled_pairs": 555,
+  "shortlisted_labeled_pairs": 95,
+  "macro_metrics": {
+    "precision_at_5": 0.9400000000000001,
+    "recall_at_5": 0.5491251803751803,
+    "ndcg_at_5": 0.9600439381910684,
+    "spearman_vs_human_score": 0.8277990861672802
+  },
+  "skill_extraction_reference_audit": {
+    "true_positive": 1236,
+    "false_positive": 83,
+    "false_negative": 346,
+    "precision": 0.9370735405610311,
+    "recall": 0.7812895069532237,
+    "f1": 0.8521199586349535
+  },
+  "score_weights": {
+    "required_skill_coverage": 0.5,
+    "nice_to_have_skill_coverage": 0.15,
+    "tfidf_similarity": 0.2,
+    "experience_fit": 0.15
+  },
+  "excluded_features": [
+    "candidate_name",
+    "email",
+    "city",
+    "current_company",
+    "highest_education",
+    "college_tier",
+    "target_job_family",
+    "human_suitability_score",
+    "shortlist",
+    "reviewer_note"
+  ],
+  "note": "Metrics use only labeled pairs; full rankings include all resumes for each job."
+}

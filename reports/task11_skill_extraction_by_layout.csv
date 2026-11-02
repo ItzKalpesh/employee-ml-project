@@ -1,0 +1,6 @@
+layout_difficulty,detected_skills,listed_skills,matched_listed_skills,missed_listed_skills,listed_skill_recall
+All-caps,130,150,118,32,0.7866666666666666
+Clean,698,818,657,161,0.8031784841075794
+Missing sections,116,180,112,68,0.6222222222222222
+Tables,177,209,166,43,0.7942583732057417
+Two-column,198,225,183,42,0.8133333333333334

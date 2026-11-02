@@ -1,0 +1,186 @@
+resume_id,layout_difficulty,detected_skill_count,listed_skill_count,matched_listed_skills,missed_listed_skills,extra_detected_skills
+RES-0001,Missing sections,10,11,10,1,0
+RES-0002,Clean,6,8,6,2,0
+RES-0003,Clean,3,5,3,2,0
+RES-0004,Clean,5,7,5,2,0
+RES-0005,Clean,5,7,5,2,0
+RES-0006,Clean,6,7,6,1,0
+RES-0007,Two-column,10,12,10,2,0
+RES-0008,Tables,6,8,6,2,0
+RES-0009,Clean,9,11,9,2,0
+RES-0010,Clean,10,10,9,1,1
+RES-0011,Clean,9,11,9,2,0
+RES-0012,Missing sections,4,11,4,7,0
+RES-0013,Missing sections,6,6,5,1,1
+RES-0014,Tables,7,8,7,1,0
+RES-0015,Tables,3,5,3,2,0
+RES-0016,Two-column,8,10,8,2,0
+RES-0017,Clean,6,8,6,2,0
+RES-0018,Tables,6,6,5,1,1
+RES-0019,Clean,9,11,9,2,0
+RES-0020,Two-column,11,12,11,1,0
+RES-0021,Clean,12,12,11,1,1
+RES-0022,Clean,8,9,8,1,0
+RES-0023,Clean,10,12,10,2,0
+RES-0024,Two-column,3,5,3,2,0
+RES-0025,Two-column,11,12,10,2,1
+RES-0026,Missing sections,2,7,2,5,0
+RES-0027,Clean,9,9,7,2,2
+RES-0028,Tables,4,6,4,2,0
+RES-0029,All-caps,9,10,8,2,1
+RES-0030,Clean,8,9,8,1,0
+RES-0031,Clean,10,12,10,2,0
+RES-0032,Missing sections,4,9,4,5,0
+RES-0033,Clean,5,7,5,2,0
+RES-0034,Clean,9,9,8,1,1
+RES-0035,Clean,8,10,8,2,0
+RES-0036,Clean,3,5,3,2,0
+RES-0037,Clean,8,7,6,1,2
+RES-0038,Clean,7,9,7,2,0
+RES-0039,Clean,3,5,3,2,0
+RES-0040,Clean,11,12,11,1,0
+RES-0041,Two-column,10,11,9,2,1
+RES-0042,Clean,10,11,10,1,0
+RES-0043,Clean,6,8,6,2,0
+RES-0044,Clean,8,10,8,2,0
+RES-0045,Two-column,9,10,8,2,1
+RES-0046,All-caps,5,6,5,1,0
+RES-0047,Clean,5,6,5,1,0
+RES-0048,Tables,6,7,5,2,1
+RES-0049,Clean,6,8,6,2,0
+RES-0050,Tables,9,10,8,2,1
+RES-0051,Clean,11,11,10,1,1
+RES-0052,All-caps,8,8,6,2,2
+RES-0053,Tables,4,5,3,2,1
+RES-0054,Clean,7,6,4,2,3
+RES-0055,Two-column,7,7,6,1,1
+RES-0056,Clean,6,8,6,2,0
+RES-0057,All-caps,6,7,5,2,1
+RES-0058,Clean,9,10,9,1,0
+RES-0059,Clean,5,6,5,1,0
+RES-0060,Clean,7,8,7,1,0
+RES-0061,Two-column,9,9,8,1,1
+RES-0062,Clean,11,12,10,2,1
+RES-0063,Clean,10,10,9,1,1
+RES-0064,Clean,9,9,8,1,1
+RES-0065,All-caps,7,8,7,1,0
+RES-0066,Missing sections,11,12,10,2,1
+RES-0067,Clean,10,12,10,2,0
+RES-0068,All-caps,10,12,10,2,0
+RES-0069,Tables,9,10,8,2,1
+RES-0070,Tables,6,8,6,2,0
+RES-0071,Two-column,9,10,8,2,1
+RES-0072,Clean,5,7,5,2,0
+RES-0073,Clean,10,11,9,2,1
+RES-0074,Tables,7,7,6,1,1
+RES-0075,Clean,7,8,6,2,1
+RES-0076,Clean,10,11,9,2,1
+RES-0077,Clean,7,9,7,2,0
+RES-0078,Clean,8,9,7,2,1
+RES-0079,Two-column,9,8,7,1,2
+RES-0080,Two-column,6,7,6,1,0
+RES-0081,Tables,8,9,8,1,0
+RES-0082,Clean,3,5,3,2,0
+RES-0083,Two-column,7,9,7,2,0
+RES-0084,All-caps,5,5,4,1,1
+RES-0085,Clean,9,10,9,1,0
+RES-0086,Two-column,4,5,4,1,0
+RES-0087,Clean,8,8,6,2,2
+RES-0088,Two-column,9,11,9,2,0
+RES-0089,Two-column,6,7,5,2,1
+RES-0090,Missing sections,4,8,4,4,0
+RES-0091,Clean,9,11,9,2,0
+RES-0092,All-caps,6,5,4,1,2
+RES-0093,Clean,4,5,3,2,1
+RES-0094,Tables,9,10,8,2,1
+RES-0095,Two-column,3,5,3,2,0
+RES-0096,Clean,11,12,10,2,1
+RES-0097,All-caps,10,11,9,2,1
+RES-0098,All-caps,3,5,3,2,0
+RES-0099,All-caps,8,10,8,2,0
+RES-0100,Clean,7,8,7,1,0
+RES-0101,All-caps,8,8,6,2,2
+RES-0102,Clean,9,10,8,2,1
+RES-0103,Tables,8,7,6,1,2
+RES-0104,Tables,4,6,4,2,0
+RES-0105,Clean,5,6,4,2,1
+RES-0106,Clean,6,7,6,1,0
+RES-0107,Two-column,10,9,8,1,2
+RES-0108,Clean,9,10,8,2,1
+RES-0109,Clean,4,6,4,2,0
+RES-0110,Missing sections,4,5,4,1,0
+RES-0111,Tables,5,7,5,2,0
+RES-0112,Two-column,9,10,8,2,1
+RES-0113,Missing sections,7,9,7,2,0
+RES-0114,Tables,8,10,8,2,0
+RES-0115,Clean,6,7,5,2,1
+RES-0116,Tables,4,5,4,1,0
+RES-0117,Missing sections,4,6,4,2,0
+RES-0118,Missing sections,3,8,3,5,0
+RES-0119,Tables,5,7,5,2,0
+RES-0120,All-caps,4,6,4,2,0
+RES-0121,Clean,7,9,7,2,0
+RES-0122,Clean,4,5,3,2,1
+RES-0123,Clean,11,12,11,1,0
+RES-0124,Clean,5,6,4,2,1
+RES-0125,Clean,7,9,7,2,0
+RES-0126,Clean,9,8,6,2,3
+RES-0127,Clean,8,9,8,1,0
+RES-0128,Clean,5,7,5,2,0
+RES-0129,Clean,9,9,7,2,2
+RES-0130,Missing sections,3,10,3,7,0
+RES-0131,Clean,5,6,5,1,0
+RES-0132,All-caps,6,8,6,2,0
+RES-0133,Clean,9,10,9,1,0
+RES-0134,Clean,3,5,3,2,0
+RES-0135,All-caps,9,10,8,2,1
+RES-0136,Clean,7,8,7,1,0
+RES-0137,Missing sections,1,7,1,6,0
+RES-0138,Clean,12,14,12,2,0
+RES-0139,Tables,10,12,10,2,0
+RES-0140,Tables,12,13,12,1,0
+RES-0141,Clean,5,7,5,2,0
+RES-0142,Two-column,9,10,8,2,1
+RES-0143,Clean,9,11,9,2,0
+RES-0144,Clean,10,11,9,2,1
+RES-0145,Clean,5,5,3,2,2
+RES-0146,Clean,6,8,6,2,0
+RES-0147,Clean,4,6,4,2,0
+RES-0148,Clean,6,7,6,1,0
+RES-0149,Missing sections,8,10,8,2,0
+RES-0150,All-caps,12,13,11,2,1
+RES-0151,Clean,12,13,12,1,0
+RES-0152,Tables,9,11,9,2,0
+RES-0153,Missing sections,11,13,11,2,0
+RES-0154,Tables,11,12,10,2,1
+RES-0155,Missing sections,10,10,9,1,1
+RES-0156,Clean,4,6,4,2,0
+RES-0157,Clean,9,8,7,1,2
+RES-0158,Clean,3,5,3,2,0
+RES-0159,Clean,5,6,5,1,0
+RES-0160,Tables,9,10,8,2,1
+RES-0161,Clean,11,12,11,1,0
+RES-0162,Tables,8,10,8,2,0
+RES-0163,Clean,5,7,5,2,0
+RES-0164,Missing sections,4,6,4,2,0
+RES-0165,Missing sections,3,8,3,5,0
+RES-0166,Clean,10,12,10,2,0
+RES-0167,Clean,10,11,9,2,1
+RES-0168,Missing sections,2,7,2,5,0
+RES-0169,Two-column,10,12,10,2,0
+RES-0170,Missing sections,4,5,4,1,0
+RES-0171,Two-column,9,10,8,2,1
+RES-0172,Clean,5,7,5,2,0
+RES-0173,All-caps,8,10,8,2,0
+RES-0174,Clean,8,10,8,2,0
+RES-0175,Two-column,9,10,8,2,1
+RES-0176,Two-column,4,5,4,1,0
+RES-0177,Clean,3,5,3,2,0
+RES-0178,Missing sections,11,12,10,2,1
+RES-0179,Clean,7,9,7,2,0
+RES-0180,All-caps,6,8,6,2,0
+RES-0181,Clean,9,9,8,1,1
+RES-0182,Two-column,7,9,7,2,0
+RES-0183,Clean,3,5,3,2,0
+RES-0184,Clean,4,5,3,2,1
+RES-0185,Clean,8,9,8,1,0
