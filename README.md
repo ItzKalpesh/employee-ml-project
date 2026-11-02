@@ -2,13 +2,13 @@
 
 ## Project Overview
 
-CortexHR is an employee analytics project developed as part of the Aura Workforce AI/ML track. The project covers employee-data auditing, reusable feature engineering, attrition baseline evaluation, attendance and payroll anomaly detection, anomaly explanations, a FastAPI scoring service, and an HR FAQ chatbot.
+CortexHR is an employee analytics project developed as part of the Aura Workforce AI/ML track. The project covers employee-data auditing, reusable feature engineering, attrition baseline evaluation, attendance and payroll anomaly detection, anomaly explanations, a FastAPI scoring service, an HR FAQ chatbot, and resume ranking against job descriptions.
 
 **Repository:** [employee-ml-project](https://github.com/ItzKalpesh/employee-ml-project)
 
 ## Project Workflow
 
-Raw Data → Data Audit → Feature Engineering → Baseline Models → Model Evaluation → Anomaly APIs → HR FAQ Chatbot
+Raw Data → Data Audit → Feature Engineering → Baseline Models → Model Evaluation → Anomaly APIs → HR FAQ Chatbot → Resume Ranking
 
 ## Task 1 — Data Audit and Leakage Hunt
 
@@ -257,9 +257,40 @@ Extended the HR FAQ chatbot with session-based conversational memory, slot extra
 
 **Limitations:** Analytics operations without an implemented backend return configured failure responses rather than fabricated results. The dialogue evaluation measures expected-intent matching on the supplied test dialogues and does not establish production readiness.
 
+## Task 11 — Resume Ranking Against Job Descriptions
+
+**Status: Completed; [PR #14](https://github.com/ItzKalpesh/employee-ml-project/pull/14) merged into `main`.**
+
+- **Pull request:** [#14 — Task 11: Resume Ranking Against Job Descriptions](https://github.com/ItzKalpesh/employee-ml-project/pull/14) — merged.
+- **Notebook:** `notebooks/10_resume_job_ranking.ipynb`
+- **Input datasets:**
+  - `data/job_descriptions.csv`
+  - `data/resumes.csv`
+  - `data/resume_job_labels.csv`
+- **Task README:** `reports/README_Task11.md`
+- **Analysis report:** `reports/task11_resume_ranking_report.md`
+- **Ranking summary:** `reports/task11_ranking_summary.json`
+- **Ranking outputs:** `reports/task11_resume_rankings.csv` and `reports/task11_ranking_quality_by_job.csv`
+- **Misranking analysis:** `reports/task11_five_misranked_resumes.csv`
+- **Representative review:** `reports/task11_representative_review.csv`
+- **Skill extraction audits:** `reports/task11_skill_extraction_audit.csv` and `reports/task11_skill_extraction_by_layout.csv`
+
+The baseline ranks resumes against job descriptions using required-skill coverage, nice-to-have skill coverage, TF-IDF cosine similarity, and experience fit. It compares candidate rankings with the available human suitability labels and documents a representative review of five resumes against three job descriptions, plus five misranked examples.
+
+**Evaluation on the 555 available human-labeled resume–job pairs:**
+
+- Precision@5: **94.0%**
+- Recall@5: **54.9%**
+- NDCG@5: **0.960**
+- Spearman correlation: **0.828**
+
+The evaluation is based on the labeled pairs; it does not treat the remaining unlabeled resume–job combinations as human-verified outcomes.
+
+**Fairness and limitations:** Name, gender, age, and college tier are not used as scoring features. The implementation also excludes direct identifiers such as email and location from the scoring formula. Excluding these fields does not prove the system is free of indirect bias. The ranking is a baseline for recruiter review, not an automated hiring decision. The API endpoint is documented as a proposal; this task did not modify the existing FastAPI implementation.
+
 ## Upcoming Tasks
 
-Continue with the remaining project tasks according to the supplied project requirements. Tasks 1–10 are currently recorded as completed; keep this section and the submission checklist updated as further tasks are completed.
+Continue with the remaining project tasks according to the supplied project requirements. Tasks 1–11 are currently recorded as completed; keep this section and the submission checklist updated as further tasks are completed.
 
 ## Setup and Verification
 

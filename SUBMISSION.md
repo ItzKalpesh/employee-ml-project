@@ -228,6 +228,33 @@ Open Swagger UI at `http://127.0.0.1:8000/docs` after starting the service.
 
 **Backend limitation:** Analytics operations without an implemented backend return configured failure responses rather than fabricated results.
 
+## Task 11 — Resume Ranking Against Job Descriptions
+
+- **Status:** Completed; PR #14 merged into `main`.
+- **Pull request:** [#14 — Task 11: Resume Ranking Against Job Descriptions](https://github.com/ItzKalpesh/employee-ml-project/pull/14).
+- **Notebook:** `notebooks/10_resume_job_ranking.ipynb`
+- **Input datasets:**
+  - `data/job_descriptions.csv`
+  - `data/resumes.csv`
+  - `data/resume_job_labels.csv`
+- **Task README:** `reports/README_Task11.md`
+- **Analysis report:** `reports/task11_resume_ranking_report.md`
+- **Ranking summary:** `reports/task11_ranking_summary.json`
+- **Ranking outputs:** `reports/task11_resume_rankings.csv`, `reports/task11_ranking_quality_by_job.csv`
+- **Five misranked examples:** `reports/task11_five_misranked_resumes.csv`
+- **Representative review:** `reports/task11_representative_review.csv`
+- **Skill extraction audits:** `reports/task11_skill_extraction_audit.csv`, `reports/task11_skill_extraction_by_layout.csv`
+
+**Implementation:** Built a weighted resume-ranking baseline using required-skill coverage, nice-to-have skill coverage, TF-IDF cosine similarity, and experience fit. Compared candidate rankings against human suitability labels, documented a representative review of five resumes against three job descriptions, and explained five misranked examples.
+
+**Evaluation on 555 human-labeled resume–job pairs:**
+- Precision@5: **94.0%**
+- Recall@5: **54.9%**
+- NDCG@5: **0.960**
+- Spearman correlation: **0.828**
+
+**Fairness and limitations:** Name, gender, age, and college tier are excluded from the scoring features. Direct identifiers such as email and location are also excluded. This feature exclusion does not establish the absence of indirect bias. The ranking is intended to support recruiter review, not make automated hiring decisions. The API endpoint is documented as a proposal; the existing FastAPI implementation was not changed in Task 11. Metrics are calculated on the available labeled pairs, not all possible resume–job combinations.
+
 ## GitHub Handoff
 
 - **Repository:** [employee-ml-project](https://github.com/ItzKalpesh/employee-ml-project)
@@ -241,11 +268,13 @@ Open Swagger UI at `http://127.0.0.1:8000/docs` after starting the service.
 - **Task 8 — Anomaly Scoring API:** [#10 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/10).
 - **Task 9 — HR FAQ Chatbot:** [#11 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/11).
 - **Task 10 — HR Chatbot Memory and Permissions:** [#13 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/13).
+- **Task 11 — Resume Ranking Against Job Descriptions:** [#14 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/14).
 
 ### Phase Status
 
 - **Phase 1:** Tasks 1–5 completed.
 - **Phase 2:** Tasks 6–10 completed.
+- **Phase 3 (current):** Task 11 completed.
 - **Final review package:** Prepare after all required tasks and reports are complete.
 
 ## Final Review Package
@@ -253,8 +282,8 @@ Open Swagger UI at `http://127.0.0.1:8000/docs` after starting the service.
 Prepare the final review attachment only after all required tasks and reports are complete. Follow the programme's instructions for dataset inclusion and sensitive files. Keep interim Phase 1 report files local until the final report is approved for submission.
 
 Before final submission:
-- Verify that the pull request links and statuses for Tasks 1–9 are correct.
+- Verify that the pull request links and statuses for Tasks 1–11 are correct.
 - Verify the `phase-1` tag points to the final completed Phase 1 commit.
-- Ensure the root `README.md` reflects the completed Task 9 work.
+- Ensure the root `README.md` and this submission checklist reflect the completed Task 11 work.
 - Generate and check the required 2–3 page PDF report under 10 MB.
 - Do not include `notebook_changes.txt`, local-only interim reports, secrets, or sensitive/unapproved datasets in a commit.
