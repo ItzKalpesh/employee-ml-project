@@ -48,13 +48,29 @@ The skill extractor recovered about 62.2% of listed skills from resumes marked a
 | J09 — Account Executive | 57 | 14 | 1.000 | 0.357 | 0.890 | 0.907 |
 | J10 — Digital Marketing Executive | 55 | 11 | 1.000 | 0.455 | 0.992 | 0.830 |
 
+## Representative review: five resumes and three job descriptions
+The focused manual review uses three supplied job descriptions: **J04 ML Engineer**, **J08 Accountant**, and **J09 Account Executive**. The five selected resumes include strong human-rated matches and layout-related ranking disagreements.
+
+A good match should show evidence of the role's required skills, relevant preferred skills where available, and experience meeting the stated minimum. Preferred skills should not fully compensate for missing essential requirements. Name, gender, age, location, employer identity, and college tier are not match criteria.
+
+| Resume | Job | Experience | Layout | Model rank (185) | Model required-skill coverage | Human score | Shortlist |
+|---|---|---:|---|---:|---:|---:|---|
+| RES-0031 | ML Engineer | 4.3 years | Clean PDF | 2 | 100% | 5/5 | Y |
+| RES-0130 | ML Engineer | 6.9 years | Missing sections | 25 | 40% | 4/5 | Y |
+| RES-0010 | Accountant | 3.4 years | Clean DOCX | 7 | 80% | 4/5 | Y |
+| RES-0007 | Account Executive | 2.8 years | Two-column PDF | 4 | 100% | 5/5 | Y |
+| RES-0012 | Account Executive | 3.7 years | Missing sections | 19 | 40% | 5/5 | Y |
+
+The strong examples (RES-0031, RES-0010, RES-0007) provide positive comparisons. RES-0130 and RES-0012 show that missing resume sections can lead to skill under-extraction and low model ranks even when human reviewers consider the candidates strong. This is an illustrative, targeted review, not a statistically random sample.
+
 ## Five misranking examples
 
-- **J02 Senior Software Engineer — RES-0129 (model rank 5/185; human score 3/5, shortlist N):** False positive: 80% nice-to-have coverage and sufficient experience lift the score, but the human reviewer marked only a partial match; key required skills such as System Design and REST APIs are not detected.
-- **J03 Data Analyst — RES-0101 (model rank 11/185; human score 3/5, shortlist N):** False positive: 80% required-skill coverage and sufficient experience produce a high score, but the reviewer marked a partial match; the missing required skill is Statistics.
-- **J08 Accountant — RES-0087 (model rank 8/185; human score 3/5, shortlist N):** False positive: all required skills are detected, but experience is only 1.2 years against the 2-year minimum; the experience component is 0.60.
-- **J04 ML Engineer — RES-0130 (model rank 25/185; human score 4/5, shortlist Y):** False negative: the resume text has a missing Skills section. The text extractor therefore misses several skills that appear in the separate structured skills field, pushing a human-strong candidate down the ranking.
-- **J09 Account Executive — RES-0012 (model rank 19/185; human score 5/5, shortlist Y):** False negative: the resume text has a missing Skills section. Several sales skills present in the structured skills field are not visible to the text extractor, so the human-strong candidate is ranked too low.
+- **J02 Senior Software Engineer — RES-0129 (model rank 5/185; score 0.596; human score 3/5, shortlist N):** The model detects 80% of nice-to-have skills and full experience fit, but only 60% of required skills. System Design and REST APIs are not detected. Preferred skills and experience partly compensate for missing core requirements.
+- **J03 Data Analyst — RES-0101 (model rank 11/185; score 0.607; human score 3/5, shortlist N):** The model detects 80% of required skills and full experience fit, but Statistics is missing. Exact phrase coverage does not assess depth of evidence, and the experience component helps offset the missing requirement.
+- **J08 Accountant — RES-0087 (model rank 8/185; score 0.647; human score 3/5, shortlist N):** The model detects all five required skill phrases, but the candidate has 1.2 years against the 2-year minimum (experience fit 0.60). The human reviewer assessed required-skill coverage at 60%. This highlights the difference between literal phrase detection and human assessment of demonstrated competence.
+- **J04 ML Engineer — RES-0130 (model rank 25/185; human score 4/5, shortlist Y):** The resume has missing sections and no explicit Skills section in its text. The text-only extractor detects 40% of required skills, despite 6.9 years of experience. The separate structured skills column contains additional relevant terms but is intentionally excluded from the ranking score.
+- **J09 Account Executive — RES-0012 (model rank 19/185; human score 5/5, shortlist Y):** The resume has missing sections and no explicit Skills section in its text. Text extraction detects 40% of required skills and 25% of preferred skills. Relevant terms in the separate structured skills column are not used by the text-only scoring pipeline.
+
 
 ## Limitations and next improvements
 - Labels cover 555 of 1,850 possible pairs, so evaluation does not establish quality for every candidate–job combination.
@@ -75,6 +91,7 @@ The skill extractor recovered about 62.2% of listed skills from resumes marked a
 - `reports/task11_five_misranked_resumes.csv` — five explained ranking disagreements.
 - `reports/task11_skill_extraction_audit.csv` — per-resume skill extraction audit.
 - `reports/task11_skill_extraction_by_layout.csv` — extraction performance by layout difficulty.
+- `reports/task11_representative_review.csv` — five-resume review against three job descriptions.
 - `notebooks/10_resume_job_ranking.ipynb` — reproducible notebook.
 
 ---

@@ -1,0 +1,6 @@
+resume_id,job_id,job_title,experience_years,source_format,layout_difficulty,model_rank_all_185,model_score,model_required_skill_coverage,human_suitability_score,human_shortlist,reviewer_note
+RES-0031,J04,ML Engineer,4.3,PDF,Clean,2,0.7795,1.0,5,Y,Strong match
+RES-0130,J04,ML Engineer,6.9,DOCX,Missing sections,25,0.376,0.4,4,Y,Strong match
+RES-0010,J08,Accountant,3.4,DOCX,Clean,7,0.6644,0.8,4,Y,Strong match
+RES-0007,J09,Account Executive,2.8,PDF,Two-column,4,0.7894,1.0,5,Y,Strong match
+RES-0012,J09,Account Executive,3.7,Plain text,Missing sections,19,0.403,0.4,5,Y,Strong match
