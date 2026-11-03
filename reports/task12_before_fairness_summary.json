@@ -1,0 +1,35 @@
+{
+  "task": "Task 12 - Resume Screener Fairness Audit",
+  "stage": "before_fix_baseline",
+  "scorer": "Task 11 weighted resume-ranking baseline, reproduced from the Task 11 notebook",
+  "scoring_weights": {
+    "required_skill_coverage": 0.5,
+    "nice_to_have_skill_coverage": 0.15,
+    "tfidf_cosine_similarity": 0.2,
+    "capped_experience_fit": 0.15
+  },
+  "pair_count": 25,
+  "pair_job_context": "Each twin pair was scored against the same job identified by the shared target_job_family field.",
+  "mean_absolute_score_gap": 0.0,
+  "maximum_absolute_score_gap": 0.0,
+  "nonzero_gap_pairs": 0,
+  "zero_gap_pairs": 25,
+  "pair_type_summary": [
+    {
+      "pair_type": "Name + college tier",
+      "pair_count": 13,
+      "mean_absolute_gap": 0.0,
+      "max_absolute_gap": 0.0,
+      "nonzero_gap_pairs": 0
+    },
+    {
+      "pair_type": "Name only",
+      "pair_count": 12,
+      "mean_absolute_gap": 0.0,
+      "max_absolute_gap": 0.0,
+      "nonzero_gap_pairs": 0
+    }
+  ],
+  "precision_note": "Scores are computed using the Task 11 cleaning, skill phrase matching, TF-IDF configuration, and weighted formula. The unlocked protected-attributes file was not opened or used.",
+  "interpretation": "No score difference was observed for any supplied twin pair under the current Task 11 scorer. This is evidence for these 25 counterfactual pairs only; it does not establish overall fairness or rule out group-level disparities."
+}

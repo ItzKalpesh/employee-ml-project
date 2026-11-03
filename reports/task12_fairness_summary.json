@@ -1,0 +1,15 @@
+{
+  "task": "Task 12 - Audit your screener for fairness",
+  "pairs": 25,
+  "mean_absolute_twin_gap_before": 0.0,
+  "max_absolute_twin_gap_before": 0.0,
+  "nonzero_twin_gaps_before": 0,
+  "mean_absolute_twin_gap_after": 0.0,
+  "max_absolute_twin_gap_after": 0.0,
+  "nonzero_twin_gaps_after": 0,
+  "model_change": "None; baseline counterfactual gaps were already zero.",
+  "gender_group_mean_gap_designated_job": 0.020338184709692175,
+  "college_tier_group_mean_gap_designated_job": 0.048542102930864583,
+  "ranking_metrics_unchanged": true,
+  "vault_usage": "Opened only after before-fix pair scores were saved; protected attributes used only for post-score audit."
+}

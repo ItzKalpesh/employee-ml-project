@@ -1,0 +1,6 @@
+protected_attribute,group,resume_count,mean_score
+inferred_gender,Female,74,0.5438406855527309
+inferred_gender,Male,111,0.5235025008430388
+college_tier,Tier 1,49,0.5525075098562533
+college_tier,Tier 2,71,0.5039654069253887
+college_tier,Tier 3,65,0.5461319453818524

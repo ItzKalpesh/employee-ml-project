@@ -1,0 +1,5 @@
+metric,task11_baseline_value,evaluation_scope,task12_after_audit_value,change
+Precision@5,0.94,Macro average over 10 jobs; 555 labeled pairs,0.94,0.0
+Recall@5,0.549,Macro average over 10 jobs; 555 labeled pairs,0.549,0.0
+NDCG@5,0.96,Macro average over 10 jobs; 555 labeled pairs,0.96,0.0
+Spearman correlation,0.828,Mean per-job correlation with human suitability; 555 labeled pairs,0.828,0.0
