@@ -255,6 +255,43 @@ Open Swagger UI at `http://127.0.0.1:8000/docs` after starting the service.
 
 **Fairness and limitations:** Name, gender, age, and college tier are excluded from the scoring features. Direct identifiers such as email and location are also excluded. This feature exclusion does not establish the absence of indirect bias. The ranking is intended to support recruiter review, not make automated hiring decisions. The API endpoint is documented as a proposal; the existing FastAPI implementation was not changed in Task 11. Metrics are calculated on the available labeled pairs, not all possible resume–job combinations.
 
+## Task 12 — Resume Screener Fairness Audit
+
+- **Status:** Completed; PR #15 merged into `main`.
+- **Pull request:** [#15 — Resume Screener Fairness Audit](https://github.com/ItzKalpesh/employee-ml-project/pull/15).
+- **Notebook:** `notebooks/11_resume_fairness_audit.ipynb`
+- **Analysis report:** `reports/task12_resume_fairness_report.md`
+- **Overall summary:** `reports/task12_fairness_summary.json`
+- **Before-fix baseline:** `reports/task12_before_fairness_summary.json`
+- **Counterfactual pair scores:** `reports/task12_before_fairness_pair_scores.csv`
+- **Before/after gap table:** `reports/task12_before_after_gap_table.csv`
+- **Protected-group score summary:** `reports/task12_protected_group_score_summary.csv`
+- **Job-family gap analysis:** `reports/task12_group_gaps_by_job_family.csv`
+- **Ranking quality comparison:** `reports/task12_ranking_quality_comparison.csv`
+
+**Methodology:**
+
+Reproduced the Task 11 weighted resume-ranking baseline and evaluated 25 counterfactual twin pairs. Gender-coded names and college-tier changes were examined while holding job context constant. Protected attributes were used only for post-scoring fairness analysis, not as model inputs.
+
+**Counterfactual evaluation results:**
+
+- Twin pairs: 25
+- Zero-gap pairs: 25
+- Mean absolute score gap: 0.000
+- Maximum absolute score gap: 0.000
+- Nonzero-gap pairs: 0
+
+**Protected-group analysis:**
+
+- Gender mean-score gap: 0.0203
+- College-tier mean-score gap: 0.0485
+
+**Fairness limitations:**
+
+The zero score gaps apply only to the 25 supplied counterfactual pairs and do not establish overall fairness. Group-level differences are descriptive and are not proof of discrimination or causal effects. The ranking system supports human review and must not be treated as an automated hiring decision system.
+
+**Data handling:** Protected-attribute validation data remains separate from the public repository and is not included in the merged PR.
+
 ## GitHub Handoff
 
 - **Repository:** [employee-ml-project](https://github.com/ItzKalpesh/employee-ml-project)
@@ -269,12 +306,13 @@ Open Swagger UI at `http://127.0.0.1:8000/docs` after starting the service.
 - **Task 9 — HR FAQ Chatbot:** [#11 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/11).
 - **Task 10 — HR Chatbot Memory and Permissions:** [#13 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/13).
 - **Task 11 — Resume Ranking Against Job Descriptions:** [#14 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/14).
+- **Task 12 — Resume Screener Fairness Audit:** [#15 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/15).
 
 ### Phase Status
 
 - **Phase 1:** Tasks 1–5 completed.
 - **Phase 2:** Tasks 6–10 completed.
-- **Phase 3 (current):** Task 11 completed.
+- **Phase 3 (current):** Tasks 11–12 completed.
 - **Final review package:** Prepare after all required tasks and reports are complete.
 
 ## Final Review Package
@@ -282,8 +320,8 @@ Open Swagger UI at `http://127.0.0.1:8000/docs` after starting the service.
 Prepare the final review attachment only after all required tasks and reports are complete. Follow the programme's instructions for dataset inclusion and sensitive files. Keep interim Phase 1 report files local until the final report is approved for submission.
 
 Before final submission:
-- Verify that the pull request links and statuses for Tasks 1–11 are correct.
+- Verify that the pull request links and statuses for Tasks 1–12 are correct.
 - Verify the `phase-1` tag points to the final completed Phase 1 commit.
-- Ensure the root `README.md` and this submission checklist reflect the completed Task 11 work.
+- Ensure the root `README.md` and this submission checklist reflect the completed Task 12 work.
 - Generate and check the required 2–3 page PDF report under 10 MB.
 - Do not include `notebook_changes.txt`, local-only interim reports, secrets, or sensitive/unapproved datasets in a commit.

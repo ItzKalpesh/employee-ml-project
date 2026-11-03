@@ -288,9 +288,51 @@ The evaluation is based on the labeled pairs; it does not treat the remaining un
 
 **Fairness and limitations:** Name, gender, age, and college tier are not used as scoring features. The implementation also excludes direct identifiers such as email and location from the scoring formula. Excluding these fields does not prove the system is free of indirect bias. The ranking is a baseline for recruiter review, not an automated hiring decision. The API endpoint is documented as a proposal; this task did not modify the existing FastAPI implementation.
 
+## Task 12 — Resume Screener Fairness Audit
+
+**Status: Completed; [PR #15](https://github.com/ItzKalpesh/employee-ml-project/pull/15) merged into `main`.**
+
+- **Pull request:** [#15 — Task 12: Resume Screener Fairness Audit](https://github.com/ItzKalpesh/employee-ml-project/pull/15) — merged.
+- **Notebook:** `notebooks/11_resume_fairness_audit.ipynb`
+- **Analysis report:** `reports/task12_resume_fairness_report.md`
+- **Overall summary:** `reports/task12_fairness_summary.json`
+- **Before-fix baseline:** `reports/task12_before_fairness_summary.json`
+- **Counterfactual pair scores:** `reports/task12_before_fairness_pair_scores.csv`
+- **Before/after gap comparison:** `reports/task12_before_after_gap_table.csv`
+- **Protected-group summary:** `reports/task12_protected_group_score_summary.csv`
+- **Job-family gap analysis:** `reports/task12_group_gaps_by_job_family.csv`
+- **Ranking quality comparison:** `reports/task12_ranking_quality_comparison.csv`
+
+**Audit methodology:**
+
+Reproduced the Task 11 weighted resume-ranking scorer and evaluated 25 counterfactual resume twin pairs. The pairs were tested against the same job context to examine whether changes to gender-coded names and college tier affected ranking scores.
+
+Protected attributes were loaded separately for post-scoring group analysis and were not used as model inputs.
+
+**Counterfactual results:**
+
+- Twin pairs evaluated: **25**
+- Pairs with zero score difference: **25**
+- Mean absolute score gap: **0.000**
+- Maximum absolute score gap: **0.000**
+- Nonzero-gap pairs: **0**
+
+**Protected-group analysis:**
+
+- Gender group mean-score gap: **0.0203**
+- College-tier group mean-score gap: **0.0485**
+
+These are descriptive group-level differences, not proof of discrimination or causal effects. Differences may reflect job-family composition and job-relevant candidate characteristics.
+
+**Fairness interpretation and limitations:**
+
+The supplied counterfactual tests found no score changes across the 25 tested twin pairs. This does not establish overall fairness or rule out indirect bias. Group-level differences require careful interpretation, particularly where subgroup sizes are limited. The ranking system remains a decision-support baseline for human recruiter review, not an automated hiring decision system.
+
+Protected-attribute validation data is kept separate from the public repository and is not included in this PR.
+
 ## Upcoming Tasks
 
-Continue with the remaining project tasks according to the supplied project requirements. Tasks 1–11 are currently recorded as completed; keep this section and the submission checklist updated as further tasks are completed.
+Continue with the remaining project tasks according to the supplied project requirements. Tasks 1–12 are currently recorded as completed; keep this section and the submission checklist updated as further tasks are completed.
 
 ## Setup and Verification
 
