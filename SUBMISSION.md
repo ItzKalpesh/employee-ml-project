@@ -292,6 +292,44 @@ The zero score gaps apply only to the 25 supplied counterfactual pairs and do no
 
 **Data handling:** Protected-attribute validation data remains separate from the public repository and is not included in the merged PR.
 
+## Task 13 — Attrition Model V2: Honest Baseline Comparison
+
+- **Status:** Implementation completed; PR #16 opened for review.
+- **Pull request:** [#16 — Task 13: Attrition Model V2: Honest Baseline Comparison](https://github.com/ItzKalpesh/employee-ml-project/pull/16).
+- **Notebook:** `notebooks/13_attrition_model_v2.ipynb`
+- **Versioned model:** `models/attrition/attrition-v2/model.joblib`
+- **Model metadata:** `models/attrition/attrition-v2/metadata.json`
+- **Analysis report:** `reports/task13_attrition_model_v2_report.md`
+- **Overall summary:** `reports/task13_summary.json`
+- **Model comparison:** `reports/task13_model_comparison.csv`
+- **Fold metrics:** `reports/task13_fold_metrics.csv`
+- **Tuning log:** `reports/task13_tuning_log.csv`
+- **Calibration comparison:** `reports/task13_calibration_comparison.csv`
+- **Calibration evidence:** `evidence/task13_calibration_comparison.png`
+
+**Methodology:**
+
+Reused the Task 2 feature pipeline and the same stratified five-fold evaluation splits as Task 3. LightGBM and XGBoost were evaluated with nested cross-validation; three-fold stratified tuning was performed inside each outer training fold using average precision. Preprocessing was fitted within each fold. XGBoost was also evaluated with sigmoid probability calibration.
+
+**Pooled out-of-fold results:**
+
+| Model | ROC-AUC | PR-AUC | Precision @ 0.50 | Recall @ 0.50 | F1 @ 0.50 | Brier |
+|---|---:|---:|---:|---:|---:|---:|
+| Task 3 Logistic Regression | 0.6995 | 0.2971 | 0.2565 | 0.5960 | 0.3586 | 0.2070 |
+| LightGBM V2 | 0.7030 | 0.3383 | 0.3015 | 0.5072 | 0.3782 | 0.1730 |
+| XGBoost V2 raw | 0.7176 | 0.3405 | 0.2763 | 0.5415 | 0.3659 | 0.1866 |
+| XGBoost V2 sigmoid calibrated | 0.7109 | 0.3320 | 0.6667 | 0.0172 | 0.0335 | 0.1136 |
+
+Raw XGBoost improved ROC-AUC by **0.0181** and PR-AUC by **0.0434** over the Task 3 Logistic Regression baseline. It was also slightly above the supplied Random Forest reference (ROC-AUC 0.715; PR-AUC 0.336), which is a reference comparison rather than a same-run evaluation.
+
+**Tuning and calibration:**
+
+The XGBoost grid tested `max_depth` values 2 and 3 and `n_estimators` values 150 and 300. The selected full-data parameters were `max_depth=2` and `n_estimators=150`; the full-data CV score was used for final parameter selection only. Sigmoid calibration reduced Brier score from **0.1866** to **0.1136** and log loss from **0.5544** to **0.3771**. At the 0.50 comparison threshold, calibrated recall was **0.0172**, so 0.50 is not presented as an operational intervention threshold.
+
+**Limitations and responsible use:**
+
+The evaluation is internal cross-validation on one historical dataset, not prospective validation. Calibration improves probability-error measures but does not establish that a particular intervention threshold is appropriate. Benchmark values may differ due to feature and environment differences. Model scores should support voluntary, supportive human review only and must not independently determine hiring, promotion, compensation, discipline, or termination.
+
 ## GitHub Handoff
 
 - **Repository:** [employee-ml-project](https://github.com/ItzKalpesh/employee-ml-project)
@@ -307,12 +345,13 @@ The zero score gaps apply only to the 25 supplied counterfactual pairs and do no
 - **Task 10 — HR Chatbot Memory and Permissions:** [#13 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/13).
 - **Task 11 — Resume Ranking Against Job Descriptions:** [#14 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/14).
 - **Task 12 — Resume Screener Fairness Audit:** [#15 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/15).
+- **Task 13 — Attrition Model V2:** [#16 — opened](https://github.com/ItzKalpesh/employee-ml-project/pull/16).
 
 ### Phase Status
 
 - **Phase 1:** Tasks 1–5 completed.
 - **Phase 2:** Tasks 6–10 completed.
-- **Phase 3 (current):** Tasks 11–12 completed.
+- **Phase 3 (current):** Tasks 11–13 completed.
 - **Final review package:** Prepare after all required tasks and reports are complete.
 
 ## Final Review Package
@@ -320,8 +359,8 @@ The zero score gaps apply only to the 25 supplied counterfactual pairs and do no
 Prepare the final review attachment only after all required tasks and reports are complete. Follow the programme's instructions for dataset inclusion and sensitive files. Keep interim Phase 1 report files local until the final report is approved for submission.
 
 Before final submission:
-- Verify that the pull request links and statuses for Tasks 1–12 are correct.
+- Verify that the pull request links and statuses for Tasks 1–13 are correct.
 - Verify the `phase-1` tag points to the final completed Phase 1 commit.
-- Ensure the root `README.md` and this submission checklist reflect the completed Task 12 work.
+- Ensure the root `README.md` and this submission checklist reflect the completed Task 13 work.
 - Generate and check the required 2–3 page PDF report under 10 MB.
 - Do not include `notebook_changes.txt`, local-only interim reports, secrets, or sensitive/unapproved datasets in a commit.

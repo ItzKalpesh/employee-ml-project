@@ -330,9 +330,48 @@ The supplied counterfactual tests found no score changes across the 25 tested tw
 
 Protected-attribute validation data is kept separate from the public repository and is not included in this PR.
 
+## Task 13 — Attrition Model V2: Honest Baseline Comparison
+
+**Status: Implementation completed; [PR #16](https://github.com/ItzKalpesh/employee-ml-project/pull/16) opened for review.**
+
+- **Pull request:** [#16 — Task 13: Attrition Model V2: Honest Baseline Comparison](https://github.com/ItzKalpesh/employee-ml-project/pull/16).
+- **Notebook:** `notebooks/13_attrition_model_v2.ipynb`
+- **Versioned model:** `models/attrition/attrition-v2/model.joblib`
+- **Model metadata:** `models/attrition/attrition-v2/metadata.json`
+- **Analysis report:** `reports/task13_attrition_model_v2_report.md`
+- **Summary:** `reports/task13_summary.json`
+- **Model comparison:** `reports/task13_model_comparison.csv`
+- **Fold-level metrics:** `reports/task13_fold_metrics.csv`
+- **Tuning log:** `reports/task13_tuning_log.csv`
+- **Calibration comparison:** `reports/task13_calibration_comparison.csv`
+- **Calibration evidence:** `evidence/task13_calibration_comparison.png`
+
+**Methodology:**
+
+Reused the existing attrition feature pipeline and the same stratified five-fold splits as Task 3. LightGBM and XGBoost gradient-boosting models were evaluated using nested cross-validation, with three-fold hyperparameter tuning performed only inside each outer training fold. Preprocessing was fitted within each fold. XGBoost probabilities were also evaluated after sigmoid calibration.
+
+**Pooled out-of-fold comparison:**
+
+| Model | ROC-AUC | PR-AUC | Precision @ 0.50 | Recall @ 0.50 | F1 @ 0.50 | Brier |
+|---|---:|---:|---:|---:|---:|---:|
+| Task 3 Logistic Regression | 0.6995 | 0.2971 | 0.2565 | 0.5960 | 0.3586 | 0.2070 |
+| LightGBM V2 | 0.7030 | 0.3383 | 0.3015 | 0.5072 | 0.3782 | 0.1730 |
+| XGBoost V2 raw | 0.7176 | 0.3405 | 0.2763 | 0.5415 | 0.3659 | 0.1866 |
+| XGBoost V2 sigmoid calibrated | 0.7109 | 0.3320 | 0.6667 | 0.0172 | 0.0335 | 0.1136 |
+
+Raw XGBoost improved ROC-AUC by **0.0181** and PR-AUC by **0.0434** over the Task 3 Logistic Regression baseline. It also exceeded the supplied Random Forest reference (ROC-AUC 0.715; PR-AUC 0.336), but that reference is not a same-run evaluation.
+
+**Tuning and calibration:**
+
+The XGBoost search tested `max_depth` values 2 and 3 and `n_estimators` values 150 and 300. The selected full-data parameters were `max_depth=2` and `n_estimators=150`; the full-data CV score was used for parameter selection, not as an unbiased performance estimate. Sigmoid calibration reduced Brier score from 0.1866 to 0.1136 and log loss from 0.5544 to 0.3771. At the comparison threshold of 0.50, calibrated recall was only 0.0172, so this threshold is not suitable as an operational intervention rule.
+
+**Limitations and responsible use:**
+
+Evaluation is internal cross-validation on the supplied historical dataset, not prospective deployment validation. Calibration improves probability-error metrics but does not guarantee useful decisions at a particular threshold. Benchmark values may differ because of feature and environment differences. Model scores are for supportive human review only and must not independently determine hiring, promotion, compensation, discipline, or termination.
+
 ## Upcoming Tasks
 
-Continue with the remaining project tasks according to the supplied project requirements. Tasks 1–12 are currently recorded as completed; keep this section and the submission checklist updated as further tasks are completed.
+Continue with the remaining project tasks according to the supplied project requirements. Tasks 1–13 are currently recorded as completed; keep this section and the submission checklist updated as further tasks are completed.
 
 ## Setup and Verification
 
