@@ -369,9 +369,44 @@ The XGBoost search tested `max_depth` values 2 and 3 and `n_estimators` values 1
 
 Evaluation is internal cross-validation on the supplied historical dataset, not prospective deployment validation. Calibration improves probability-error metrics but does not guarantee useful decisions at a particular threshold. Benchmark values may differ because of feature and environment differences. Model scores are for supportive human review only and must not independently determine hiring, promotion, compensation, discipline, or termination.
 
+## Task 14 — Explain Every Person's Attrition Risk
+
+**Status: Completed; [PR #17 — merged into `main`](https://github.com/ItzKalpesh/employee-ml-project/pull/17).**
+
+- **Pull request:** [#17 — Task 14: Explain Every Person's Attrition Risk](https://github.com/ItzKalpesh/employee-ml-project/pull/17)
+- **Notebook:** `notebooks/14_attrition_risk_explanations.ipynb`
+- **SHAP evidence:** `evidence/task14_shap_summary.png`
+- **Analysis report:** `reports/task14_attrition_risk_report.md`
+- **Summary:** `reports/task14_summary.json`
+- **Full employee-level report:** `reports/task14_attrition_risk_report.csv` (generated locally; excluded from the public PR).
+- **Human-review sample:** `reports/task14_review_sample_10.csv` (generated locally; excluded from the public PR).
+
+**Methodology:**
+
+- Scored 430 active employees using the versioned `attrition-v2` model.
+- Assigned High, Medium, and Low risk bands.
+- Used SHAP to identify the top three positive risk contributors for each employee.
+- Grouped transformed feature contributions back to the original model features.
+- Generated plain-English explanations for all 430 employees.
+- Created a 10-employee sample for manual explanation review.
+
+**Validation results:**
+
+- Total employee records: 430.
+- Unique employees: 430.
+- High risk: 43; Medium risk: 86; Low risk: 301.
+- Missing explanations: 0.
+- Duplicate employee records: 0.
+- All basic report validation checks passed.
+- Ten employee explanations manually reviewed.
+
+**Limitations:**
+
+SHAP explanations describe model associations, not causal relationships. Contributions were calculated from raw XGBoost estimators before sigmoid calibration and are not an exact additive decomposition of the final calibrated ensemble risk score. Outputs support responsible human review, not automated employment decisions.
+
 ## Upcoming Tasks
 
-Continue with the remaining project tasks according to the supplied project requirements. Tasks 1–13 are currently recorded as completed; keep this section and the submission checklist updated as further tasks are completed.
+Continue with the remaining project tasks according to the supplied project requirements. Tasks 1–14 are currently recorded as completed; keep this section and the submission checklist updated as further tasks are completed.
 
 ## Setup and Verification
 

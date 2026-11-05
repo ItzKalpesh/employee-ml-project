@@ -330,6 +330,34 @@ The XGBoost grid tested `max_depth` values 2 and 3 and `n_estimators` values 150
 
 The evaluation is internal cross-validation on one historical dataset, not prospective validation. Calibration improves probability-error measures but does not establish that a particular intervention threshold is appropriate. Benchmark values may differ due to feature and environment differences. Model scores should support voluntary, supportive human review only and must not independently determine hiring, promotion, compensation, discipline, or termination.
 
+## Task 14 — Explain Every Person's Attrition Risk
+
+- **Status:** Completed; PR #17 merged into `main`.
+- **Pull request:** [#17 — Explain Every Person's Attrition Risk](https://github.com/ItzKalpesh/employee-ml-project/pull/17).
+- **Notebook:** `notebooks/14_attrition_risk_explanations.ipynb`
+- **SHAP evidence:** `evidence/task14_shap_summary.png`
+- **Analysis report:** `reports/task14_attrition_risk_report.md`
+- **Summary:** `reports/task14_summary.json`
+- **Full employee-level report:** `reports/task14_attrition_risk_report.csv` (generated locally; excluded from the public PR).
+- **Human-review sample:** `reports/task14_review_sample_10.csv` (generated locally; excluded from the public PR).
+
+**Methodology:**
+
+Scored 430 active employees using the versioned `attrition-v2` model. Assigned risk bands and used SHAP contributions from the five XGBoost estimators to identify each employee's top three positive risk contributors. Grouped transformed feature contributions back to original features and translated them into plain-English explanations.
+
+**Validation:**
+
+- 430 employee records and 430 unique employees.
+- Risk-band distribution: 43 High, 86 Medium, 301 Low.
+- No missing values in the three explanation columns.
+- No duplicate employee IDs.
+- Ten employee explanations manually reviewed.
+- All basic report validation checks passed.
+
+**Limitations:**
+
+The explanations represent model associations, not proven causes. SHAP values explain raw XGBoost estimator outputs before sigmoid calibration and are not an exact additive decomposition of the final calibrated ensemble risk score. Outputs support human review and must not independently determine employment decisions.
+
 ## GitHub Handoff
 
 - **Repository:** [employee-ml-project](https://github.com/ItzKalpesh/employee-ml-project)
@@ -346,12 +374,13 @@ The evaluation is internal cross-validation on one historical dataset, not prosp
 - **Task 11 — Resume Ranking Against Job Descriptions:** [#14 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/14).
 - **Task 12 — Resume Screener Fairness Audit:** [#15 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/15).
 - **Task 13 — Attrition Model V2:** [#16 — opened](https://github.com/ItzKalpesh/employee-ml-project/pull/16).
+- **Task 14 — Explain Every Person's Attrition Risk:** [#17 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/17).
 
 ### Phase Status
 
 - **Phase 1:** Tasks 1–5 completed.
 - **Phase 2:** Tasks 6–10 completed.
-- **Phase 3 (current):** Tasks 11–13 completed.
+- **Phase 3 (current):** Tasks 11–14 completed.
 - **Final review package:** Prepare after all required tasks and reports are complete.
 
 ## Final Review Package
