@@ -358,6 +358,43 @@ Scored 430 active employees using the versioned `attrition-v2` model. Assigned r
 
 The explanations represent model associations, not proven causes. SHAP values explain raw XGBoost estimator outputs before sigmoid calibration and are not an exact additive decomposition of the final calibrated ensemble risk score. Outputs support human review and must not independently determine employment decisions.
 
+## Task 15 — Recommend Fair Pay Bands
+
+- **Status:** Completed; PR #18 merged into `main`.
+- **Pull request:** [#18 — Task 15: Recommend Fair Pay Bands](https://github.com/ItzKalpesh/employee-ml-project/pull/18).
+- **Notebook:** `notebooks/15_fair_pay_band_recommender.ipynb`
+- **Analysis report:** `reports/task15_fair_pay_report.md`
+- **Model metrics:** `reports/task15_model_metrics.csv`
+- **Group-gap analysis:** `reports/task15_group_gap_analysis.csv`
+- **Salary recommendations:** `reports/task15_salary_recommendations_test.csv`
+- **Summary:** `reports/task15_summary.json`
+
+**Implementation:**
+
+Audited 2,934 salary records across 47 unique roles. Selected seven job-related predictors and excluded gender, age, career-gap duration, education, employee identifiers, hire dates, and existing salary bands from model training.
+
+Compared Linear Regression and Gradient Boosting against an average-by-role baseline using MAE and R². Linear Regression was selected based on the held-out evaluation results.
+
+Generated low, mid, and high salary recommendation bands using residual-based calibration. Evaluated gender and career-gap group differences using out-of-fold predictions.
+
+**Model metrics:**
+
+- Linear Regression: MAE 82,141.38; R² 0.9662.
+- Gradient Boosting: MAE 93,211.80; R² 0.9431.
+- Average-by-role baseline: MAE 115,196.32; R² 0.9348.
+- Held-out test records: 587.
+- Empirical low-to-high band coverage: 78.9%.
+
+**Fairness findings:**
+
+- Gender historical group gap: 48,941.91; predicted group gap: 40,279.52.
+- Career-gap historical group gap: 50,653.30; predicted group gap: 74,105.30.
+- Protected attributes were excluded from model training and used only for fairness auditing.
+
+**Limitations:**
+
+The recommendations are estimates, not guaranteed salary offers or confidence intervals. Group-gap comparisons are descriptive, not proof of fairness. The increased predicted career-gap disparity requires further investigation. Final compensation decisions remain with managers and HR.
+
 ## GitHub Handoff
 
 - **Repository:** [employee-ml-project](https://github.com/ItzKalpesh/employee-ml-project)
@@ -375,6 +412,7 @@ The explanations represent model associations, not proven causes. SHAP values ex
 - **Task 12 — Resume Screener Fairness Audit:** [#15 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/15).
 - **Task 13 — Attrition Model V2:** [#16 — opened](https://github.com/ItzKalpesh/employee-ml-project/pull/16).
 - **Task 14 — Explain Every Person's Attrition Risk:** [#17 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/17).
+- **Task 15 — Recommend Fair Pay Bands:** [#18 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/18).
 
 ### Phase Status
 

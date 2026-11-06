@@ -404,9 +404,51 @@ Evaluation is internal cross-validation on the supplied historical dataset, not 
 
 SHAP explanations describe model associations, not causal relationships. Contributions were calculated from raw XGBoost estimators before sigmoid calibration and are not an exact additive decomposition of the final calibrated ensemble risk score. Outputs support responsible human review, not automated employment decisions.
 
+## Task 15 — Recommend Fair Pay Bands
+
+**Status: Completed; [PR #18 — merged into `main`](https://github.com/ItzKalpesh/employee-ml-project/pull/18).**
+
+- **Pull request:** [#18 — Task 15: Recommend Fair Pay Bands](https://github.com/ItzKalpesh/employee-ml-project/pull/18)
+- **Notebook:** `notebooks/15_fair_pay_band_recommender.ipynb`
+- **Analysis report:** `reports/task15_fair_pay_report.md`
+- **Model metrics:** `reports/task15_model_metrics.csv`
+- **Group-gap analysis:** `reports/task15_group_gap_analysis.csv`
+- **Salary recommendations:** `reports/task15_salary_recommendations_test.csv`
+- **Summary:** `reports/task15_summary.json`
+
+**Methodology:**
+
+- Audited 2,934 salary records covering 47 unique roles.
+- Selected seven job-related predictors: department, role, work location, job level, prior experience, skills count, and market index.
+- Excluded gender, age, career-gap duration, education, employee identifiers, hire dates, and existing salary bands from model training.
+- Trained and compared Linear Regression and Gradient Boosting against an average-by-role baseline.
+- Selected Linear Regression based on held-out evaluation results.
+- Generated low, mid, and high salary recommendations using residual-based calibration.
+- Evaluated group gaps across gender and career-gap groups using out-of-fold predictions.
+
+**Model evaluation:**
+
+| Model | MAE | R² |
+|---|---:|---:|
+| Linear Regression | 82,141.38 | 0.9662 |
+| Gradient Boosting | 93,211.80 | 0.9431 |
+| Average-by-role baseline | 115,196.32 | 0.9348 |
+
+**Validation and fairness findings:**
+
+- Held-out test set: 587 records.
+- Empirical low-to-high band coverage: 78.9%.
+- Historical gender group gap: 48,941.91; predicted gap: 40,279.52.
+- Historical career-gap group gap: 50,653.30; predicted gap: 74,105.30.
+- Protected attributes were excluded from model predictors and used only for post-training fairness analysis.
+
+**Limitations:**
+
+The salary recommendations are estimates based on historical data, not guaranteed market salaries or confidence intervals. The observed group gaps are descriptive and do not establish the absence of bias. The career-gap group disparity increased in the predictions and requires further investigation. Recommendations are decision-support information; final pay decisions remain with managers and HR.
+
 ## Upcoming Tasks
 
-Continue with the remaining project tasks according to the supplied project requirements. Tasks 1–14 are currently recorded as completed; keep this section and the submission checklist updated as further tasks are completed.
+Continue with the remaining project tasks according to the supplied project requirements. Tasks 1–15 are currently recorded as completed; keep this section and the submission checklist updated as further tasks are completed.
 
 ## Setup and Verification
 
