@@ -1,0 +1,31 @@
+{
+  "task": "Task 14 — Explain Every Person's Risk",
+  "records_scored": 430,
+  "unique_employees": 430,
+  "model_version": "attrition-v2",
+  "risk_band_rule": "Task 4 risk_bands helper: High >= 90th percentile; Medium >= 70th percentile and below High; Low otherwise.",
+  "risk_band_counts": {
+    "Low": 301,
+    "Medium": 86,
+    "High": 43
+  },
+  "shap_method": "TreeSHAP interventional explanations for each of five XGBoost estimators inside CalibratedClassifierCV; one-hot contributions grouped to original model features.",
+  "shap_background": "40 scoring-cohort rows sampled with random_state=42.",
+  "shap_scope_limitation": "SHAP explains raw XGBoost estimators before sigmoid calibration; it is not an exact additive decomposition of final calibrated probability.",
+  "additional_implementation_decisions": [
+    "Reused Task 2 build_features() without inventing new model feature definitions.",
+    "Reused Task 4 risk_bands() without changing the company thresholds.",
+    "Selected the three largest positive grouped SHAP contributions for each employee.",
+    "Used cautious association-based wording; reasons are not causal explanations."
+  ],
+  "outputs": {
+    "risk_report": "phase-3/reports/task14_attrition_risk_report.csv",
+    "review_sample": "phase-3/reports/task14_review_sample_10.csv",
+    "shap_chart": "phase-3/evidence/task14_shap_summary.png"
+  },
+  "limitations": [
+    "No outcome labels are supplied for these 430 employees; this is not an accuracy evaluation.",
+    "SHAP reasons are model associations, not causes or evidence of employee intent.",
+    "Human review is required; scores must not independently determine employment decisions."
+  ]
+}
