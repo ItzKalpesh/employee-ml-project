@@ -1,0 +1,74 @@
+{
+  "task": "Task 15 - Recommend fair pay bands",
+  "dataset_rows": 2934,
+  "unique_roles": 47,
+  "split_counts": {
+    "train": 1994,
+    "calibration": 353,
+    "test": 587
+  },
+  "target": "offered_annual_fixed",
+  "features": [
+    "department_id",
+    "role_id",
+    "work_location",
+    "job_level",
+    "prior_experience_years",
+    "skills_count",
+    "market_index"
+  ],
+  "excluded_predictors": [
+    "gender",
+    "age_years",
+    "career_gap_months",
+    "highest_education",
+    "hire_id",
+    "hire_date",
+    "hire_year",
+    "source",
+    "band_min_2026",
+    "band_mid_2026",
+    "band_max_2026"
+  ],
+  "metrics": [
+    {
+      "model": "Linear Regression",
+      "MAE": 82141.37508107585,
+      "R2": 0.9661977134031808
+    },
+    {
+      "model": "Gradient Boosting",
+      "MAE": 93211.79924169299,
+      "R2": 0.9430874168855453
+    },
+    {
+      "model": "Average by role baseline",
+      "MAE": 115196.31809073275,
+      "R2": 0.9347540474767995
+    }
+  ],
+  "selected_model": "Linear Regression",
+  "residual_quantiles": {
+    "residual_q10": -125975.4367699852,
+    "residual_q50": 8447.57396774285,
+    "residual_q90": 110630.56267823893,
+    "test_interval_coverage": 0.7887563884156729,
+    "test_rows": 587
+  },
+  "gender_group_gap_rows": 3,
+  "career_gap_group_rows": 4,
+  "fairness_predictions": "5-fold stratified out-of-fold predictions on all salary rows",
+  "limitations": [
+    "Group gaps are descriptive, not causal.",
+    "Small audit subgroups produce unstable estimates.",
+    "Historical salary labels may encode past inequities.",
+    "Recommendation bands are empirical and not guaranteed intervals.",
+    "Human review is required."
+  ],
+  "outputs": [
+    "phase-3/reports/task15_model_metrics.csv",
+    "phase-3/reports/task15_group_gap_analysis.csv",
+    "phase-3/reports/task15_salary_recommendations_test.csv",
+    "phase-3/reports/task15_summary.json"
+  ]
+}

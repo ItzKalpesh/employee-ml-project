@@ -1,0 +1,80 @@
+{
+  "task": "Task 13 \u2014 Attrition Model V2",
+  "dataset": {
+    "rows": 2389,
+    "leavers": 349,
+    "stayers": 2040,
+    "leaver_rate": 0.1460862285475094,
+    "predictor_count": 45,
+    "numeric_predictor_count": 39,
+    "categorical_predictor_count": 6
+  },
+  "evaluation_protocol": {
+    "outer_cv": "StratifiedKFold(n_splits=5, shuffle=True, random_state=42)",
+    "tuning_cv": "3-fold stratified CV inside each outer training fold",
+    "tuning_metric": "average_precision",
+    "same_outer_folds_as_task3": true,
+    "nested_tuning": true
+  },
+  "task3_logistic_regression_pooled_oof": {
+    "roc_auc": 0.6994620484296871,
+    "pr_auc": 0.2971144413155472,
+    "precision_at_050": 0.2564734895191122,
+    "recall_at_050": 0.5959885386819485,
+    "f1_at_050": 0.3586206896551724,
+    "accuracy_at_050": 0.6885726245290916,
+    "brier": 0.20699751289231236
+  },
+  "lightgbm_nested_pooled_oof": {
+    "roc_auc": 0.7030423057475139,
+    "pr_auc": 0.3382700506325159,
+    "precision_at_050": 0.30153321976149916,
+    "recall_at_050": 0.5071633237822349,
+    "f1_at_050": 0.3782051282051282,
+    "accuracy_at_050": 0.7563834240267895,
+    "brier": 0.17300931380148804
+  },
+  "xgboost_nested_pooled_oof_raw": {
+    "roc_auc": 0.7175866621720322,
+    "pr_auc": 0.3404698553751974,
+    "precision_at_050": 0.27631578947368424,
+    "recall_at_050": 0.5415472779369628,
+    "f1_at_050": 0.3659244917715392,
+    "accuracy_at_050": 0.7258267057346169,
+    "brier": 0.18657756004149587
+  },
+  "xgboost_nested_pooled_oof_sigmoid_calibrated": {
+    "roc_auc": 0.7109051070284848,
+    "pr_auc": 0.3320143177204141,
+    "precision_at_050": 0.6666666666666666,
+    "recall_at_050": 0.017191977077363897,
+    "f1_at_050": 0.0335195530726257,
+    "accuracy_at_050": 0.8551695269987443,
+    "brier": 0.11355572107527147
+  },
+  "supplied_random_forest_reference": {
+    "roc_auc": 0.715,
+    "pr_auc": 0.336
+  },
+  "improvement_vs_task3_logistic": {
+    "roc_auc": 0.018124613742345086,
+    "pr_auc": 0.04335541405965021
+  },
+  "final_model": {
+    "version": "attrition-v2",
+    "algorithm": "XGBoost",
+    "best_parameters": {
+      "model__max_depth": 2,
+      "model__n_estimators": 150
+    },
+    "full_data_cv_best_average_precision_selection_only": 0.360208541863499,
+    "calibration": "sigmoid",
+    "artifact": "models/attrition/attrition-v2/model.joblib"
+  },
+  "limitations": [
+    "Internal cross-validation is not prospective deployment validation.",
+    "Supplied benchmark results may differ in feature or environment details.",
+    "The 0.50 threshold is retained for comparison and is not an operational HR threshold.",
+    "Use model scores only as decision support for supportive human review."
+  ]
+}
