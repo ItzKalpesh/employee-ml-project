@@ -1,0 +1,32 @@
+{
+  "task": 16,
+  "title": "Workforce Headcount and Exits Forecast",
+  "model_version": "cortexhr-forecast-sarimax-events-v1.0",
+  "trained_through": "2026-09",
+  "forecast_months": [
+    "2026-10",
+    "2026-11",
+    "2026-12",
+    "2027-01",
+    "2027-02",
+    "2027-03"
+  ],
+  "history_start": "2020-01",
+  "history_end": "2026-09",
+  "backtest_start": "2026-04",
+  "backtest_end": "2026-09",
+  "candidate_model": "SARIMAX(0,1,1)x(0,1,1,12) with workforce-event regressors",
+  "selected_model_by_metric": {
+    "attrition_rate_monthly_pct": "Seasonal baseline",
+    "exits": "Seasonal baseline",
+    "headcount_end": "SARIMAX candidate"
+  },
+  "baseline": "36-month linear trend + half-strength seasonal residual",
+  "prediction_interval": "central 80%",
+  "statsmodels_version": "0.15.0",
+  "input_files": [
+    "monthly_headcount_history.csv",
+    "workforce_events.csv",
+    "sample_forecast.csv"
+  ]
+}
