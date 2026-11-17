@@ -11,7 +11,7 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
 APP_DIR = Path(__file__).resolve().parent
-REPO_ROOT = APP_DIR.parents[2]
+REPO_ROOT = APP_DIR.parents[3]
 BUNDLE_PATH = REPO_ROOT / "models" / "hr_chatbot_bundle.joblib"
 
 def normalize_text(text):
@@ -74,6 +74,7 @@ def _rule_intent(cleaned):
         ("greet", r"^(hi|hello|hey|hi there|hello there)[!. ]*$"),
         ("chitchat", r"\b(what can you do|what do you do|what are you capable of)\b"),
         ("wfh_policy", r"\b(work from home|wfh policy|remote work policy)\b"),
+        ("working_hours", r"\b(working hours|office hours|office timings|work timings|office time)\b"),
         ("attrition_risk_query", r"\b(at risk of leaving|risk of leaving|attrition risk|why is it high|why is that high|and in (sales|engineering|hr|support|finance))\b"),
         ("payroll_flags", r"\b(unusual payroll|payroll flags|payroll anomalies|show details|show the details)\b"),
         ("salary_band_query", r"\b(salary band|pay band|pay range|suggest .*salary|what about (software engineer|data analyst|product manager))\b"),

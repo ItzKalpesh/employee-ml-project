@@ -2,11 +2,8 @@
 from pathlib import Path
 import csv
 
-import httpx
-
-
 APP_DIR = Path(__file__).resolve().parent
-REPO_ROOT = APP_DIR.parents[2]
+REPO_ROOT = APP_DIR.parents[3]
 
 DEMO_USERS_PATH = (
     REPO_ROOT
@@ -17,8 +14,6 @@ DEMO_USERS_PATH = (
 )
 
 RESPONSES_PATH = REPO_ROOT / "data" / "chatbot_responses.csv"
-
-HR_SERVICE_URL = "http://127.0.0.1:9000"
 
 
 def load_csv_lookup(path, key):
@@ -40,30 +35,25 @@ INTENT_RULES = load_csv_lookup(RESPONSES_PATH, "intent")
 
 
 def resolve_demo_user(employee_id):
-    """Validate demo identity and retrieve its trusted role."""
+    """Validate demo identity using the local demo-user registry."""
 
     if not employee_id:
         return None
 
-    user = DEMO_USERS.get(employee_id.strip())
+    employee_id = employee_id.strip()
+    user = DEMO_USERS.get(employee_id)
 
     if user is None:
         return None
 
-    try:
-        response = httpx.get(
-            f"{HR_SERVICE_URL}/api/v1/employees/me",
-            headers={"X-Demo-User": employee_id.strip()},
-            timeout=5.0,
-        )
-        response.raise_for_status()
-    except httpx.HTTPError:
-        return None
-
     return {
-        "employee_id": employee_id.strip(),
+        "employee_id": employee_id,
         "role": user["role"].strip().upper(),
-        "profile": response.json(),
+        "profile": {
+            "employee_id": employee_id,
+            "username": user.get("username", ""),
+            "role": user["role"].strip().upper(),
+        },
     }
 
 

@@ -6,7 +6,7 @@ import re
 
 
 APP_DIR = Path(__file__).resolve().parent
-REPO_ROOT = APP_DIR.parents[2]
+REPO_ROOT = APP_DIR.parents[3]
 
 EMPLOYEES_FILE = (
     REPO_ROOT
