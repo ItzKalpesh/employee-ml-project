@@ -1,0 +1,195 @@
+{
+  "task": "Task 18 - Drift and Fairness Monitoring",
+  "generated_at": "2026-11-17T13:32:53.089573+00:00",
+  "overall_status": "ALERT",
+  "psi_thresholds": {
+    "OK": "PSI < 0.10",
+    "WATCH": "0.10 <= PSI <= 0.25",
+    "ALERT": "PSI > 0.25"
+  },
+  "psi_results": [
+    {
+      "feature": "tenure_months",
+      "reference_rows": 2389,
+      "current_rows": 430,
+      "psi": 0.2086187351079975,
+      "verdict": "WATCH"
+    },
+    {
+      "feature": "total_experience_years",
+      "reference_rows": 2389,
+      "current_rows": 430,
+      "psi": 0.05095206643305521,
+      "verdict": "OK"
+    },
+    {
+      "feature": "annual_fixed_pay",
+      "reference_rows": 2389,
+      "current_rows": 430,
+      "psi": 0.1593460842476535,
+      "verdict": "WATCH"
+    },
+    {
+      "feature": "comp_ratio",
+      "reference_rows": 2389,
+      "current_rows": 430,
+      "psi": 0.10382246463724369,
+      "verdict": "WATCH"
+    },
+    {
+      "feature": "months_since_last_raise",
+      "reference_rows": 2389,
+      "current_rows": 430,
+      "psi": 3.834630612398016,
+      "verdict": "ALERT"
+    },
+    {
+      "feature": "last_engagement_score",
+      "reference_rows": 1861,
+      "current_rows": 357,
+      "psi": 0.06267367438192452,
+      "verdict": "OK"
+    },
+    {
+      "feature": "attendance_rate_3m",
+      "reference_rows": 2389,
+      "current_rows": 430,
+      "psi": 1.4670486374999536,
+      "verdict": "ALERT"
+    },
+    {
+      "feature": "avg_overtime_hours_per_month_3m",
+      "reference_rows": 2389,
+      "current_rows": 430,
+      "psi": 0.035893904501561276,
+      "verdict": "OK"
+    }
+  ],
+  "resume_fairness": {
+    "twin_pairs": 25,
+    "mean_absolute_twin_gap": 0.0,
+    "max_absolute_twin_gap": 0.0,
+    "nonzero_twin_gaps": 0,
+    "protected_group_results": [
+      {
+        "protected_attribute": "inferred_gender",
+        "group": "Female",
+        "resume_count": 74,
+        "mean_score": 0.5438406855527309,
+        "overall_group_gap": 0.020338184709692064
+      },
+      {
+        "protected_attribute": "inferred_gender",
+        "group": "Male",
+        "resume_count": 111,
+        "mean_score": 0.5235025008430388,
+        "overall_group_gap": 0.020338184709692064
+      },
+      {
+        "protected_attribute": "college_tier",
+        "group": "Tier 1",
+        "resume_count": 49,
+        "mean_score": 0.5525075098562533,
+        "overall_group_gap": 0.048542102930864583
+      },
+      {
+        "protected_attribute": "college_tier",
+        "group": "Tier 2",
+        "resume_count": 71,
+        "mean_score": 0.5039654069253887,
+        "overall_group_gap": 0.048542102930864583
+      },
+      {
+        "protected_attribute": "college_tier",
+        "group": "Tier 3",
+        "resume_count": 65,
+        "mean_score": 0.5461319453818524,
+        "overall_group_gap": 0.048542102930864583
+      }
+    ]
+  },
+  "pay_fairness": {
+    "salary_rows": 2934,
+    "prediction_method": "5-fold stratified out-of-fold predictions",
+    "random_state": 44,
+    "group_results": [
+      {
+        "attribute": "gender",
+        "group": "Female",
+        "n": 1222,
+        "historical_mean_salary": 806183.9509001636,
+        "predicted_mean_salary": 811555.5005933964,
+        "historical_group_gap": 48941.91108530853,
+        "predicted_group_gap": 40279.76495090977,
+        "mean_prediction_minus_historical": 5371.549693232751
+      },
+      {
+        "attribute": "gender",
+        "group": "Male",
+        "n": 1652,
+        "historical_mean_salary": 855125.8619854721,
+        "predicted_mean_salary": 851835.2655443063,
+        "historical_group_gap": 48941.91108530853,
+        "predicted_group_gap": 40279.76495090977,
+        "mean_prediction_minus_historical": -3290.5964411658933
+      },
+      {
+        "attribute": "gender",
+        "group": "Other",
+        "n": 60,
+        "historical_mean_salary": 839786.4,
+        "predicted_mean_salary": 828559.2821247303,
+        "historical_group_gap": 48941.91108530853,
+        "predicted_group_gap": 40279.76495090977,
+        "mean_prediction_minus_historical": -11227.11787526973
+      },
+      {
+        "attribute": "career_gap",
+        "group": "1-12 months",
+        "n": 246,
+        "historical_mean_salary": 799482.0487804879,
+        "predicted_mean_salary": 819654.8647675425,
+        "historical_group_gap": 50653.30393618415,
+        "predicted_group_gap": 74106.55518189108,
+        "mean_prediction_minus_historical": 20172.815987054608
+      },
+      {
+        "attribute": "career_gap",
+        "group": "13-24 months",
+        "n": 94,
+        "historical_mean_salary": 806495.8723404255,
+        "predicted_mean_salary": 842960.6924744386,
+        "historical_group_gap": 50653.30393618415,
+        "predicted_group_gap": 74106.55518189108,
+        "mean_prediction_minus_historical": 36464.820134013076
+      },
+      {
+        "attribute": "career_gap",
+        "group": "25+ months",
+        "n": 45,
+        "historical_mean_salary": 788979.7333333333,
+        "predicted_mean_salary": 768854.1372925474,
+        "historical_group_gap": 50653.30393618415,
+        "predicted_group_gap": 74106.55518189108,
+        "mean_prediction_minus_historical": -20125.596040785895
+      },
+      {
+        "attribute": "career_gap",
+        "group": "No gap",
+        "n": 2549,
+        "historical_mean_salary": 839633.0372695174,
+        "predicted_mean_salary": 836875.0095442254,
+        "historical_group_gap": 50653.30393618415,
+        "predicted_group_gap": 74106.55518189108,
+        "mean_prediction_minus_historical": -2758.0277252920205
+      }
+    ]
+  },
+  "limitations": [
+    "PSI detects feature distribution changes, not model accuracy decline.",
+    "Fairness group gaps are descriptive and not proof of causation.",
+    "Small groups can produce unstable fairness estimates.",
+    "Protected attributes are used only for post-score auditing.",
+    "Human review is required before employment decisions."
+  ]
+}

@@ -211,6 +211,53 @@ def health():
     return {"status": "ok", "service": "cortexhr"}
 
 
+@app.get("/v1/monitoring")
+def monitoring(
+    x_demo_user: str | None = Header(
+        default=None,
+        alias="X-Demo-User",
+    ),
+):
+    """Return the latest committed Task 18 monitoring report."""
+
+    if not x_demo_user:
+        raise HTTPException(
+            status_code=401,
+            detail="Authentication required.",
+        )
+
+    user = resolve_demo_user(x_demo_user)
+
+    if user is None:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid demo user or HR service unavailable.",
+        )
+
+    if user["role"] not in {"HR", "ADMIN"}:
+        raise HTTPException(
+            status_code=403,
+            detail="Only HR and ADMIN users can access monitoring.",
+        )
+
+    report_path = ROOT / "reports" / "task18" / "monitoring_report.json"
+
+    if not report_path.exists():
+        raise HTTPException(
+            status_code=503,
+            detail="Monitoring report is not available.",
+        )
+
+    try:
+        return json.loads(report_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise HTTPException(
+            status_code=503,
+            detail="Monitoring report is invalid or incomplete.",
+        ) from exc
+
+
+
 @app.get("/v1/attrition/risk/{employee_id}", response_model=RiskOut)
 def attrition(
     employee_id: str,
