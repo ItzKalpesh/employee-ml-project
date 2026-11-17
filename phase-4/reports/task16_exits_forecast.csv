@@ -1,0 +1,73 @@
+forecast_id,metric,department_id,forecast_month,forecast_value,lower_80,upper_80,method,trained_through,model_version
+EX-0001,exits,ALL,2026-10-01,4.8,2.6,7.0,Department forecasts summed to company total,2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0002,exits,ALL,2026-11-01,4.6,2.5,6.8,Department forecasts summed to company total,2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0003,exits,ALL,2026-12-01,5.6,3.3,7.8,Department forecasts summed to company total,2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0004,exits,ALL,2027-01-01,4.3,2.2,6.5,Department forecasts summed to company total,2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0005,exits,ALL,2027-02-01,5.0,2.8,7.3,Department forecasts summed to company total,2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0006,exits,ALL,2027-03-01,6.4,4.1,8.6,Department forecasts summed to company total,2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0007,exits,D00,2026-10-01,0.0,0.0,0.0,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0008,exits,D00,2026-11-01,0.0,0.0,0.0,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0009,exits,D00,2026-12-01,0.0,0.0,0.0,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0010,exits,D00,2027-01-01,0.0,0.0,0.0,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0011,exits,D00,2027-02-01,0.0,0.0,0.0,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0012,exits,D00,2027-03-01,0.0,0.0,0.0,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0013,exits,D01,2026-10-01,1.7,0.3,3.1,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0014,exits,D01,2026-11-01,2.1,0.7,3.5,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0015,exits,D01,2026-12-01,2.3,0.9,3.7,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0016,exits,D01,2027-01-01,1.8,0.4,3.2,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0017,exits,D01,2027-02-01,2.0,0.6,3.4,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0018,exits,D01,2027-03-01,3.0,1.6,4.4,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0019,exits,D02,2026-10-01,0.7,0.1,1.3,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0020,exits,D02,2026-11-01,0.5,0.0,1.1,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0021,exits,D02,2026-12-01,0.5,0.0,1.1,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0022,exits,D02,2027-01-01,0.4,0.0,0.9,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0023,exits,D02,2027-02-01,0.4,0.0,1.0,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0024,exits,D02,2027-03-01,0.4,0.0,1.0,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0025,exits,D03,2026-10-01,0.9,0.0,1.8,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0026,exits,D03,2026-11-01,0.4,0.0,1.3,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0027,exits,D03,2026-12-01,0.9,0.0,1.8,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0028,exits,D03,2027-01-01,0.2,0.0,1.1,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0029,exits,D03,2027-02-01,0.4,0.0,1.3,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0030,exits,D03,2027-03-01,0.4,0.0,1.3,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0031,exits,D04,2026-10-01,0.3,0.0,1.2,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0032,exits,D04,2026-11-01,0.6,0.0,1.5,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0033,exits,D04,2026-12-01,0.3,0.0,1.1,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0034,exits,D04,2027-01-01,0.5,0.0,1.3,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0035,exits,D04,2027-02-01,0.5,0.0,1.3,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0036,exits,D04,2027-03-01,0.1,0.0,1.0,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0037,exits,D05,2026-10-01,0.0,0.0,0.3,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0038,exits,D05,2026-11-01,0.0,0.0,0.3,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0039,exits,D05,2026-12-01,0.1,0.0,0.6,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0040,exits,D05,2027-01-01,0.0,0.0,0.5,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0041,exits,D05,2027-02-01,0.0,0.0,0.4,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0042,exits,D05,2027-03-01,0.0,0.0,0.3,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0043,exits,D06,2026-10-01,0.2,0.0,1.3,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0044,exits,D06,2026-11-01,0.2,0.0,1.3,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0045,exits,D06,2026-12-01,0.2,0.0,1.3,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0046,exits,D06,2027-01-01,0.5,0.0,1.6,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0047,exits,D06,2027-02-01,0.5,0.0,1.6,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0048,exits,D06,2027-03-01,0.3,0.0,1.4,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0049,exits,D07,2026-10-01,0.1,0.0,0.6,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0050,exits,D07,2026-11-01,0.1,0.0,0.6,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0051,exits,D07,2026-12-01,0.3,0.0,0.8,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0052,exits,D07,2027-01-01,0.1,0.0,0.6,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0053,exits,D07,2027-02-01,0.1,0.0,0.6,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0054,exits,D07,2027-03-01,0.3,0.0,0.8,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0055,exits,D08,2026-10-01,0.2,0.0,0.8,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0056,exits,D08,2026-11-01,0.2,0.0,0.8,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0057,exits,D08,2026-12-01,0.4,0.0,0.9,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0058,exits,D08,2027-01-01,0.4,0.0,0.9,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0059,exits,D08,2027-02-01,0.2,0.0,0.8,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0060,exits,D08,2027-03-01,0.6,0.0,1.1,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0061,exits,D09,2026-10-01,0.4,0.0,1.5,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0062,exits,D09,2026-11-01,0.4,0.0,1.5,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0063,exits,D09,2026-12-01,0.6,0.0,1.7,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0064,exits,D09,2027-01-01,0.4,0.0,1.5,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0065,exits,D09,2027-02-01,0.9,0.0,2.0,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0066,exits,D09,2027-03-01,1.1,0.0,2.2,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0067,exits,D10,2026-10-01,0.2,0.0,0.6,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0068,exits,D10,2026-11-01,0.0,0.0,0.4,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0069,exits,D10,2026-12-01,0.0,0.0,0.4,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0070,exits,D10,2027-01-01,0.0,0.0,0.4,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0071,exits,D10,2027-02-01,0.0,0.0,0.4,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+EX-0072,exits,D10,2027-03-01,0.2,0.0,0.6,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
