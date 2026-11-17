@@ -762,6 +762,105 @@ def chat(
         slots=slots,
     )
 
+
+@app.get("/v1/forecast")
+def workforce_forecast(
+    metric: str | None = None,
+    department_id: str | None = None,
+    x_demo_user: str | None = Header(
+        default=None,
+        alias="X-Demo-User",
+    ),
+):
+    """Return existing Task 16 workforce forecasts for HR review."""
+
+    if not x_demo_user:
+        raise HTTPException(
+            status_code=401,
+            detail="Authentication required.",
+        )
+
+    user = resolve_demo_user(x_demo_user)
+
+    if user is None:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid demo user or HR service unavailable.",
+        )
+
+    if user["role"] not in {"HR", "ADMIN"}:
+        raise HTTPException(
+            status_code=403,
+            detail="Only HR and ADMIN users can access workforce forecasts.",
+        )
+
+    reports_dir = ROOT / "phase-4" / "reports"
+    metadata_path = (
+        ROOT / "phase-4" / "models" / "task16_forecast_metadata.json"
+    )
+
+    forecast_files = [
+        reports_dir / "task16_forecast.csv",
+        reports_dir / "task16_exits_forecast.csv",
+    ]
+
+    if not metadata_path.exists() or not all(
+        path.exists() for path in forecast_files
+    ):
+        raise HTTPException(
+            status_code=503,
+            detail="Forecast data is currently unavailable.",
+        )
+
+    try:
+        frames = [pd.read_csv(path) for path in forecast_files]
+        forecasts = pd.concat(frames, ignore_index=True)
+        metadata = json.loads(
+            metadata_path.read_text(encoding="utf-8")
+        )
+
+        if metric:
+            forecasts = forecasts[
+                forecasts["metric"].str.lower() == metric.lower()
+            ]
+
+        if department_id:
+            forecasts = forecasts[
+                forecasts["department_id"].str.upper()
+                == department_id.upper()
+            ]
+
+        if forecasts.empty:
+            raise HTTPException(
+                status_code=404,
+                detail="No forecast records match the requested filters.",
+            )
+
+        return {
+            "task": 16,
+            "title": "Workforce Headcount and Exits Forecast",
+            "trained_through": metadata["trained_through"],
+            "model_version": metadata["model_version"],
+            "prediction_interval": metadata["prediction_interval"],
+            "notice": (
+                "Forecasts are planning estimates for human review, "
+                "not guaranteed outcomes or automated employment decisions."
+            ),
+            "count": len(forecasts),
+            "forecasts": forecasts.astype(object).where(
+             pd.notna(forecasts), None
+).to_dict(orient="records"),
+        }
+
+    except HTTPException:
+        raise
+    except (ValueError, KeyError, OSError) as exc:
+        raise HTTPException(
+            status_code=503,
+            detail="Unable to read the workforce forecast data.",
+        ) from exc
+
+
 import gradio as gr
 
 app = gr.mount_gradio_app(app, create_ui(), path="/ui")
