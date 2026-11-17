@@ -1,6 +1,6 @@
 {
   "task": "Task 18 - Drift and Fairness Monitoring",
-  "generated_at": "2026-11-17T16:19:15.210358+00:00",
+  "generated_at": "2026-11-17T17:13:25.931927+00:00",
   "overall_status": "ALERT",
   "psi_thresholds": {
     "OK": "PSI < 0.10",
