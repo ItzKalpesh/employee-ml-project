@@ -418,7 +418,7 @@ The recommendations are estimates, not guaranteed salary offers or confidence in
 
 ## Task 17 — Turn Your Models into a Working API
 
-- **Status:** Implementation merged; PR #23 merged into `main`. Local Docker verification and evidence capture completed. Live deployment verification remains to be recorded.
+- **Status:** Completed; PR #23 merged into `main`. Docker deployment is live on Render and production endpoints, including role-protected monitoring, were verified.
 - **Pull request:** [#23 — Task 17: Versioned API and Deployment](https://github.com/ItzKalpesh/employee-ml-project/pull/23) — merged.
 - **Implementation directory:** `phase-4/src/task17/`
 - **API application:** `phase-4/src/task17/app/main.py`
@@ -433,6 +433,7 @@ The recommendations are estimates, not guaranteed salary offers or confidence in
 | Method | Endpoint | Purpose |
 |---|---|---|
 | GET | `/v1/health` | Service health |
+| GET | `/v1/monitoring` | Latest Task 18 drift and fairness monitoring report (HR/ADMIN only) |
 | POST | `/v1/resume/rank` | Resume ranking |
 | GET | `/v1/attrition/risk/{employee_id}` | Employee attrition risk |
 | POST | `/v1/anomaly/attendance` | Attendance anomaly scoring |
@@ -457,9 +458,56 @@ The recommendations are estimates, not guaranteed salary offers or confidence in
 - `task17_smoke_test.png`
 - `task17_swagger.png`
 
-**Deployment follow-up:** The smoke-test base URL was changed after PR #23 to `https://employee-ml-project-ea41.onrender.com` and committed on the task branch. Live hosted endpoint results have not yet been documented here. Verify the hosted health endpoint and run the smoke test against the deployed service before marking live deployment complete.
+**Production deployment:**
+- **Hosting:** Render; repository `ItzKalpesh/employee-ml-project`, branch `main`.
+- **Production API:** `https://employee-ml-project-ea41.onrender.com`.
+- **Swagger UI:** `https://employee-ml-project-ea41.onrender.com/docs`.
+- **Deployment verification:** Render deployment of commit `0ab0e6c` reported Live. The `/v1/monitoring` endpoint returned the latest committed report timestamp `2026-11-17T16:19:15.210358+00:00`.
+- **Authorization checks:** HR `EMP-0011` returned HTTP 200; ADMIN `EMP-0099` returned HTTP 200; employee `EMP-0002` returned HTTP 403; a missing `X-Demo-User` header returned HTTP 401.
 
 **Limitations and responsible use:** Anomaly flags are not proof of fraud or misconduct; estimated exposure is not confirmed loss. Attrition and resume-ranking outputs are decision-support signals and should not be the sole basis for employment decisions. Ensure employee data and secrets are protected in any hosted deployment.
+
+## Task 18 — Drift and Fairness Monitoring
+
+- **Status:** Completed; PR #24 merged into `main`; scheduled GitHub Actions workflow ran successfully and published monitoring reports.
+- **Pull request:** [#24 — Task 18: Drift and Fairness Monitoring](https://github.com/ItzKalpesh/employee-ml-project/pull/24) — merged.
+- **Monitor:** `phase-4/src/task18/monitor.py`
+- **Dependencies:** `phase-4/src/task18/requirements.txt`
+- **Workflow:** `.github/workflows/task18-monitor.yml`
+- **Report directory:** `reports/task18/`
+- **Main report:** `reports/task18/monitoring_report.json`
+- **Evidence directory:** `phase-4/evidence/task18/`
+- **API integration:** `GET /v1/monitoring` in `phase-4/src/task17/app/main.py`.
+- **Live monitoring API:** [https://employee-ml-project-ea41.onrender.com/v1/monitoring](https://employee-ml-project-ea41.onrender.com/v1/monitoring) — HR and ADMIN access only.
+- **Live API base URL (Task 17 service):** [https://employee-ml-project-ea41.onrender.com](https://employee-ml-project-ea41.onrender.com).
+- **Live Swagger UI:** [https://employee-ml-project-ea41.onrender.com/docs](https://employee-ml-project-ea41.onrender.com/docs).
+
+**Drift monitoring (PSI):** Compared reference and current scoring distributions for eight attrition-model input features. Thresholds: PSI below 0.10 = OK; 0.10–0.25 = WATCH; above 0.25 = ALERT.
+
+| Feature | PSI | Status |
+|---|---:|---|
+| `tenure_months` | 0.208619 | WATCH |
+| `total_experience_years` | 0.050952 | OK |
+| `annual_fixed_pay` | 0.159346 | WATCH |
+| `comp_ratio` | 0.103822 | WATCH |
+| `months_since_last_raise` | 3.834631 | ALERT |
+| `last_engagement_score` | 0.062674 | OK |
+| `attendance_rate_3m` | 1.467049 | ALERT |
+| `avg_overtime_hours_per_month_3m` | 0.035894 | OK |
+
+Overall PSI status: **ALERT**, driven by `months_since_last_raise` and `attendance_rate_3m`. PSI indicates a feature-distribution shift; it does not by itself establish reduced model accuracy or automatically require retraining.
+
+**Resume fairness audit:** Re-ran the Task 12 counterfactual twin-gap and protected-group score-gap checks. Across 25 twin pairs, mean and maximum absolute twin score gap were 0.000, with zero nonzero gaps. The observed gender group gap was 0.020338 and college-tier group gap was 0.048542. Protected attributes were used only after scoring for audit, not as model predictors.
+
+**Pay fairness audit:** Re-ran the Task 15 group-gap analysis on 2,934 salary records. Gender historical group gap was 48,941.91 and predicted group gap was 40,279.52. Career-gap historical group gap was 50,653.30 and predicted group gap was 74,105.30. Gender and career-gap attributes were excluded from model predictors and used only for post-score auditing. These group comparisons are descriptive, not causal proof of fairness; small groups may be unstable.
+
+**Automation and data handling:** The workflow runs weekly on Monday at 02:00 UTC and supports manual dispatch. It restores required audit datasets and protected-attribute files from GitHub Secrets, runs the monitor, uploads reports as workflow artifacts, removes restored sensitive files, and publishes updated report outputs to `main`. The workflow completed successfully and published commit `0ab0e6c`.
+
+**Production API authorization:** `GET /v1/monitoring` returns the latest committed monitoring report and is restricted to HR and ADMIN roles. Production checks returned HTTP 200 for HR and ADMIN, HTTP 403 for an employee role, and HTTP 401 when the authentication header was missing.
+
+**ALERT response plan:** Investigate the attendance-rate and months-since-last-raise shifts; check data quality, missingness, and collection changes; evaluate model performance on newly labelled data before considering retraining; document findings and retain human review. Do not retrain solely because PSI is high.
+
+**Limitations:** Monitoring is a signal for investigation, not a determination of model failure or discrimination. Fairness gaps are descriptive and require contextual review. Protected attributes must remain excluded from prediction features and restricted to authorized audit workflows.
 
 ## GitHub Handoff
 
@@ -481,13 +529,14 @@ The recommendations are estimates, not guaranteed salary offers or confidence in
 - **Task 15 — Recommend Fair Pay Bands:** [#18 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/18).
 - **Task 16 — Workforce Headcount and Exits Forecasting:** [#22 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/22).
 - **Task 17 — Versioned API and Deployment:** [#23 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/23).
+- **Task 18 — Drift and Fairness Monitoring:** [#24 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/24).
 
 ### Phase Status
 
 - **Phase 1:** Tasks 1–5 completed.
 - **Phase 2:** Tasks 6–10 completed.
 - **Phase 3:** Tasks 11–15 completed.
-- **Phase 4 (current):** Task 16 completed; Task 17 implementation merged. Live deployment verification remains outstanding; Tasks 18–20 are upcoming.
+- **Phase 4 (current):** Tasks 16–18 completed. Task 17 is live on Render; Task 18 monitoring workflow and production API authorization have been verified. Tasks 19–20 remain upcoming.
 - **Final review package:** Prepare after all required tasks and reports are complete.
 
 ## Final Review Package
@@ -495,8 +544,8 @@ The recommendations are estimates, not guaranteed salary offers or confidence in
 Prepare the final review attachment only after all required tasks and reports are complete. Follow the programme's instructions for dataset inclusion and sensitive files. Keep interim Phase 1 report files local until the final report is approved for submission.
 
 Before final submission:
-- Verify that the pull request links and statuses for Tasks 1–17 are correct.
+- Verify that the pull request links and statuses for Tasks 1–18 are correct.
 - Verify the `phase-1` tag points to the final completed Phase 1 commit.
-- Ensure the root `README.md`, Phase 4 README, and this submission checklist reflect the completed work and any remaining deployment verification.
+- Ensure the root `README.md`, Phase 4 README, and this submission checklist reflect completed Tasks 1–18, the live Render deployment, and the Task 18 monitoring workflow.
 - Generate and check the required 2–3 page PDF report under 10 MB.
 - Do not include `notebook_changes.txt`, local-only interim reports, secrets, or sensitive/unapproved datasets in a commit.

@@ -8,7 +8,7 @@ CortexHR is an employee analytics project developed as part of the Aura Workforc
 
 ## Project Workflow
 
-Raw Data → Data Audit → Feature Engineering → Baseline Models → Model Evaluation → Anomaly Detection → HR FAQ Chatbot → Resume Ranking → Workforce Forecasting → Versioned Prediction API
+Raw Data → Data Audit → Feature Engineering → Baseline Models → Model Evaluation → Anomaly Detection → HR FAQ Chatbot → Resume Ranking → Workforce Forecasting → Versioned Prediction API → Drift and Fairness Monitoring
 
 ## Task 1 — Data Audit and Leakage Hunt
 
@@ -475,7 +475,7 @@ Compared a seasonal baseline with a SARIMAX candidate using a six-month holdout 
 
 ## Task 17 — Turn Your Models into a Working API
 
-**Status: Implementation merged; [PR #23](https://github.com/ItzKalpesh/employee-ml-project/pull/23) merged into `main`. Local Docker verification and evidence capture completed. Live deployment verification remains to be recorded.**
+**Status: Completed; [PR #23](https://github.com/ItzKalpesh/employee-ml-project/pull/23) merged into `main`. Local Docker verification, Render deployment, and live endpoint checks completed.**
 
 - **Pull request:** [#23 — Task 17: Versioned API and Deployment](https://github.com/ItzKalpesh/employee-ml-project/pull/23) — merged.
 - **Implementation:** `phase-4/src/task17/`
@@ -517,13 +517,86 @@ The FastAPI service exposes versioned endpoints for resume ranking, employee att
 - `task17_smoke_test.png`
 - `task17_swagger.png`
 
-**Deployment note:** The smoke-test configuration was subsequently changed to target the Render service at `https://employee-ml-project-ea41.onrender.com`. This configuration change was committed on the task branch after PR #23 was merged. Record live endpoint test results once the hosted service has been checked successfully; local Docker results are not a substitute for live verification.
+**Deployment verification:** The API is deployed on Render at `https://employee-ml-project-ea41.onrender.com`. The health and monitoring endpoints were checked in production; role-based authorization was verified for HR, ADMIN, and Employee demo users.
 
 **Responsible-use limitations:** Anomaly flags do not prove fraud or misconduct; money-at-risk values are estimates rather than confirmed losses. Attrition and resume-ranking outputs are decision-support signals and must not be used as the sole basis for employment decisions. Protect employee data and secrets when deploying the service.
 
+## Task 18 — Drift and Fairness Monitoring
+
+**Status: Completed; [PR #24](https://github.com/ItzKalpesh/employee-ml-project/pull/24) merged into `main`.**
+
+- **Pull request:** [#24 — Task 18: Drift and Fairness Monitoring](https://github.com/ItzKalpesh/employee-ml-project/pull/24) — merged.
+- **Monitoring implementation:** `phase-4/src/task18/monitor.py`
+- **Dependencies:** `phase-4/src/task18/requirements.txt`
+- **Monitoring report:** `reports/task18/monitoring_report.json`
+- **PSI results:** `reports/task18/psi_monitoring.csv`
+- **Resume twin fairness:** `reports/task18/resume_twin_fairness.csv`
+- **Resume group fairness:** `reports/task18/resume_group_fairness.csv`
+- **Pay fairness:** `reports/task18/pay_fairness.csv`
+- **Evidence:** `phase-4/evidence/task18/`
+- **Automation:** `.github/workflows/task18-monitor.yml`
+
+The monitoring pipeline calculates Population Stability Index (PSI) for eight attrition-model input features, repeats the Task 12 resume fairness checks, and repeats the Task 15 pay fairness audit. Protected attributes are used only for post-scoring fairness analysis and are not included as model predictors.
+
+**PSI thresholds:**
+
+| PSI | Status |
+|---|---|
+| Below 0.10 | OK |
+| 0.10–0.25 | WATCH |
+| Above 0.25 | ALERT |
+
+**Current drift findings:**
+
+| Feature | PSI | Status |
+|---|---:|---|
+| `tenure_months` | 0.208619 | WATCH |
+| `total_experience_years` | 0.050952 | OK |
+| `annual_fixed_pay` | 0.159346 | WATCH |
+| `comp_ratio` | 0.103822 | WATCH |
+| `months_since_last_raise` | 3.834631 | ALERT |
+| `last_engagement_score` | 0.062674 | OK |
+| `attendance_rate_3m` | 1.467049 | ALERT |
+| `avg_overtime_hours_per_month_3m` | 0.035894 | OK |
+
+The overall PSI status is **ALERT**, driven by changes in `months_since_last_raise` and `attendance_rate_3m`. PSI identifies changes in feature distributions; it does not by itself prove that predictive performance has declined or that retraining is required.
+
+**Resume fairness results:**
+
+- Counterfactual twin pairs evaluated: **25**.
+- Mean and maximum absolute twin score gap: **0.000**.
+- Nonzero twin gaps: **0**.
+- Gender group mean-score gap: **0.020338**.
+- College-tier group mean-score gap: **0.048542**.
+
+**Pay fairness results:**
+
+- Historical gender group gap: **48,941.91**; predicted gap: **40,279.52**.
+- Historical career-gap group gap: **50,653.30**; predicted gap: **74,105.30**.
+- Protected attributes were excluded from model predictors and used only for post-scoring fairness auditing.
+
+**Automated monitoring and API integration:**
+
+- GitHub Actions runs the monitoring workflow weekly (Monday at 02:00 UTC) and supports manual dispatch.
+- The workflow restores required audit inputs from GitHub Secrets, runs the monitor, uploads report artifacts, removes restored sensitive datasets, and publishes updated monitoring reports to `main`.
+- The Task 17 FastAPI service exposes `GET /v1/monitoring` for HR and ADMIN demo users. Employee access is denied.
+- Production endpoint: [https://employee-ml-project-ea41.onrender.com/v1/monitoring](https://employee-ml-project-ea41.onrender.com/v1/monitoring)
+- Swagger UI: [https://employee-ml-project-ea41.onrender.com/docs](https://employee-ml-project-ea41.onrender.com/docs)
+- Production authorization checks: HR HTTP 200; ADMIN HTTP 200; Employee HTTP 403; missing authentication HTTP 401.
+- The workflow successfully published the monitoring reports to `main`, and Render deployed the updated commit.
+
+**ALERT investigation and response plan:**
+
+1. Investigate the attendance-rate and months-since-last-raise distribution shifts.
+2. Check source-data quality, missingness, and changes in data collection or processing.
+3. Evaluate model performance on newly labelled data before deciding whether retraining is appropriate.
+4. Document findings, retain human review, and continue scheduled monitoring.
+
+**Fairness and monitoring limitations:** Group gaps are descriptive and do not establish causation or prove fairness. Small groups may produce unstable estimates. PSI measures distribution shift, not model accuracy. Monitoring results are intended to prompt investigation and human review, not automatic employment decisions.
+
 ## Upcoming Tasks
 
-Tasks 1–17 are documented above. Task 17 implementation is merged; live deployment verification remains to be recorded. Continue with Tasks 18–20 according to the supplied Phase 4 requirements and update this README after each task is completed.
+Tasks 1–18 are documented above. Tasks 16–18 are complete. Continue with the remaining Phase 4 requirements and update this README as further tasks are completed.
 
 ## Setup and Verification
 
