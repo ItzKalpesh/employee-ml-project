@@ -1,0 +1,87 @@
+﻿
+name: Task 18 - Drift and Fairness Monitoring
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 2 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install monitoring dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r phase-4/src/task18/requirements.txt
+
+      - name: Restore monitoring datasets and protected audit files
+        env:
+          RESUME_PAIRS_PART_1: ${{ secrets.RESUME_PAIRS_PART_1 }}
+          SALARY_DATA_PART_1: ${{ secrets.SALARY_DATA_PART_1 }}
+          SALARY_DATA_PART_2: ${{ secrets.SALARY_DATA_PART_2 }}
+          SALARY_DATA_PART_3: ${{ secrets.SALARY_DATA_PART_3 }}
+          ATTRITION_REFERENCE_PART_1: ${{ secrets.ATTRITION_REFERENCE_PART_1 }}
+          ATTRITION_REFERENCE_PART_2: ${{ secrets.ATTRITION_REFERENCE_PART_2 }}
+          ATTRITION_REFERENCE_PART_3: ${{ secrets.ATTRITION_REFERENCE_PART_3 }}
+          ATTRITION_REFERENCE_PART_4: ${{ secrets.ATTRITION_REFERENCE_PART_4 }}
+          ATTRITION_REFERENCE_PART_5: ${{ secrets.ATTRITION_REFERENCE_PART_5 }}
+          RESUME_VAULT_B64: ${{ secrets.RESUME_VAULT_B64 }}
+          PAY_VAULT_PART_1: ${{ secrets.PAY_VAULT_PART_1 }}
+        run: |
+          set -euo pipefail
+
+          mkdir -p data 04_Validation_Vault
+
+          printf '%s' "$RESUME_PAIRS_PART_1" | base64 --decode | gzip -d > data/resume_bias_pairs.csv
+
+          printf '%s' "$SALARY_DATA_PART_1$SALARY_DATA_PART_2$SALARY_DATA_PART_3" \
+            | base64 --decode | gzip -d > data/salary_training.csv
+
+          printf '%s' "$ATTRITION_REFERENCE_PART_1$ATTRITION_REFERENCE_PART_2$ATTRITION_REFERENCE_PART_3$ATTRITION_REFERENCE_PART_4$ATTRITION_REFERENCE_PART_5" \
+            | base64 --decode | gzip -d > data/attrition_dataset.csv
+
+          printf '%s' "$RESUME_VAULT_B64" | base64 --decode \
+            > 04_Validation_Vault/unlock_CX-12_resume_protected_attrs.csv
+
+          printf '%s' "$PAY_VAULT_PART_1" | base64 --decode | gzip -d \
+            > 04_Validation_Vault/unlock_CX-15_protected_attributes.csv
+
+          test -s data/resume_bias_pairs.csv
+          test -s data/salary_training.csv
+          test -s data/attrition_dataset.csv
+          test -s 04_Validation_Vault/unlock_CX-12_resume_protected_attrs.csv
+          test -s 04_Validation_Vault/unlock_CX-15_protected_attributes.csv
+
+      - name: Run drift and fairness monitor
+        run: python phase-4/src/task18/monitor.py
+
+      - name: Upload monitoring reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: task18-monitoring-reports
+          path: reports/task18/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Remove restored sensitive datasets
+        if: always()
+        run: |
+          rm -f data/resume_bias_pairs.csv
+          rm -f data/salary_training.csv
+          rm -f data/attrition_dataset.csv
+          rm -f 04_Validation_Vault/unlock_CX-12_resume_protected_attrs.csv
+          rm -f 04_Validation_Vault/unlock_CX-15_protected_attributes.csv

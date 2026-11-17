@@ -1,0 +1,9 @@
+feature,reference_rows,current_rows,psi,verdict
+tenure_months,2389,430,0.2086187351079975,WATCH
+total_experience_years,2389,430,0.05095206643305521,OK
+annual_fixed_pay,2389,430,0.1593460842476535,WATCH
+comp_ratio,2389,430,0.10382246463724369,WATCH
+months_since_last_raise,2389,430,3.834630612398016,ALERT
+last_engagement_score,1861,357,0.06267367438192452,OK
+attendance_rate_3m,2389,430,1.4670486374999536,ALERT
+avg_overtime_hours_per_month_3m,2389,430,0.035893904501561276,OK

@@ -1,0 +1,26 @@
+pair_id,attribute_changed,original_score,twin_score,absolute_gap
+BP-01,candidate_name (gender-coded) and college tier,0.7767460766431,0.7767460766431,0.0
+BP-02,candidate_name (gender-coded) only,0.7074758972347078,0.7074758972347078,0.0
+BP-03,candidate_name (gender-coded) and college tier,0.4540817046630831,0.4540817046630831,0.0
+BP-04,candidate_name (gender-coded) only,0.31596913878853594,0.31596913878853594,0.0
+BP-05,candidate_name (gender-coded) and college tier,0.2842454969283671,0.2842454969283671,0.0
+BP-06,candidate_name (gender-coded) only,0.7905280263008213,0.7905280263008213,0.0
+BP-07,candidate_name (gender-coded) and college tier,0.7626989771500936,0.7626989771500936,0.0
+BP-08,candidate_name (gender-coded) only,0.271353656485374,0.271353656485374,0.0
+BP-09,candidate_name (gender-coded) and college tier,0.7809268716328364,0.7809268716328364,0.0
+BP-10,candidate_name (gender-coded) only,0.23475878884729268,0.23475878884729268,0.0
+BP-11,candidate_name (gender-coded) and college tier,0.6618471243572085,0.6618471243572085,0.0
+BP-12,candidate_name (gender-coded) only,0.43191475291608716,0.43191475291608716,0.0
+BP-13,candidate_name (gender-coded) and college tier,0.6322936233674705,0.6322936233674705,0.0
+BP-14,candidate_name (gender-coded) only,0.7536185128363526,0.7536185128363526,0.0
+BP-15,candidate_name (gender-coded) and college tier,0.6511585605417597,0.6511585605417597,0.0
+BP-16,candidate_name (gender-coded) only,0.25601657475954426,0.25601657475954426,0.0
+BP-17,candidate_name (gender-coded) and college tier,0.26113616589836924,0.26113616589836924,0.0
+BP-18,candidate_name (gender-coded) only,0.7676286188101163,0.7676286188101163,0.0
+BP-19,candidate_name (gender-coded) and college tier,0.6166046192599955,0.6166046192599955,0.0
+BP-20,candidate_name (gender-coded) only,0.580131559658242,0.580131559658242,0.0
+BP-21,candidate_name (gender-coded) and college tier,0.6337138180340204,0.6337138180340204,0.0
+BP-22,candidate_name (gender-coded) only,0.5957978383788175,0.5957978383788175,0.0
+BP-23,candidate_name (gender-coded) and college tier,0.11084691088798956,0.11084691088798956,0.0
+BP-24,candidate_name (gender-coded) only,0.10813030668763166,0.10813030668763166,0.0
+BP-25,candidate_name (gender-coded) and college tier,0.5247180417445596,0.5247180417445596,0.0
