@@ -395,6 +395,72 @@ Generated low, mid, and high salary recommendation bands using residual-based ca
 
 The recommendations are estimates, not guaranteed salary offers or confidence intervals. Group-gap comparisons are descriptive, not proof of fairness. The increased predicted career-gap disparity requires further investigation. Final compensation decisions remain with managers and HR.
 
+## Task 16 — Workforce Headcount and Exits Forecasting
+
+- **Status:** Completed; PR #22 merged into `main`.
+- **Pull request:** [#22 — Task 16: Workforce Headcount and Exits Forecasting](https://github.com/ItzKalpesh/employee-ml-project/pull/22) — merged.
+- **Notebook:** `phase-4/notebooks/16_headcount_forecast.ipynb`
+- **Forecast metadata:** `phase-4/models/task16_forecast_metadata.json`
+- **Evidence directory:** `phase-4/evidence/`
+- **Evidence images:** `task16_historical_trends.png`, `task16_seasonality_profile.png`, `task16_headcount_forecast.png`, `task16_exits_forecast.png`, and `task16_attrition_forecast.png`.
+
+**Methodology:** Compared a seasonal baseline and SARIMAX using a six-month holdout period (April–September 2026). Selected models separately for headcount, exits, and attrition rate.
+
+**Holdout WAPE:**
+
+| Forecast target | Seasonal baseline | SARIMAX | Selected model |
+|---|---:|---:|---|
+| Headcount | 4.663% | 2.066% | SARIMAX |
+| Exits | 81.484% | 86.004% | Seasonal baseline |
+| Attrition rate | 44.759% | 47.309% | Seasonal baseline |
+
+**Limitations:** Exits and attrition-rate WAPE remain high. Forecasts are based on the supplied historical data and holdout period; future workforce events are unknown. Treat outputs as planning estimates requiring human review.
+
+## Task 17 — Turn Your Models into a Working API
+
+- **Status:** Implementation merged; PR #23 merged into `main`. Local Docker verification and evidence capture completed. Live deployment verification remains to be recorded.
+- **Pull request:** [#23 — Task 17: Versioned API and Deployment](https://github.com/ItzKalpesh/employee-ml-project/pull/23) — merged.
+- **Implementation directory:** `phase-4/src/task17/`
+- **API application:** `phase-4/src/task17/app/main.py`
+- **Gradio UI:** `phase-4/src/task17/app/ui.py`
+- **Smoke test:** `phase-4/src/task17/smoke_test.py`
+- **Dockerfile:** `phase-4/src/task17/Dockerfile`
+- **Task README:** `phase-4/src/task17/README.md`
+- **Evidence directory:** `phase-4/evidence/task17/`
+
+**API routes:**
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/v1/health` | Service health |
+| POST | `/v1/resume/rank` | Resume ranking |
+| GET | `/v1/attrition/risk/{employee_id}` | Employee attrition risk |
+| POST | `/v1/anomaly/attendance` | Attendance anomaly scoring |
+| POST | `/v1/anomaly/payroll` | Payroll anomaly scoring |
+| POST | `/v1/chat` | HR FAQ/chat |
+
+**Implementation:** Added a versioned FastAPI service with Pydantic validation, startup model loading, error handling, CORS, a health endpoint, and a Gradio prediction interface.
+
+**Local verification:**
+- Docker image built and local container verified.
+- Swagger UI: `http://localhost:8001/docs`.
+- Health endpoint: `http://localhost:8001/v1/health` returned HTTP 200.
+- Gradio UI: `http://localhost:8001/ui`.
+- Smoke test: **6/6** checks passed (health, attrition risk, attendance anomaly, payroll anomaly, resume ranking, and chatbot).
+
+**Evidence screenshots committed:**
+- `task17_attendance.png`
+- `task17_docker.png`
+- `task17_gradio_ui.png`
+- `task17_health.png`
+- `task17_payroll.png`
+- `task17_smoke_test.png`
+- `task17_swagger.png`
+
+**Deployment follow-up:** The smoke-test base URL was changed after PR #23 to `https://employee-ml-project-ea41.onrender.com` and committed on the task branch. Live hosted endpoint results have not yet been documented here. Verify the hosted health endpoint and run the smoke test against the deployed service before marking live deployment complete.
+
+**Limitations and responsible use:** Anomaly flags are not proof of fraud or misconduct; estimated exposure is not confirmed loss. Attrition and resume-ranking outputs are decision-support signals and should not be the sole basis for employment decisions. Ensure employee data and secrets are protected in any hosted deployment.
+
 ## GitHub Handoff
 
 - **Repository:** [employee-ml-project](https://github.com/ItzKalpesh/employee-ml-project)
@@ -413,12 +479,15 @@ The recommendations are estimates, not guaranteed salary offers or confidence in
 - **Task 13 — Attrition Model V2:** [#16 — opened](https://github.com/ItzKalpesh/employee-ml-project/pull/16).
 - **Task 14 — Explain Every Person's Attrition Risk:** [#17 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/17).
 - **Task 15 — Recommend Fair Pay Bands:** [#18 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/18).
+- **Task 16 — Workforce Headcount and Exits Forecasting:** [#22 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/22).
+- **Task 17 — Versioned API and Deployment:** [#23 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/23).
 
 ### Phase Status
 
 - **Phase 1:** Tasks 1–5 completed.
 - **Phase 2:** Tasks 6–10 completed.
-- **Phase 3 (current):** Tasks 11–14 completed.
+- **Phase 3:** Tasks 11–15 completed.
+- **Phase 4 (current):** Task 16 completed; Task 17 implementation merged. Live deployment verification remains outstanding; Tasks 18–20 are upcoming.
 - **Final review package:** Prepare after all required tasks and reports are complete.
 
 ## Final Review Package
@@ -426,8 +495,8 @@ The recommendations are estimates, not guaranteed salary offers or confidence in
 Prepare the final review attachment only after all required tasks and reports are complete. Follow the programme's instructions for dataset inclusion and sensitive files. Keep interim Phase 1 report files local until the final report is approved for submission.
 
 Before final submission:
-- Verify that the pull request links and statuses for Tasks 1–13 are correct.
+- Verify that the pull request links and statuses for Tasks 1–17 are correct.
 - Verify the `phase-1` tag points to the final completed Phase 1 commit.
-- Ensure the root `README.md` and this submission checklist reflect the completed Task 13 work.
+- Ensure the root `README.md`, Phase 4 README, and this submission checklist reflect the completed work and any remaining deployment verification.
 - Generate and check the required 2–3 page PDF report under 10 MB.
 - Do not include `notebook_changes.txt`, local-only interim reports, secrets, or sensitive/unapproved datasets in a commit.

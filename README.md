@@ -8,7 +8,7 @@ CortexHR is an employee analytics project developed as part of the Aura Workforc
 
 ## Project Workflow
 
-Raw Data → Data Audit → Feature Engineering → Baseline Models → Model Evaluation → Anomaly APIs → HR FAQ Chatbot → Resume Ranking
+Raw Data → Data Audit → Feature Engineering → Baseline Models → Model Evaluation → Anomaly Detection → HR FAQ Chatbot → Resume Ranking → Workforce Forecasting → Versioned Prediction API
 
 ## Task 1 — Data Audit and Leakage Hunt
 
@@ -446,9 +446,84 @@ SHAP explanations describe model associations, not causal relationships. Contrib
 
 The salary recommendations are estimates based on historical data, not guaranteed market salaries or confidence intervals. The observed group gaps are descriptive and do not establish the absence of bias. The career-gap group disparity increased in the predictions and requires further investigation. Recommendations are decision-support information; final pay decisions remain with managers and HR.
 
+## Task 16 — Workforce Headcount and Exits Forecasting
+
+**Status: Completed; [PR #22](https://github.com/ItzKalpesh/employee-ml-project/pull/22) merged into `main`.**
+
+- **Pull request:** [#22 — Task 16: Workforce Headcount and Exits Forecasting](https://github.com/ItzKalpesh/employee-ml-project/pull/22) — merged.
+- **Notebook:** `phase-4/notebooks/16_headcount_forecast.ipynb`
+- **Forecast metadata:** `phase-4/models/task16_forecast_metadata.json`
+- **Evidence directory:** `phase-4/evidence/`
+- **Evidence images:**
+  - `task16_historical_trends.png`
+  - `task16_seasonality_profile.png`
+  - `task16_headcount_forecast.png`
+  - `task16_exits_forecast.png`
+  - `task16_attrition_forecast.png`
+
+Compared a seasonal baseline with a SARIMAX candidate using a six-month holdout period (April–September 2026). Model selection was performed separately for headcount, exits, and attrition rate.
+
+**Holdout WAPE results:**
+
+| Forecast target | Seasonal baseline | SARIMAX | Selected model |
+|---|---:|---:|---|
+| Headcount | 4.663% | 2.066% | SARIMAX |
+| Exits | 81.484% | 86.004% | Seasonal baseline |
+| Attrition rate | 44.759% | 47.309% | Seasonal baseline |
+
+**Limitations:** Exits and attrition-rate WAPE remain high. The results are based on the supplied historical data and a six-month holdout; future workforce events are unknown. Forecasts are planning estimates and should be reviewed alongside operational context.
+
+## Task 17 — Turn Your Models into a Working API
+
+**Status: Implementation merged; [PR #23](https://github.com/ItzKalpesh/employee-ml-project/pull/23) merged into `main`. Local Docker verification and evidence capture completed. Live deployment verification remains to be recorded.**
+
+- **Pull request:** [#23 — Task 17: Versioned API and Deployment](https://github.com/ItzKalpesh/employee-ml-project/pull/23) — merged.
+- **Implementation:** `phase-4/src/task17/`
+- **API application:** `phase-4/src/task17/app/main.py`
+- **Prediction UI:** `phase-4/src/task17/app/ui.py`
+- **Smoke test:** `phase-4/src/task17/smoke_test.py`
+- **Dockerfile:** `phase-4/src/task17/Dockerfile`
+- **Dependencies:** `phase-4/src/task17/requirements.txt`
+- **Task documentation:** `phase-4/src/task17/README.md`
+- **Evidence:** `phase-4/evidence/task17/`
+
+The FastAPI service exposes versioned endpoints for resume ranking, employee attrition risk, attendance anomaly scoring, payroll anomaly scoring, and HR FAQ chat. It includes Pydantic request/response validation, startup model loading, error handling, CORS, and a health endpoint. A Gradio interface provides a simple prediction UI.
+
+**API routes:**
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/v1/health` | Service health |
+| POST | `/v1/resume/rank` | Resume ranking |
+| GET | `/v1/attrition/risk/{employee_id}` | Employee attrition risk |
+| POST | `/v1/anomaly/attendance` | Attendance anomaly scoring |
+| POST | `/v1/anomaly/payroll` | Payroll anomaly scoring |
+| POST | `/v1/chat` | HR FAQ/chat |
+
+**Local verification:**
+
+- Docker image built successfully and the container was tested locally.
+- Swagger UI was verified at `http://localhost:8001/docs`.
+- Health endpoint returned HTTP 200 at `http://localhost:8001/v1/health`.
+- Gradio UI was verified at `http://localhost:8001/ui`.
+- Smoke test passed **6/6** checks: health, attrition risk, attendance anomaly, payroll anomaly, resume ranking, and chatbot.
+
+**Evidence screenshots** are committed under `phase-4/evidence/task17/`:
+- `task17_attendance.png`
+- `task17_docker.png`
+- `task17_gradio_ui.png`
+- `task17_health.png`
+- `task17_payroll.png`
+- `task17_smoke_test.png`
+- `task17_swagger.png`
+
+**Deployment note:** The smoke-test configuration was subsequently changed to target the Render service at `https://employee-ml-project-ea41.onrender.com`. This configuration change was committed on the task branch after PR #23 was merged. Record live endpoint test results once the hosted service has been checked successfully; local Docker results are not a substitute for live verification.
+
+**Responsible-use limitations:** Anomaly flags do not prove fraud or misconduct; money-at-risk values are estimates rather than confirmed losses. Attrition and resume-ranking outputs are decision-support signals and must not be used as the sole basis for employment decisions. Protect employee data and secrets when deploying the service.
+
 ## Upcoming Tasks
 
-Continue with the remaining project tasks according to the supplied project requirements. Tasks 1–15 are currently recorded as completed; keep this section and the submission checklist updated as further tasks are completed.
+Tasks 1–17 are documented above. Task 17 implementation is merged; live deployment verification remains to be recorded. Continue with Tasks 18–20 according to the supplied Phase 4 requirements and update this README after each task is completed.
 
 ## Setup and Verification
 
