@@ -1,6 +1,6 @@
 {
   "task": "Task 18 - Drift and Fairness Monitoring",
-  "generated_at": "2026-11-17T20:57:37.107097+00:00",
+  "generated_at": "2026-11-17T21:14:56.071527+00:00",
   "overall_status": "ALERT",
   "psi_thresholds": {
     "OK": "PSI < 0.10",
@@ -118,70 +118,70 @@
         "group": "Female",
         "n": 1222,
         "historical_mean_salary": 806183.9509001636,
-        "predicted_mean_salary": 811555.6626451549,
+        "predicted_mean_salary": 811555.4651360349,
         "historical_group_gap": 48941.91108530853,
-        "predicted_group_gap": 40279.5207523898,
-        "mean_prediction_minus_historical": 5371.7117449912475
+        "predicted_group_gap": 40279.81304457574,
+        "mean_prediction_minus_historical": 5371.514235871262
       },
       {
         "attribute": "gender",
         "group": "Male",
         "n": 1652,
         "historical_mean_salary": 855125.8619854721,
-        "predicted_mean_salary": 851835.1833975447,
+        "predicted_mean_salary": 851835.2781806106,
         "historical_group_gap": 48941.91108530853,
-        "predicted_group_gap": 40279.5207523898,
-        "mean_prediction_minus_historical": -3290.678587927483
+        "predicted_group_gap": 40279.81304457574,
+        "mean_prediction_minus_historical": -3290.583804861526
       },
       {
         "attribute": "gender",
         "group": "Other",
         "n": 60,
         "historical_mean_salary": 839786.4,
-        "predicted_mean_salary": 828559.3708369156,
+        "predicted_mean_salary": 828558.7305482436,
         "historical_group_gap": 48941.91108530853,
-        "predicted_group_gap": 40279.5207523898,
-        "mean_prediction_minus_historical": -11227.029163084459
+        "predicted_group_gap": 40279.81304457574,
+        "mean_prediction_minus_historical": -11227.669451756403
       },
       {
         "attribute": "career_gap",
         "group": "1-12 months",
         "n": 246,
         "historical_mean_salary": 799482.0487804879,
-        "predicted_mean_salary": 819655.1023294545,
+        "predicted_mean_salary": 819655.1857232681,
         "historical_group_gap": 50653.30393618415,
-        "predicted_group_gap": 74105.29676070972,
-        "mean_prediction_minus_historical": 20173.05354896665
+        "predicted_group_gap": 74106.82756561844,
+        "mean_prediction_minus_historical": 20173.136942780227
       },
       {
         "attribute": "career_gap",
         "group": "13-24 months",
         "n": 94,
         "historical_mean_salary": 806495.8723404255,
-        "predicted_mean_salary": 842961.0103603232,
+        "predicted_mean_salary": 842960.8940647215,
         "historical_group_gap": 50653.30393618415,
-        "predicted_group_gap": 74105.29676070972,
-        "mean_prediction_minus_historical": 36465.13801989774
+        "predicted_group_gap": 74106.82756561844,
+        "mean_prediction_minus_historical": 36465.021724296035
       },
       {
         "attribute": "career_gap",
         "group": "25+ months",
         "n": 45,
         "historical_mean_salary": 788979.7333333333,
-        "predicted_mean_salary": 768855.7135996132,
+        "predicted_mean_salary": 768854.066499103,
         "historical_group_gap": 50653.30393618415,
-        "predicted_group_gap": 74105.29676070972,
-        "mean_prediction_minus_historical": -20124.01973372011
+        "predicted_group_gap": 74106.82756561844,
+        "mean_prediction_minus_historical": -20125.666834230302
       },
       {
         "attribute": "career_gap",
         "group": "No gap",
         "n": 2549,
         "historical_mean_salary": 839633.0372695174,
-        "predicted_mean_salary": 836874.9736039384,
+        "predicted_mean_salary": 836874.9505927934,
         "historical_group_gap": 50653.30393618415,
-        "predicted_group_gap": 74105.29676070972,
-        "mean_prediction_minus_historical": -2758.063665579073
+        "predicted_group_gap": 74106.82756561844,
+        "mean_prediction_minus_historical": -2758.0866767240223
       }
     ]
   },
