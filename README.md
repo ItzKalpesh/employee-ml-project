@@ -596,7 +596,13 @@ The overall PSI status is **ALERT**, driven by changes in `months_since_last_rai
 
 ## Task 19 — HR Insights Console
 
-**Status: Implementation merged; [PR #26](https://github.com/ItzKalpesh/employee-ml-project/pull/26) merged into `main`. Final deployment and validation activities remain in progress.**
+### Live Deployment
+
+- **Streamlit Application:** [Open CortexHR HR Insights Console](https://employee-ml-project-bmqoxsbtfvhmxybjyc2npm.streamlit.app/)
+- **Backend API:** https://employee-ml-project-ea41.onrender.com
+- **API Documentation:** https://employee-ml-project-ea41.onrender.com/docs
+
+**Status: Implementation merged and deployed.** [PR #26](https://github.com/ItzKalpesh/employee-ml-project/pull/26) merged into `main`. Streamlit deployment, API integration, feature verification, mobile testing, and evidence documentation completed.
 
 - **Pull request:** [#26 — HR Insights Console](https://github.com/ItzKalpesh/employee-ml-project/pull/26) — merged.
 - **Implementation directory:** `phase-4/src/task19/`
@@ -605,9 +611,9 @@ The overall PSI status is **ALERT**, driven by changes in `months_since_last_rai
 - **Dependencies:** `phase-4/src/task19/requirements.txt`
 - **Environment example:** `phase-4/src/task19/.env.example`
 - **Usability review:** `phase-4/reports/task19_usability_review.md`
-- **Live backend API:** [https://employee-ml-project-ea41.onrender.com](https://employee-ml-project-ea41.onrender.com)
-- **Swagger documentation:** [https://employee-ml-project-ea41.onrender.com/docs](https://employee-ml-project-ea41.onrender.com/docs)
-- **Drift and fairness monitoring:** [https://employee-ml-project-ea41.onrender.com/v1/monitoring](https://employee-ml-project-ea41.onrender.com/v1/monitoring) (HR/ADMIN access required).
+- **Live backend API:** https://employee-ml-project-ea41.onrender.com
+- **Swagger documentation:** https://employee-ml-project-ea41.onrender.com/docs
+- **Drift and fairness monitoring:** https://employee-ml-project-ea41.onrender.com/v1/monitoring (HR/ADMIN access required).
 
 The Streamlit console brings five HR capabilities into one interface and connects to the existing hosted FastAPI service:
 
