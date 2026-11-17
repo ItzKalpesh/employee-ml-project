@@ -127,9 +127,10 @@ The Task 17 service was built and tested locally using Docker:
 
 The API is deployed on Render and tracks the repository's `main` branch.
 
-- **Production API:** https://employee-ml-project-ea41.onrender.com
-- **Swagger documentation:** https://employee-ml-project-ea41.onrender.com/docs
-- **Health endpoint:** `/v1/health`
+- **Production API:** [https://employee-ml-project-ea41.onrender.com](https://employee-ml-project-ea41.onrender.com)
+- **Swagger documentation:** [https://employee-ml-project-ea41.onrender.com/docs](https://employee-ml-project-ea41.onrender.com/docs)
+- **Health endpoint:** [https://employee-ml-project-ea41.onrender.com/v1/health](https://employee-ml-project-ea41.onrender.com/v1/health)
+- **Monitoring endpoint:** [https://employee-ml-project-ea41.onrender.com/v1/monitoring](https://employee-ml-project-ea41.onrender.com/v1/monitoring) - requires an authorized HR or ADMIN `X-Demo-User` header.
 - **Dockerfile:** `phase-4/src/task17/Dockerfile`
 - **Deployment status:** Live
 
@@ -165,6 +166,8 @@ Anomaly flags do not establish fraud or misconduct. Attrition scores and other m
 ---
 
 ## Task 18 - Drift and Fairness Monitoring
+
+**Status:** Completed; [PR #24 - Task 18: Drift and Fairness Monitoring](https://github.com/ItzKalpesh/employee-ml-project/pull/24) merged into `main`.
 
 ### Objective
 
@@ -367,6 +370,53 @@ The evidence set records the following production and automation checks:
 
 ---
 
+
+---
+
+## Task 19 - HR Insights Console
+
+### Objective
+
+Provide an HR-facing web console that brings the project's key capabilities together in one interface and connects to the existing FastAPI backend.
+
+### Implementation
+
+Task 19 implementation is located in `src/task19/`:
+
+- `app.py` - Streamlit HR Insights Console.
+- `api_client.py` - API client for the hosted FastAPI service.
+- `requirements.txt` - Streamlit application dependencies.
+- `.env.example` - Environment-variable template.
+
+**Pull request:** [#26 - HR Insights Console](https://github.com/ItzKalpesh/employee-ml-project/pull/26) - merged into `main`.
+
+### Console Features
+
+1. **Risks** - employee attrition-risk lookup.
+2. **Anomalies** - attendance and payroll anomaly checks.
+3. **Assistant** - HR FAQ/chat interface with follow-up conversation continuity.
+4. **Resume Screener** - resume ranking against a selected job description.
+5. **Forecast** - workforce headcount and exits forecast view.
+
+### Verification Completed
+
+- Live attrition-risk API integration tested using an HR demo user.
+- Attendance and payroll anomaly integrations tested.
+- HR Assistant tested, including follow-up conversation continuity.
+- Resume Screener tested with a sample job.
+- Forecast interface and API integration implemented. Live forecast verification remains pending until the required forecast data files are available in the deployed API environment.
+
+### Usability and Deployment Status
+
+- Desktop interface reviewed locally.
+- A simulated first-time-user usability review was prepared; it is not a substitute for feedback from an independent participant.
+- Actual external-user testing, phone testing, final screenshots, and separate frontend deployment verification remain pending.
+- Add the verified Streamlit frontend deployment URL after deployment.
+
+### Responsible Use
+
+AI-generated outputs are labelled **"AI-generated — for human review"**. The console is a decision-support tool. Its outputs must not be used as the sole basis for employment-related decisions.
+
 ## Phase 4 Progress
 
 | Task | Description | Status |
@@ -374,7 +424,7 @@ The evidence set records the following production and automation checks:
 | Task 16 | Workforce headcount and exits forecasting | Completed |
 | Task 17 | Versioned API, prediction interface, and cloud deployment | Completed |
 | Task 18 | Drift and fairness monitoring | Completed |
-| Task 19 | Upcoming Phase 4 task | Not started |
+| Task 19 | HR Insights Console | Implementation merged; deployment and validation in progress |
 | Task 20 | Upcoming Phase 4 task | Not started |
 
-This README will be extended after each subsequent Phase 4 task is completed. Completed task sections should remain as the project record; new work should be added under its own task heading without overwriting earlier results.
+Task 19 implementation was merged through PR #26. Forecast live verification, separate frontend deployment, phone testing, independent external-user testing, and final evidence capture remain outstanding. This README will be extended after each subsequent Phase 4 task is completed. Completed task sections should remain as the project record; new work should be added under its own task heading without overwriting earlier results.

@@ -509,6 +509,41 @@ Overall PSI status: **ALERT**, driven by `months_since_last_raise` and `attendan
 
 **Limitations:** Monitoring is a signal for investigation, not a determination of model failure or discrimination. Fairness gaps are descriptive and require contextual review. Protected attributes must remain excluded from prediction features and restricted to authorized audit workflows.
 
+## Task 19 — HR Insights Console
+
+- **Status:** Implementation merged into `main`; [PR #26](https://github.com/ItzKalpesh/employee-ml-project/pull/26) merged. Final deployment and validation activities remain in progress.
+- **Pull request:** [#26 — HR Insights Console](https://github.com/ItzKalpesh/employee-ml-project/pull/26) — merged.
+- **Implementation directory:** `phase-4/src/task19/`
+- **Main application:** `phase-4/src/task19/app.py`
+- **API client:** `phase-4/src/task19/api_client.py`
+- **Dependencies:** `phase-4/src/task19/requirements.txt`
+- **Usability review:** `phase-4/reports/task19_usability_review.md`
+- **Live backend API:** [https://employee-ml-project-ea41.onrender.com](https://employee-ml-project-ea41.onrender.com)
+- **Swagger documentation:** [https://employee-ml-project-ea41.onrender.com/docs](https://employee-ml-project-ea41.onrender.com/docs)
+- **Drift and fairness monitoring:** [https://employee-ml-project-ea41.onrender.com/v1/monitoring](https://employee-ml-project-ea41.onrender.com/v1/monitoring) (HR/ADMIN access required).
+
+**Features implemented:**
+- Risks — employee attrition-risk lookup.
+- Anomalies — attendance and payroll anomaly checks.
+- Assistant — HR FAQ/chat with follow-up conversation continuity.
+- Resume Screener — resume ranking against a selected job description.
+- Forecast — workforce forecast interface connected to the forecast API.
+
+**Verification completed:**
+- Live attrition-risk API integration tested with an HR demo user.
+- Attendance and payroll anomaly integrations tested.
+- HR Assistant tested, including follow-up conversation continuity.
+- Resume Screener tested with a sample job.
+- Forecast interface and API integration implemented; live verification is pending availability of the forecast data files in the deployed API environment.
+
+**Usability, deployment, and evidence:**
+- Desktop interface reviewed locally.
+- A simulated first-time-user review was prepared; independent external-user feedback has not yet been collected.
+- Separate frontend deployment, phone testing, actual external-user testing, and final screenshots remain pending.
+- Add the verified frontend deployment URL and evidence links after those checks are completed.
+
+**Responsible use:** AI-generated outputs are labelled **“AI-generated — for human review”**. The console supports HR review and must not be used as the sole basis for employment-related decisions.
+
 ## GitHub Handoff
 
 - **Repository:** [employee-ml-project](https://github.com/ItzKalpesh/employee-ml-project)
@@ -530,13 +565,14 @@ Overall PSI status: **ALERT**, driven by `months_since_last_raise` and `attendan
 - **Task 16 — Workforce Headcount and Exits Forecasting:** [#22 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/22).
 - **Task 17 — Versioned API and Deployment:** [#23 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/23).
 - **Task 18 — Drift and Fairness Monitoring:** [#24 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/24).
+- **Task 19 — HR Insights Console:** [#26 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/26).
 
 ### Phase Status
 
 - **Phase 1:** Tasks 1–5 completed.
 - **Phase 2:** Tasks 6–10 completed.
 - **Phase 3:** Tasks 11–15 completed.
-- **Phase 4 (current):** Tasks 16–18 completed. Task 17 is live on Render; Task 18 monitoring workflow and production API authorization have been verified. Tasks 19–20 remain upcoming.
+- **Phase 4 (current):** Tasks 16–18 completed. Task 17 is live on Render; Task 18 monitoring workflow and production API authorization have been verified. Task 19 implementation is merged through PR #26. Forecast data deployment and live forecast verification, separate frontend deployment, phone testing, actual external-user testing, and final evidence capture remain in progress. Task 20 is upcoming.
 - **Final review package:** Prepare after all required tasks and reports are complete.
 
 ## Final Review Package
@@ -544,8 +580,8 @@ Overall PSI status: **ALERT**, driven by `months_since_last_raise` and `attendan
 Prepare the final review attachment only after all required tasks and reports are complete. Follow the programme's instructions for dataset inclusion and sensitive files. Keep interim Phase 1 report files local until the final report is approved for submission.
 
 Before final submission:
-- Verify that the pull request links and statuses for Tasks 1–18 are correct.
+- Verify that the pull request links and statuses for Tasks 1–19 are correct.
 - Verify the `phase-1` tag points to the final completed Phase 1 commit.
-- Ensure the root `README.md`, Phase 4 README, and this submission checklist reflect completed Tasks 1–18, the live Render deployment, and the Task 18 monitoring workflow.
+- Ensure the root `README.md`, Phase 4 README, and this submission checklist reflect completed Tasks 1–19, the live Render deployment, the Task 18 monitoring workflow, and the remaining Task 19 validation status.
 - Generate and check the required 2–3 page PDF report under 10 MB.
 - Do not include `notebook_changes.txt`, local-only interim reports, secrets, or sensitive/unapproved datasets in a commit.

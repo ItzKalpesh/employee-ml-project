@@ -594,9 +594,49 @@ The overall PSI status is **ALERT**, driven by changes in `months_since_last_rai
 
 **Fairness and monitoring limitations:** Group gaps are descriptive and do not establish causation or prove fairness. Small groups may produce unstable estimates. PSI measures distribution shift, not model accuracy. Monitoring results are intended to prompt investigation and human review, not automatic employment decisions.
 
+## Task 19 — HR Insights Console
+
+**Status: Implementation merged; [PR #26](https://github.com/ItzKalpesh/employee-ml-project/pull/26) merged into `main`. Final deployment and validation activities remain in progress.**
+
+- **Pull request:** [#26 — HR Insights Console](https://github.com/ItzKalpesh/employee-ml-project/pull/26) — merged.
+- **Implementation directory:** `phase-4/src/task19/`
+- **Main Streamlit application:** `phase-4/src/task19/app.py`
+- **API client:** `phase-4/src/task19/api_client.py`
+- **Dependencies:** `phase-4/src/task19/requirements.txt`
+- **Environment example:** `phase-4/src/task19/.env.example`
+- **Usability review:** `phase-4/reports/task19_usability_review.md`
+- **Live backend API:** [https://employee-ml-project-ea41.onrender.com](https://employee-ml-project-ea41.onrender.com)
+- **Swagger documentation:** [https://employee-ml-project-ea41.onrender.com/docs](https://employee-ml-project-ea41.onrender.com/docs)
+- **Drift and fairness monitoring:** [https://employee-ml-project-ea41.onrender.com/v1/monitoring](https://employee-ml-project-ea41.onrender.com/v1/monitoring) (HR/ADMIN access required).
+
+The Streamlit console brings five HR capabilities into one interface and connects to the existing hosted FastAPI service:
+
+1. **Risks** — employee attrition-risk lookup.
+2. **Anomalies** — attendance and payroll anomaly checks.
+3. **Assistant** — HR FAQ/chat interface with follow-up conversation continuity.
+4. **Resume Screener** — resume ranking against a selected job description.
+5. **Forecast** — workforce headcount and exits forecast view.
+
+**Verification completed:**
+
+- The live Risks API integration was tested using an HR demo user.
+- Attendance and payroll anomaly API integrations were tested.
+- The HR Assistant was tested, including follow-up conversation continuity.
+- The Resume Screener was tested with a sample job; the returned ranking included resume scores and matching information.
+- The Forecast interface and API integration were implemented. Live forecast verification remains pending until the forecast data files are available in the deployed API environment.
+
+**Usability and deployment status:**
+
+- The desktop interface was reviewed locally.
+- A simulated first-time-user usability review was prepared; it is not a substitute for feedback from an independent participant.
+- Actual external-user testing, phone testing, final screenshots, and separate frontend deployment verification remain pending.
+- Add the verified frontend deployment URL here after deployment.
+
+**Responsible use:** AI-generated outputs are labelled **“AI-generated — for human review”**. The console is a decision-support tool. Its outputs must not be used as the sole basis for employment-related decisions.
+
 ## Upcoming Tasks
 
-Tasks 1–18 are documented above. Tasks 16–18 are complete. Continue with the remaining Phase 4 requirements and update this README as further tasks are completed.
+Tasks 1–19 are documented above. Tasks 16–18 are complete, and the Task 19 implementation PR is merged. Complete the remaining Task 19 deployment and validation activities, then continue with Task 20.
 
 ## Setup and Verification
 
