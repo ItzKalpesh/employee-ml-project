@@ -1,23 +1,30 @@
-﻿
+
 name: Task 18 - Drift and Fairness Monitoring
 
 on:
   push:
     branches:
-      - task18-drift-fairness-monitoring
+      - main
+    paths-ignore:
+      - "reports/task18/**"
 
   workflow_dispatch:
 
   schedule:
     - cron: "0 2 * * 1"
 
+permissions:
+  contents: write
+
 jobs:
   monitor:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout main
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -87,3 +94,17 @@ jobs:
           rm -f data/attrition_dataset.csv
           rm -f 04_Validation_Vault/unlock_CX-12_resume_protected_attrs.csv
           rm -f 04_Validation_Vault/unlock_CX-15_protected_attributes.csv
+
+      - name: Publish updated monitoring reports to main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add reports/task18/monitoring_report.json reports/task18/*.csv
+
+          if git diff --cached --quiet; then
+            echo "No monitoring report changes to publish."
+          else
+            git commit -m "Update Task 18 monitoring reports"
+            git push origin HEAD:main
+          fi
