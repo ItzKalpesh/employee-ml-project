@@ -11,7 +11,7 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
 APP_DIR = Path(__file__).resolve().parent
-REPO_ROOT = APP_DIR.parents[2]
+REPO_ROOT = APP_DIR.parents[3]
 BUNDLE_PATH = REPO_ROOT / "models" / "hr_chatbot_bundle.joblib"
 
 def normalize_text(text):
