@@ -1,0 +1,73 @@
+forecast_id,metric,department_id,forecast_month,forecast_value,lower_80,upper_80,method,trained_through,model_version
+FC-0067,attrition_rate_monthly_pct,ALL,2026-10-01,1.0,0.3,1.8,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0068,attrition_rate_monthly_pct,ALL,2026-11-01,1.0,0.3,1.8,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0069,attrition_rate_monthly_pct,ALL,2026-12-01,1.4,0.6,2.1,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0070,attrition_rate_monthly_pct,ALL,2027-01-01,1.0,0.2,1.7,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0071,attrition_rate_monthly_pct,ALL,2027-02-01,1.1,0.4,1.9,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0072,attrition_rate_monthly_pct,ALL,2027-03-01,1.4,0.7,2.2,36-month linear trend + half-strength seasonality (selected by holdout WAPE),2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0001,headcount_end,ALL,2026-10-01,442.7,437.8,447.5,Department forecasts summed to company total,2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0002,headcount_end,ALL,2026-11-01,446.1,439.0,453.3,Department forecasts summed to company total,2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0003,headcount_end,ALL,2026-12-01,447.3,438.5,456.1,Department forecasts summed to company total,2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0004,headcount_end,ALL,2027-01-01,453.1,442.8,463.3,Department forecasts summed to company total,2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0005,headcount_end,ALL,2027-02-01,458.1,446.6,469.5,Department forecasts summed to company total,2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0006,headcount_end,ALL,2027-03-01,459.6,447.1,472.2,Department forecasts summed to company total,2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0007,headcount_end,D01,2026-10-01,168.8,165.8,171.8,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0008,headcount_end,D01,2026-11-01,169.3,165.1,173.6,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0009,headcount_end,D01,2026-12-01,170.8,165.6,176.1,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0010,headcount_end,D01,2027-01-01,172.3,166.3,178.4,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0011,headcount_end,D01,2027-02-01,175.5,168.8,182.2,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0012,headcount_end,D01,2027-03-01,174.9,167.6,182.3,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0013,headcount_end,D02,2026-10-01,25.4,24.3,26.4,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0014,headcount_end,D02,2026-11-01,26.0,24.2,27.8,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0015,headcount_end,D02,2026-12-01,25.7,23.4,28.0,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0016,headcount_end,D02,2027-01-01,25.7,23.0,28.3,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0017,headcount_end,D02,2027-02-01,26.2,23.2,29.2,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0018,headcount_end,D02,2027-03-01,26.9,23.5,30.2,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0019,headcount_end,D03,2026-10-01,52.0,50.6,53.5,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0020,headcount_end,D03,2026-11-01,53.0,50.8,55.3,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0021,headcount_end,D03,2026-12-01,52.7,49.8,55.6,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0022,headcount_end,D03,2027-01-01,53.4,50.1,56.8,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0023,headcount_end,D03,2027-02-01,53.3,49.5,57.1,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0024,headcount_end,D03,2027-03-01,54.1,50.0,58.3,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0025,headcount_end,D04,2026-10-01,45.7,44.1,47.2,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0026,headcount_end,D04,2026-11-01,45.8,43.5,48.2,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0027,headcount_end,D04,2026-12-01,45.8,42.9,48.8,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0028,headcount_end,D04,2027-01-01,47.6,44.1,51.0,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0029,headcount_end,D04,2027-02-01,48.9,45.0,52.8,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0030,headcount_end,D04,2027-03-01,49.5,45.3,53.8,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0031,headcount_end,D05,2026-10-01,13.2,12.4,14.1,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0032,headcount_end,D05,2026-11-01,13.2,12.2,14.3,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0033,headcount_end,D05,2026-12-01,12.7,11.5,14.0,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0034,headcount_end,D05,2027-01-01,12.4,11.0,13.8,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0035,headcount_end,D05,2027-02-01,12.1,10.5,13.6,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0036,headcount_end,D05,2027-03-01,12.5,10.9,14.1,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0037,headcount_end,D06,2026-10-01,59.4,57.6,61.3,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0038,headcount_end,D06,2026-11-01,59.6,56.8,62.4,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0039,headcount_end,D06,2026-12-01,60.2,56.7,63.7,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0040,headcount_end,D06,2027-01-01,61.5,57.4,65.6,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0041,headcount_end,D06,2027-02-01,61.9,57.3,66.5,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0042,headcount_end,D06,2027-03-01,61.6,56.5,66.6,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0043,headcount_end,D07,2026-10-01,19.7,18.6,20.7,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0044,headcount_end,D07,2026-11-01,20.0,18.5,21.5,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0045,headcount_end,D07,2026-12-01,20.3,18.5,22.2,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0046,headcount_end,D07,2027-01-01,20.8,18.7,23.0,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0047,headcount_end,D07,2027-02-01,21.1,18.8,23.5,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0048,headcount_end,D07,2027-03-01,21.7,19.1,24.3,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0049,headcount_end,D08,2026-10-01,17.1,16.2,18.1,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0050,headcount_end,D08,2026-11-01,17.5,16.2,18.8,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0051,headcount_end,D08,2026-12-01,17.5,15.9,19.1,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0052,headcount_end,D08,2027-01-01,17.3,15.5,19.1,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0053,headcount_end,D08,2027-02-01,17.5,15.5,19.5,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0054,headcount_end,D08,2027-03-01,17.3,15.1,19.6,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0055,headcount_end,D09,2026-10-01,29.5,27.9,31.0,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0056,headcount_end,D09,2026-11-01,29.6,27.5,31.7,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0057,headcount_end,D09,2026-12-01,29.6,27.1,32.2,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0058,headcount_end,D09,2027-01-01,30.0,27.0,32.9,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0059,headcount_end,D09,2027-02-01,29.6,26.3,32.9,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0060,headcount_end,D09,2027-03-01,29.1,25.4,32.7,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0061,headcount_end,D10,2026-10-01,10.8,10.1,11.5,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0062,headcount_end,D10,2026-11-01,11.0,9.9,12.1,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0063,headcount_end,D10,2026-12-01,10.8,9.4,12.2,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0064,headcount_end,D10,2027-01-01,11.0,9.4,12.6,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0065,headcount_end,D10,2027-02-01,11.0,9.2,12.8,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
+FC-0066,headcount_end,D10,2027-03-01,11.0,9.0,13.0,"SARIMAX(0,1,1)x(0,1,1,12) + workforce-event regressors",2026-09,cortexhr-forecast-sarimax-events-v1.0
