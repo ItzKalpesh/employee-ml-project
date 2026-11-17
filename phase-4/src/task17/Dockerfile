@@ -1,0 +1,13 @@
+FROM python:3.12-slim
+
+WORKDIR /workspace
+
+COPY phase-4/src/task17/requirements.txt ./requirements.txt
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+EXPOSE 8000
+
+CMD ["uvicorn", "app.main:app", "--app-dir", "phase-4/src/task17", "--host", "0.0.0.0", "--port", "8000"]

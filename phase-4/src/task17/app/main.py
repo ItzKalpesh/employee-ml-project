@@ -1,23 +1,26 @@
-
-"""CortexHR anomaly API for Task 8."""
-import re
-import httpx
-from .memory_service import get_session_slots
+from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
-from pathlib import Path
 import json
+import os
+import re
+from pathlib import Path
 
+import httpx
 import joblib
 import numpy as np
 import pandas as pd
-from fastapi import FastAPI, HTTPException, Header
-from .permission_service import resolve_demo_user, authorize_intent
-from .memory_service import update_session_memory, get_session_slots
+from fastapi import FastAPI, Header, HTTPException
 from pydantic import BaseModel, ConfigDict, Field
-from .chatbot_service import answer_message
 
-ROOT = Path(__file__).resolve().parents[3]
+from .ui import create_ui
+from .attrition_service import load_attrition_service, predict_attrition
+from .chatbot_service import answer_message
+from .memory_service import get_session_slots, update_session_memory
+from .permission_service import authorize_intent, resolve_demo_user
+from .resume_service import load_resume_service, rank_resumes
+
+ROOT = Path(__file__).resolve().parents[4]
 MODEL_VERSION = "1.0.0"
 
 
@@ -36,13 +39,22 @@ def load_artifact(name):
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Load both detectors once when the API starts.
+    # Load anomaly detectors once when the API starts.
     app.state.attendance_model, app.state.attendance_meta = load_artifact(
         "attendance_anomaly"
     )
     app.state.payroll_model, app.state.payroll_meta = load_artifact(
         "payroll_anomaly"
     )
+
+    # Load attrition model and prepare scoring features once at startup.
+    (
+        app.state.attrition_model,
+        app.state.attrition_meta,
+        app.state.attrition_features,
+    ) = load_attrition_service(ROOT)
+ 
+    app.state.resume_service = load_resume_service(ROOT)
     yield
 
 
@@ -52,16 +64,26 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 class RiskOut(BaseModel):
     employee_id: str
     risk_score_12m: float = Field(ge=0, le=1)
-    risk_band: str
-    top_reason_1: str
-    top_reason_2: str
-    top_reason_3: str
     model_version: str
+    notice: str
 
+class ResumeRankIn(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    job_id: str = Field(min_length=1)
+    top_n: int = Field(default=10, ge=1, le=100)
 
 class AnomalyBase(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -110,15 +132,16 @@ class AnomalyOut(BaseModel):
 
 
 class ChatIn(BaseModel):
-    message: str
-    session_id: str
-    user_role: str = "EMPLOYEE"
+    model_config = ConfigDict(extra="forbid")
+
+    message: str = Field(min_length=1)
+    session_id: str = Field(min_length=1)
 
 
 class ChatOut(BaseModel):
     intent: str
     reply: str
-    slots: dict = {}
+    slots: dict = Field(default_factory=dict)
 
 
 def score_to_unit_interval(decision_value):
@@ -151,6 +174,37 @@ def make_output(
         scored_at=datetime.now(timezone.utc).isoformat(),
     )
 
+@app.post("/v1/resume/rank")
+def resume_rank(
+    request: ResumeRankIn,
+    x_demo_user: str | None = Header(default=None, alias="X-Demo-User"),
+):
+    """Rank resumes for a job; restricted by the configured HR role policy."""
+    if not x_demo_user:
+        raise HTTPException(status_code=401, detail="Authentication required.")
+
+    user = resolve_demo_user(x_demo_user)
+    if user is None:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid demo user or HR service unavailable.",
+        )
+
+    allowed, denial_reason = authorize_intent("resume_score_request", user)
+    if not allowed:
+        raise HTTPException(status_code=403, detail=denial_reason)
+
+    try:
+        result = rank_resumes(app.state.resume_service, request.job_id)
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except (ValueError, TypeError) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    result["rankings"] = result["rankings"][:request.top_n]
+    result["returned_count"] = len(result["rankings"])
+    return result
+
 
 @app.get("/v1/health")
 def health():
@@ -158,12 +212,58 @@ def health():
 
 
 @app.get("/v1/attrition/risk/{employee_id}", response_model=RiskOut)
-def attrition(employee_id: str):
-    raise HTTPException(
-        status_code=501,
-        detail="CX-14: attrition scoring is not part of Task 8.",
+def attrition(
+    employee_id: str,
+    x_demo_user: str | None = Header(
+        default=None,
+        alias="X-Demo-User",
+    ),
+):
+    if not x_demo_user:
+        raise HTTPException(
+            status_code=401,
+            detail="Authentication required.",
+        )
+
+    user = resolve_demo_user(x_demo_user)
+    if user is None:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid demo user or HR service unavailable.",
+        )
+
+    # Employees may access only their own result. HR/Admin may review others.
+    if (
+        user["role"] not in {"HR", "ADMIN"}
+        and employee_id != user["employee_id"]
+    ):
+        raise HTTPException(
+            status_code=403,
+            detail="You can only access your own attrition result.",
+        )
+
+    features = app.state.attrition_features
+    if employee_id not in features.index:
+        raise HTTPException(
+            status_code=404,
+            detail="Employee not found in scoring dataset.",
+        )
+
+    result = predict_attrition(
+        app.state.attrition_model,
+        app.state.attrition_meta,
+        features.loc[employee_id],
     )
 
+    return RiskOut(
+        employee_id=employee_id,
+        risk_score_12m=result["risk_score_12m"],
+        model_version=result["model_version"],
+        notice=(
+            "For supportive human review only. "
+            "Not for automated employment decisions."
+        ),
+    )
 
 @app.post("/v1/anomaly/attendance", response_model=AnomalyOut)
 def anomaly_attendance(row: AttendanceIn):
@@ -311,7 +411,7 @@ def anomaly_payroll(row: PayrollIn):
     )
 
 
-HR_SERVICE_URL = "http://127.0.0.1:9000"
+HR_SERVICE_URL = os.getenv("HR_SERVICE_URL", "http://127.0.0.1:9000").rstrip("/")
 HR_SERVICE_FAILURE = (
     "Sorry, I could not fetch that right now. "
     "Please try again or contact HR."
@@ -372,8 +472,10 @@ def _resolve_month(slots):
 
 def dispatch_hr_service(intent, message, user, memory):
     """Dispatch only to routes verified in the supplied mock HR service."""
+    # Login requirements are enforced by authorize_intent() in the chat
+    # endpoint. Public FAQ and conversational intents must still work unauthenticated.
     if user is None:
-        return None, "Authentication is required."
+        return None, None
 
     employee_id = user["employee_id"]
     text = message.lower()
@@ -416,7 +518,7 @@ def dispatch_hr_service(intent, message, user, memory):
         if intent == "payslip_status":
             month = _resolve_month(memory)
             if not month:
-                return None, "Which monthâ€™s payslip would you like to check?"
+                return None, "Which month's payslip would you like to check?"
 
             data = _hr_get(
                 f"/api/v1/payslips/me/{month}",
@@ -449,7 +551,7 @@ def dispatch_hr_service(intent, message, user, memory):
         if intent == "attendance_summary":
             month = _resolve_month(memory)
             if not month:
-                return None, "Which monthâ€™s attendance would you like to check?"
+                return None, "Which month's attendance would you like to check?"
 
             data = _hr_get(
                 "/api/v1/attendance/summary",
@@ -460,7 +562,8 @@ def dispatch_hr_service(intent, message, user, memory):
 
     except (httpx.HTTPError, ValueError, KeyError):
         return None, HR_SERVICE_FAILURE
-        # These intents require service functionality that is not yet available.
+
+    # These intents are not backed by a verified mock-HR route.
     unsupported_service_intents = {
         "unusual_attendance",
         "salary_band_query",
@@ -537,9 +640,9 @@ def chat(
     pattern = follow_up_rules.get(previous_intent)
 
     if (
-    pattern
-    and re.search(pattern, msg.message.lower())
-    and intent != "unusual_attendance"
+        pattern
+        and re.search(pattern, msg.message.lower())
+        and intent != "unusual_attendance"
     ):
         intent = previous_intent
         result["intent"] = intent
@@ -611,3 +714,7 @@ def chat(
         reply=result["reply"],
         slots=slots,
     )
+
+import gradio as gr
+
+app = gr.mount_gradio_app(app, create_ui(), path="/ui")
