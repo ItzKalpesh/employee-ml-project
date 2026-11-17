@@ -511,16 +511,28 @@ Overall PSI status: **ALERT**, driven by `months_since_last_raise` and `attendan
 
 ## Task 19 — HR Insights Console
 
-- **Status:** Implementation merged into `main`; [PR #26](https://github.com/ItzKalpesh/employee-ml-project/pull/26) merged. Final deployment and validation activities remain in progress.
+### Live Deployment
+
+- **Streamlit Application:** [Open CortexHR HR Insights Console](https://employee-ml-project-bmqoxsbtfvhmxybjyc2npm.streamlit.app/)
+- **Backend API:** https://employee-ml-project-ea41.onrender.com
+- **API Documentation:** https://employee-ml-project-ea41.onrender.com/docs
+
+**Deployment Status:** Deployed and verified. All five console features tested, including live forecast integration and mobile testing.
+
+**Evidence:** `phase-4/evidence/task19/`
+
+**Usability Review:** `phase-4/reports/task19_usability_review.md` (simulated first-time-user review).
+
+- **Status:** Implementation merged and deployed. [PR #26](https://github.com/ItzKalpesh/employee-ml-project/pull/26) merged into `main`. Streamlit deployment, API integration, feature verification, mobile testing, and evidence documentation completed.
 - **Pull request:** [#26 — HR Insights Console](https://github.com/ItzKalpesh/employee-ml-project/pull/26) — merged.
 - **Implementation directory:** `phase-4/src/task19/`
 - **Main application:** `phase-4/src/task19/app.py`
 - **API client:** `phase-4/src/task19/api_client.py`
 - **Dependencies:** `phase-4/src/task19/requirements.txt`
 - **Usability review:** `phase-4/reports/task19_usability_review.md`
-- **Live backend API:** [https://employee-ml-project-ea41.onrender.com](https://employee-ml-project-ea41.onrender.com)
-- **Swagger documentation:** [https://employee-ml-project-ea41.onrender.com/docs](https://employee-ml-project-ea41.onrender.com/docs)
-- **Drift and fairness monitoring:** [https://employee-ml-project-ea41.onrender.com/v1/monitoring](https://employee-ml-project-ea41.onrender.com/v1/monitoring) (HR/ADMIN access required).
+- **Live backend API:** https://employee-ml-project-ea41.onrender.com
+- **Swagger documentation:** https://employee-ml-project-ea41.onrender.com/docs
+- **Drift and fairness monitoring:** https://employee-ml-project-ea41.onrender.com/v1/monitoring (HR/ADMIN access required).
 
 **Features implemented:**
 - Risks — employee attrition-risk lookup.
