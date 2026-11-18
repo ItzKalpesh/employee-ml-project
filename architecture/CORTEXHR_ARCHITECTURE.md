@@ -1,0 +1,38 @@
+# CortexHR — End-to-End Architecture
+
+```mermaid
+flowchart TD
+    A[HR source datasets<br/>Attrition, attendance, payroll] --> B[Data validation & cleaning]
+    C[Resume and job-description data] --> D[Resume text cleaning & feature extraction]
+    E[Salary training data] --> F[Job-related feature selection]
+    G[Headcount history & workforce events] --> H[Monthly time-series preparation]
+    B --> I[Feature engineering pipeline]
+    I --> J[Attrition risk model<br/>XGBoost v2]
+    I --> K[Attendance anomaly<br/>Isolation Forest]
+    I --> L[Payroll anomaly<br/>Isolation Forest]
+    D --> M[Resume/job ranking<br/>TF-IDF + skill/experience score]
+    F --> N[Fair-pay recommender<br/>Linear Regression]
+    H --> O[Forecast selection<br/>Seasonal baseline / SARIMAX]
+    P[HR FAQ + intent training data] --> Q[HR chatbot<br/>Intent pipeline + FAQ retrieval]
+    J --> R[FastAPI service]
+    K --> R
+    L --> R
+    M --> R
+    Q --> R
+    O --> R
+    N[Fair-pay recommender<br/>Linear Regression<br/>Offline decision-support analysis]
+    S[Fairness audits & counterfactual tests] -. evaluates .-> M
+    S -. evaluates .-> N
+    T[Drift / PSI monitoring] -. monitors .-> I
+    R --> U[Streamlit HR Insights Console]
+    U --> V[HR / Admin users]
+    U --> W[Human review & operational follow-up]
+```
+
+## Architecture notes
+- The diagram is a logical view of the known project components; it is not a deployment topology diagram.
+- FastAPI hosts the production endpoints; the separate Streamlit application consumes the API.
+- Model outputs are decision-support signals and require human review.
+- Fairness and drift monitoring are governance controls, not proof that all models are fair or stable.
+- Confirm exact API route coverage and whether the fair-pay recommender is exposed in the live service before claiming it is served by FastAPI.
+- The fair-pay recommender is documented as an offline analytical component; no dedicated FastAPI prediction endpoint was found in the inspected route inventory.
