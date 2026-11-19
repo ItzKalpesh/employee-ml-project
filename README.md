@@ -2,13 +2,13 @@
 
 ## Project Overview
 
-CortexHR is an employee analytics project developed as part of the Aura Workforce AI/ML track. The project covers employee-data auditing, reusable feature engineering, attrition baseline evaluation, attendance and payroll anomaly detection, anomaly explanations, a FastAPI scoring service, an HR FAQ chatbot, and resume ranking against job descriptions.
+CortexHR is an employee analytics project developed as part of the Aura Workforce AI/ML track. The project delivers an end-to-end HR analytics and decision-support platform: employee-data auditing, reusable feature engineering, attrition modelling and explanations, attendance and payroll anomaly detection, anomaly reason codes, an HR FAQ chatbot with memory and role permissions, resume ranking and fairness auditing, fair-pay recommendations, workforce forecasting, a versioned FastAPI service, drift and fairness monitoring, and a deployed Streamlit HR Insights Console.
 
 **Repository:** [employee-ml-project](https://github.com/ItzKalpesh/employee-ml-project)
 
 ## Project Workflow
 
-Raw Data → Data Audit → Feature Engineering → Baseline Models → Model Evaluation → Anomaly Detection → HR FAQ Chatbot → Resume Ranking → Workforce Forecasting → Versioned Prediction API → Drift and Fairness Monitoring
+Raw Data → Data Audit → Feature Engineering → Predictive Modelling → Anomaly Detection and Explanations → HR Chatbot and Permissions → Resume Intelligence and Fairness → Attrition Explanations → Fair-Pay Analytics → Workforce Forecasting → Versioned FastAPI → Drift and Fairness Monitoring → HR Insights Console
 
 ## Task 1 — Data Audit and Leakage Hunt
 
@@ -332,7 +332,7 @@ Protected-attribute validation data is kept separate from the public repository 
 
 ## Task 13 — Attrition Model V2: Honest Baseline Comparison
 
-**Status: Implementation completed; [PR #16](https://github.com/ItzKalpesh/employee-ml-project/pull/16) opened for review.**
+**Status: Completed; [PR #16](https://github.com/ItzKalpesh/employee-ml-project/pull/16) merged into `main`.**
 
 - **Pull request:** [#16 — Task 13: Attrition Model V2: Honest Baseline Comparison](https://github.com/ItzKalpesh/employee-ml-project/pull/16).
 - **Notebook:** `notebooks/13_attrition_model_v2.ipynb`
@@ -596,26 +596,24 @@ The overall PSI status is **ALERT**, driven by changes in `months_since_last_rai
 
 ## Task 19 — HR Insights Console
 
-### Live Deployment
+**Status: Completed; [PR #26](https://github.com/ItzKalpesh/employee-ml-project/pull/26) and forecast-data fix [PR #27](https://github.com/ItzKalpesh/employee-ml-project/pull/27) merged into `main`.**
 
-- **Streamlit Application:** [Open CortexHR HR Insights Console](https://employee-ml-project-bmqoxsbtfvhmxybjyc2npm.streamlit.app/)
-- **Backend API:** https://employee-ml-project-ea41.onrender.com
-- **API Documentation:** https://employee-ml-project-ea41.onrender.com/docs
+### Live deployment
 
-**Status: Implementation merged and deployed.** [PR #26](https://github.com/ItzKalpesh/employee-ml-project/pull/26) merged into `main`. Streamlit deployment, API integration, feature verification, mobile testing, and evidence documentation completed.
+- **Streamlit HR Insights Console:** [Open the live application](https://employee-ml-project-bmqoxsbtfvhmxybjyc2npm.streamlit.app/)
+- **Production FastAPI base URL:** https://employee-ml-project-ea41.onrender.com
+- **Live Swagger UI:** [Open API documentation](https://employee-ml-project-ea41.onrender.com/docs)
+- **Monitoring endpoint:** https://employee-ml-project-ea41.onrender.com/v1/monitoring (HR/ADMIN authorization required)
 
-- **Pull request:** [#26 — HR Insights Console](https://github.com/ItzKalpesh/employee-ml-project/pull/26) — merged.
-- **Implementation directory:** `phase-4/src/task19/`
-- **Main Streamlit application:** `phase-4/src/task19/app.py`
-- **API client:** `phase-4/src/task19/api_client.py`
-- **Dependencies:** `phase-4/src/task19/requirements.txt`
-- **Environment example:** `phase-4/src/task19/.env.example`
-- **Usability review:** `phase-4/reports/task19_usability_review.md`
-- **Live backend API:** https://employee-ml-project-ea41.onrender.com
-- **Swagger documentation:** https://employee-ml-project-ea41.onrender.com/docs
-- **Drift and fairness monitoring:** https://employee-ml-project-ea41.onrender.com/v1/monitoring (HR/ADMIN access required).
+**Implementation:**
+- Directory: `phase-4/src/task19/`
+- Main application: `phase-4/src/task19/app.py`
+- API client: `phase-4/src/task19/api_client.py`
+- Dependencies: `phase-4/src/task19/requirements.txt`
+- Usability review: `phase-4/reports/task19_usability_review.md`
+- Evidence: `phase-4/evidence/task19/`
 
-The Streamlit console brings five HR capabilities into one interface and connects to the existing hosted FastAPI service:
+The Streamlit console integrates five capabilities through the deployed FastAPI service:
 
 1. **Risks** — employee attrition-risk lookup.
 2. **Anomalies** — attendance and payroll anomaly checks.
@@ -623,26 +621,45 @@ The Streamlit console brings five HR capabilities into one interface and connect
 4. **Resume Screener** — resume ranking against a selected job description.
 5. **Forecast** — workforce headcount and exits forecast view.
 
-**Verification completed:**
+**Verification and deployment:**
+- Live integrations for attrition risk, attendance anomalies, payroll anomalies, HR Assistant, and resume ranking were tested.
+- Forecast data was added and the Forecast tab was verified against the live API.
+- Forecast response showed training through September 2026 and a six-month forecast from October 2026 through March 2027.
+- Mobile testing was completed.
+- The usability review is explicitly simulated; it is not independent external-participant feedback.
 
-- The live Risks API integration was tested using an HR demo user.
-- Attendance and payroll anomaly API integrations were tested.
-- The HR Assistant was tested, including follow-up conversation continuity.
-- The Resume Screener was tested with a sample job; the returned ranking included resume scores and matching information.
-- The Forecast interface and API integration were implemented. Live forecast verification remains pending until the forecast data files are available in the deployed API environment.
+**Responsible use:** AI-generated outputs are labelled for human review. The console is a decision-support interface, not an automated employment-decision system.
 
-**Usability and deployment status:**
+## Task 20 — Model Cards, Audit and Handover
 
-- The desktop interface was reviewed locally.
-- A simulated first-time-user usability review was prepared; it is not a substitute for feedback from an independent participant.
-- Actual external-user testing, phone testing, final screenshots, and separate frontend deployment verification remain pending.
-- Add the verified frontend deployment URL here after deployment.
+**Status: Completed; [PR #28](https://github.com/ItzKalpesh/employee-ml-project/pull/28) merged into `main`.**
 
-**Responsible use:** AI-generated outputs are labelled **“AI-generated — for human review”**. The console is a decision-support tool. Its outputs must not be used as the sole basis for employment-related decisions.
+**Deliverables:**
+- Seven model cards in `model_cards/` covering attrition, attendance anomalies, payroll anomalies, HR FAQ chatbot, resume screener, fair-pay recommendations, and workforce forecasting.
+- Architecture documentation: `architecture/CORTEXHR_ARCHITECTURE.md`, `architecture/CORTEXHR_ARCHITECTURE.mmd`, and `architecture/CORTEXHR_ARCHITECTURE.svg`.
+- Release notes: `RELEASE_NOTES.md`.
+- Final audit: `reports/TASK20_FINAL_AUDIT.md`.
+- Final challenge notes: `reports/FINAL_CHALLENGE_NOTES.md`.
+- Release gate: `scripts/task20_release_gate.py`.
 
-## Upcoming Tasks
+**Audit highlights and limitations:**
+- Attrition XGBoost v2 achieved ROC-AUC 0.7176 and PR-AUC 0.3405 before calibration. Sigmoid calibration improved Brier score (0.1866 to 0.1136), but recall at a 0.50 threshold was only 1.72%; that threshold is not an operational intervention rule.
+- Attendance anomaly validation showed a precision/recall trade-off: Isolation Forest achieved 40.27% precision and 59.33% recall; the combined detector achieved 18.42% precision and 79.33% recall.
+- Payroll anomaly validation showed rules-only detection achieved 81.25% precision and 65.00% recall; the combined detector achieved 32.78% precision and 79.00% recall.
+- Resume fairness testing found zero score gaps across 25 supplied counterfactual twin pairs. This limited test does not establish overall fairness; observed gender and college-tier group mean-score gaps were 0.020338 and 0.048542.
+- Fair-pay analysis found a predicted career-gap group gap (74,105.30) larger than the historical gap (50,653.30), requiring further investigation.
+- Workforce forecast model selection was target-specific: SARIMAX for headcount (WAPE 2.066%) and seasonal baselines for exits (81.484%) and attrition rate (44.759%). The latter two errors remain high.
+- Drift monitoring reported overall PSI ALERT, driven by `months_since_last_raise` (3.834631) and `attendance_rate_3m` (1.467049). PSI indicates feature-distribution shift; it does not itself prove model-performance decline or mandate retraining.
 
-Tasks 1–19 are documented above. Tasks 16–18 are complete, and the Task 19 implementation PR is merged. Complete the remaining Task 19 deployment and validation activities, then continue with Task 20.
+**Responsible-use position:** Model outputs are review signals and planning estimates. Anomaly flags do not prove fraud or misconduct; exposure estimates are not confirmed losses; model explanations are not causal findings; and predictions must not independently determine employment outcomes. Human review, data-quality investigation, and ongoing validation remain necessary.
+
+## Project Phase Status
+
+- **Phase 1:** Tasks 1–5 completed.
+- **Phase 2:** Tasks 6–10 completed.
+- **Phase 3:** Tasks 11–15 completed.
+- **Phase 4:** Tasks 16–20 completed. The API and Streamlit console are deployed; monitoring, audit, model cards, architecture documentation, and handover materials are completed.
+- **Final release package:** Root documentation and consolidated project reporting are being finalized. The demo video is prepared and verified; it will be submitted separately through the programme-provided Google Form, so its link is not included in this repository.
 
 ## Setup and Verification
 
@@ -667,8 +684,11 @@ docker run --rm -v "${PWD}:/workspace" -w /workspace employee-ml-audit sh -c "pi
 - `src/` — Feature engineering and preprocessing implementation.
 - `tests/` — Automated tests.
 - `models/` — Saved pipeline and metadata.
-- `reports/` — Task reports.
-- `evidence/` — Evidence screenshots.
+- `reports/` — Task reports, evaluation summaries, monitoring outputs, and final audit documents.
+- `model_cards/` — Model documentation and responsible-use limitations.
+- `architecture/` — CortexHR architecture source and rendered diagram.
+- `phase-4/` — Phase 4 notebooks, source code, reports, and task evidence.
+- `evidence/` — Evidence screenshots for earlier tasks.
 
 ## Data and Security
 

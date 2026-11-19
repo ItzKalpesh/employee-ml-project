@@ -294,8 +294,8 @@ The zero score gaps apply only to the 25 supplied counterfactual pairs and do no
 
 ## Task 13 — Attrition Model V2: Honest Baseline Comparison
 
-- **Status:** Implementation completed; PR #16 opened for review.
-- **Pull request:** [#16 — Task 13: Attrition Model V2: Honest Baseline Comparison](https://github.com/ItzKalpesh/employee-ml-project/pull/16).
+- **Status:** Completed; PR #16 merged into `main`.
+- **Pull request:** [#16 — Task 13: Attrition Model V2: Honest Baseline Comparison](https://github.com/ItzKalpesh/employee-ml-project/pull/16) — merged.
 - **Notebook:** `notebooks/13_attrition_model_v2.ipynb`
 - **Versioned model:** `models/attrition/attrition-v2/model.joblib`
 - **Model metadata:** `models/attrition/attrition-v2/metadata.json`
@@ -511,50 +511,60 @@ Overall PSI status: **ALERT**, driven by `months_since_last_raise` and `attendan
 
 ## Task 19 — HR Insights Console
 
-### Live Deployment
-
-- **Streamlit Application:** [Open CortexHR HR Insights Console](https://employee-ml-project-bmqoxsbtfvhmxybjyc2npm.streamlit.app/)
-- **Backend API:** https://employee-ml-project-ea41.onrender.com
-- **API Documentation:** https://employee-ml-project-ea41.onrender.com/docs
-
-**Deployment Status:** Deployed and verified. All five console features tested, including live forecast integration and mobile testing.
-
-**Evidence:** `phase-4/evidence/task19/`
-
-**Usability Review:** `phase-4/reports/task19_usability_review.md` (simulated first-time-user review).
-
-- **Status:** Implementation merged and deployed. [PR #26](https://github.com/ItzKalpesh/employee-ml-project/pull/26) merged into `main`. Streamlit deployment, API integration, feature verification, mobile testing, and evidence documentation completed.
-- **Pull request:** [#26 — HR Insights Console](https://github.com/ItzKalpesh/employee-ml-project/pull/26) — merged.
+- **Status:** Completed; PR #26 and forecast-data fix PR #27 merged into `main`.
+- **Implementation PR:** [#26 — HR Insights Console](https://github.com/ItzKalpesh/employee-ml-project/pull/26) — merged.
+- **Forecast data fix PR:** [#27](https://github.com/ItzKalpesh/employee-ml-project/pull/27) — merged.
 - **Implementation directory:** `phase-4/src/task19/`
 - **Main application:** `phase-4/src/task19/app.py`
 - **API client:** `phase-4/src/task19/api_client.py`
 - **Dependencies:** `phase-4/src/task19/requirements.txt`
-- **Usability review:** `phase-4/reports/task19_usability_review.md`
-- **Live backend API:** https://employee-ml-project-ea41.onrender.com
-- **Swagger documentation:** https://employee-ml-project-ea41.onrender.com/docs
-- **Drift and fairness monitoring:** https://employee-ml-project-ea41.onrender.com/v1/monitoring (HR/ADMIN access required).
+- **Usability review:** `phase-4/reports/task19_usability_review.md` (simulated review, not independent participant feedback).
+- **Evidence:** `phase-4/evidence/task19/`
 
-**Features implemented:**
-- Risks — employee attrition-risk lookup.
-- Anomalies — attendance and payroll anomaly checks.
-- Assistant — HR FAQ/chat with follow-up conversation continuity.
-- Resume Screener — resume ranking against a selected job description.
-- Forecast — workforce forecast interface connected to the forecast API.
+### Live deployment
 
-**Verification completed:**
-- Live attrition-risk API integration tested with an HR demo user.
-- Attendance and payroll anomaly integrations tested.
-- HR Assistant tested, including follow-up conversation continuity.
-- Resume Screener tested with a sample job.
-- Forecast interface and API integration implemented; live verification is pending availability of the forecast data files in the deployed API environment.
+- **Streamlit application:** [Open CortexHR HR Insights Console](https://employee-ml-project-bmqoxsbtfvhmxybjyc2npm.streamlit.app/)
+- **Production API:** https://employee-ml-project-ea41.onrender.com
+- **Swagger UI:** [Open live API documentation](https://employee-ml-project-ea41.onrender.com/docs)
+- **Monitoring endpoint:** https://employee-ml-project-ea41.onrender.com/v1/monitoring (HR/ADMIN access required).
 
-**Usability, deployment, and evidence:**
-- Desktop interface reviewed locally.
-- A simulated first-time-user review was prepared; independent external-user feedback has not yet been collected.
-- Separate frontend deployment, phone testing, actual external-user testing, and final screenshots remain pending.
-- Add the verified frontend deployment URL and evidence links after those checks are completed.
+### Implemented features
 
-**Responsible use:** AI-generated outputs are labelled **“AI-generated — for human review”**. The console supports HR review and must not be used as the sole basis for employment-related decisions.
+1. Risks — employee attrition-risk lookup.
+2. Anomalies — attendance and payroll anomaly checks.
+3. Assistant — HR FAQ/chat with follow-up conversation continuity.
+4. Resume Screener — resume ranking against a selected job description.
+5. Forecast — workforce headcount and exits forecast view.
+
+### Verification
+
+- Live attrition-risk, attendance anomaly, payroll anomaly, HR Assistant, and resume-ranking integrations were tested.
+- Forecast data was deployed and the live Forecast tab/API integration was verified.
+- The forecast was trained through September 2026 and returned the October 2026–March 2027 horizon.
+- Mobile testing was completed.
+- The usability review remains identified as simulated rather than independent external-user testing.
+
+## Task 20 — Model Cards, Audit and Handover
+
+- **Status:** Completed; [PR #28 — Task 20 final audit and handover](https://github.com/ItzKalpesh/employee-ml-project/pull/28) merged into `main`.
+- **Model cards:** Seven cards under `model_cards/` for attrition, attendance anomaly detection, payroll anomaly detection, HR FAQ chatbot, resume screener, fair-pay recommender, and workforce forecasting.
+- **Architecture:** `architecture/CORTEXHR_ARCHITECTURE.md`, `architecture/CORTEXHR_ARCHITECTURE.mmd`, `architecture/CORTEXHR_ARCHITECTURE.svg`.
+- **Release notes:** `RELEASE_NOTES.md`.
+- **Final audit:** `reports/TASK20_FINAL_AUDIT.md`.
+- **Final challenge notes:** `reports/FINAL_CHALLENGE_NOTES.md`.
+- **Release gate:** `scripts/task20_release_gate.py`.
+
+### Key audit findings and limitations
+
+- Attrition XGBoost v2 raw ROC-AUC: 0.7176; raw PR-AUC: 0.3405. Calibration improved Brier score from 0.1866 to 0.1136, but calibrated recall at threshold 0.50 was 1.72%; this threshold is unsuitable as an operational intervention rule.
+- Attendance: Isolation Forest precision/recall 40.27%/59.33%; combined detector 18.42%/79.33%.
+- Payroll: rules-only precision/recall 81.25%/65.00%; combined detector 32.78%/79.00%.
+- Resume fairness: zero score gaps across 25 supplied counterfactual twin pairs; this does not establish overall fairness. Gender and college-tier group mean-score gaps were 0.020338 and 0.048542.
+- Fair pay: predicted career-gap group gap (74,105.30) exceeded the historical gap (50,653.30), requiring investigation.
+- Forecasting: SARIMAX selected for headcount (WAPE 2.066%); seasonal baselines selected for exits (81.484%) and attrition rate (44.759%). The exits and attrition errors remain high.
+- Drift: overall PSI status ALERT, with `months_since_last_raise` at 3.834631 and `attendance_rate_3m` at 1.467049. PSI indicates distribution shift, not proof of accuracy decline or an automatic retraining trigger.
+
+**Responsible use:** Anomaly flags are not proof of fraud or misconduct, money-at-risk estimates are not confirmed losses, model explanations are not causal findings, and model outputs must not independently determine employment outcomes. Human review and further validation are required.
 
 ## GitHub Handoff
 
@@ -571,29 +581,37 @@ Overall PSI status: **ALERT**, driven by `months_since_last_raise` and `attendan
 - **Task 10 — HR Chatbot Memory and Permissions:** [#13 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/13).
 - **Task 11 — Resume Ranking Against Job Descriptions:** [#14 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/14).
 - **Task 12 — Resume Screener Fairness Audit:** [#15 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/15).
-- **Task 13 — Attrition Model V2:** [#16 — opened](https://github.com/ItzKalpesh/employee-ml-project/pull/16).
+- **Task 13 — Attrition Model V2:** [#16 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/16).
 - **Task 14 — Explain Every Person's Attrition Risk:** [#17 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/17).
 - **Task 15 — Recommend Fair Pay Bands:** [#18 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/18).
 - **Task 16 — Workforce Headcount and Exits Forecasting:** [#22 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/22).
 - **Task 17 — Versioned API and Deployment:** [#23 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/23).
 - **Task 18 — Drift and Fairness Monitoring:** [#24 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/24).
 - **Task 19 — HR Insights Console:** [#26 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/26).
+- **Task 19 — Forecast data fix:** [#27 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/27).
+- **Task 20 — Model Cards, Audit and Handover:** [#28 — merged](https://github.com/ItzKalpesh/employee-ml-project/pull/28).
 
 ### Phase Status
 
 - **Phase 1:** Tasks 1–5 completed.
 - **Phase 2:** Tasks 6–10 completed.
 - **Phase 3:** Tasks 11–15 completed.
-- **Phase 4 (current):** Tasks 16–18 completed. Task 17 is live on Render; Task 18 monitoring workflow and production API authorization have been verified. Task 19 implementation is merged through PR #26. Forecast data deployment and live forecast verification, separate frontend deployment, phone testing, actual external-user testing, and final evidence capture remain in progress. Task 20 is upcoming.
-- **Final review package:** Prepare after all required tasks and reports are complete.
+- **Phase 4:** Tasks 16–20 completed. The Render FastAPI service and Streamlit HR Insights Console are deployed; forecast integration, monitoring, model cards, architecture documentation, final audit, and handover deliverables are completed.
+- **Overall project:** All 20 tasks across four phases are implemented and merged. Final submission packaging and release checks remain separate from task implementation.
 
 ## Final Review Package
 
-Prepare the final review attachment only after all required tasks and reports are complete. Follow the programme's instructions for dataset inclusion and sensitive files. Keep interim Phase 1 report files local until the final report is approved for submission.
+The following final-package items are being completed after the task work:
+
+- Root README and submission checklist updated to reflect all 20 tasks and current deployments.
+- Consolidated Phase 1–4 project report (separate from the individual phase reports).
+- Phase 4 final report.
+- Demo video: prepared and verified; it will be submitted separately through the programme-provided Google Form. The video link is intentionally not included in this repository.
+- Final release checks and annotated `v1.0.0` tag after documentation and evidence are finalized.
 
 Before final submission:
-- Verify that the pull request links and statuses for Tasks 1–19 are correct.
-- Verify the `phase-1` tag points to the final completed Phase 1 commit.
-- Ensure the root `README.md`, Phase 4 README, and this submission checklist reflect completed Tasks 1–19, the live Render deployment, the Task 18 monitoring workflow, and the remaining Task 19 validation status.
-- Generate and check the required 2–3 page PDF report under 10 MB.
-- Do not include `notebook_changes.txt`, local-only interim reports, secrets, or sensitive/unapproved datasets in a commit.
+- The following items make up the final submission and release package:
+- Verify the existing `phase-1` tag points to the final completed Phase 1 commit.
+- Submit the final report and demo video through their designated programme submission channels, following the programme's instructions.
+- Follow programme rules for datasets and sensitive files. Do not commit secrets, private environment files, protected validation labels, or unapproved employee data.
+- Preserve local-only interim reports and unrelated working-tree changes unless specifically approved for submission.
